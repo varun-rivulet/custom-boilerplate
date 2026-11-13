@@ -1,0 +1,19 @@
+<!--
+  templateType: error_page
+  isAvailableForNewContent: true
+  label: 404 error page
+-->
+{% extends "../layouts/base.html" %}
+{% set pageTitle = "Page not found" %}
+
+{% block body %}
+<section class="system-page scheme-light section-pt-m section-pb-m">
+  <div class="container container-narrow">
+    {% module "content"
+      path="@hubspot/rich_text",
+      label="Content",
+      html="<h1>Page not found</h1><p>The page you are looking for may have moved or no longer exists.</p><p><a class='btn btn-primary' href='/'>Go to the homepage</a></p>"
+    %}
+  </div>
+</section>
+{% endblock body %}

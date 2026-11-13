@@ -1,0 +1,38 @@
+<!--
+  templateType: blog_post
+  isAvailableForNewContent: true
+  label: Blog post
+-->
+{% extends "./layouts/base.html" %}
+
+{% block body %}
+<article class="blog-post scheme-light section-pt-m section-pb-m">
+  <div class="container container-narrow">
+    <header class="blog-post-header">
+      <h1><span id="hs_cos_wrapper_name" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="text">{{ content.name }}</span></h1>
+      <p class="blog-post-meta text-small">
+        {% if content.blog_post_author %}<a href="{{ blog_author_url(group.id, content.blog_post_author.slug) }}">{{ content.blog_post_author.display_name }}</a> &middot; {% endif %}
+        <time datetime="{{ content.publish_date|format_datetime('yyyy-MM-dd') }}">{{ content.publish_date|format_date('long') }}</time>
+      </p>
+    </header>
+    {% if content.featured_image %}
+      <figure class="blog-post-image">
+        <img src="{{ resize_image_url(content.featured_image, 1200) }}" alt="{{ content.featured_image_alt_text }}" width="1200" height="675" loading="eager">
+      </figure>
+    {% endif %}
+    <div class="blog-post-body">
+      {{ content.post_body }}
+    </div>
+    {% if content.tag_list %}
+      <ul class="blog-post-tags" role="list" aria-label="Tags">
+        {% for tag in content.tag_list %}
+          <li><a class="btn btn-secondary-outline" href="{{ blog_tag_url(group.id, tag.slug) }}">{{ tag.name }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if group.allow_comments %}
+      {% module "blog_comments" path="@hubspot/blog_comments", label="Blog comments" %}
+    {% endif %}
+  </div>
+</article>
+{% endblock body %}

@@ -1,0 +1,50 @@
+<!--
+  templateType: blog_listing
+  isAvailableForNewContent: true
+  label: Blog listing
+-->
+{% extends "./layouts/base.html" %}
+
+{% block body %}
+<section class="blog-listing scheme-light section-pt-m section-pb-m">
+  <div class="container">
+    <header class="blog-listing-header">
+      {% if blog_author %}
+        <h1>{{ blog_author.display_name }}</h1>
+      {% elif topic %}
+        <h1>{{ page_meta.html_title }}</h1>
+      {% else %}
+        <h1>{{ group.public_title or group.name }}</h1>
+      {% endif %}
+    </header>
+    {% if contents %}
+      <ul class="blog-listing-grid" role="list">
+        {% for content in contents %}
+          <li class="blog-card">
+            {% if content.featured_image %}
+              <a class="blog-card-image" href="{{ content.absolute_url }}" tabindex="-1" aria-hidden="true">
+                <img src="{{ resize_image_url(content.featured_image, 720) }}" alt="" width="720" height="405" loading="{{ 'eager' if loop.first else 'lazy' }}">
+              </a>
+            {% endif %}
+            <div class="blog-card-body">
+              <h2 class="blog-card-title h5"><a href="{{ content.absolute_url }}">{{ content.name }}</a></h2>
+              <p class="blog-card-meta text-small"><time datetime="{{ content.publish_date|format_datetime('yyyy-MM-dd') }}">{{ content.publish_date|format_date('long') }}</time></p>
+              {% if content.post_list_content %}
+                <p>{{ content.post_list_content|striptags|truncate(160) }}</p>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No posts found.</p>
+    {% endif %}
+    {% if last_page_num or next_page_num %}
+      <nav class="blog-pagination" aria-label="Blog pagination">
+        {% if last_page_num %}<a class="btn btn-secondary-outline" href="{{ blog_page_link(last_page_num) }}">Previous page</a>{% endif %}
+        {% if next_page_num %}<a class="btn btn-secondary-outline" href="{{ blog_page_link(next_page_num) }}">Next page</a>{% endif %}
+      </nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock body %}

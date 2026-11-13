@@ -1,0 +1,15 @@
+<!--
+  templateType: email_subscription_preferences_page
+  isAvailableForNewContent: true
+  label: Email subscription preferences
+-->
+{% extends "../layouts/base.html" %}
+{% set pageTitle = "Subscription preferences" %}
+
+{% block body %}
+<section class="system-page scheme-light section-pt-m section-pb-m">
+  <div class="container container-narrow">
+    {% module "subscription_preferences" path="@hubspot/email_subscriptions", label="Subscription preferences" %}
+  </div>
+</section>
+{% endblock body %}

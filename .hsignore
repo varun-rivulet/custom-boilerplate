@@ -1,0 +1,6 @@
+docs/
+CLAUDE.md
+README.md
+.git/
+.gitignore
+.hsignore

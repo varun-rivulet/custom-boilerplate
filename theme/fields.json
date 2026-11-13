@@ -1,0 +1,6940 @@
+[
+  {
+    "type": "group",
+    "name": "colors",
+    "label": "Colors",
+    "expanded": true,
+    "children": [
+      {
+        "type": "color",
+        "name": "primary",
+        "label": "Primary",
+        "default": {
+          "color": "#3B82F6",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "secondary",
+        "label": "Secondary",
+        "default": {
+          "color": "#334155",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "accent",
+        "label": "Accent",
+        "default": {
+          "color": "#F59E0B",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "heading",
+        "label": "Heading",
+        "default": {
+          "color": "#0F172A",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "text",
+        "label": "Text",
+        "default": {
+          "color": "#1F2937",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "muted",
+        "label": "Muted",
+        "default": {
+          "color": "#64748B",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "border",
+        "label": "Border",
+        "default": {
+          "color": "#CBD5E1",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "light_bg",
+        "label": "Light background",
+        "default": {
+          "color": "#F8FAFC",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "dark_bg",
+        "label": "Dark background",
+        "default": {
+          "color": "#0B1F3A",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      },
+      {
+        "type": "color",
+        "name": "white",
+        "label": "White",
+        "default": {
+          "color": "#FFFFFF",
+          "opacity": 100
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "opacity": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "typography",
+    "label": "Typography",
+    "expanded": false,
+    "children": [
+      {
+        "type": "group",
+        "name": "fonts",
+        "label": "Fonts",
+        "expanded": true,
+        "children": [
+          {
+            "type": "font",
+            "name": "heading_font",
+            "label": "Heading font (Google)",
+            "load_external_fonts": true,
+            "default": {
+              "font": "Inter",
+              "font_set": "GOOGLE",
+              "variant": "500",
+              "fallback": "sans-serif"
+            },
+            "visibility": {
+              "hidden_subfields": {
+                "size": true,
+                "color": true,
+                "styles": true
+              }
+            },
+            "help_text": "Pick the family and the weight (variant) used for headings."
+          },
+          {
+            "type": "font",
+            "name": "body_font",
+            "label": "Body font (Google)",
+            "load_external_fonts": true,
+            "default": {
+              "font": "Inter",
+              "font_set": "GOOGLE",
+              "variant": "regular",
+              "fallback": "sans-serif"
+            },
+            "visibility": {
+              "hidden_subfields": {
+                "size": true,
+                "color": true,
+                "styles": true
+              }
+            }
+          },
+          {
+            "type": "font",
+            "name": "body_font_medium",
+            "label": "Body font medium (Google)",
+            "load_external_fonts": true,
+            "default": {
+              "font": "Inter",
+              "font_set": "GOOGLE",
+              "variant": "500",
+              "fallback": "sans-serif"
+            },
+            "visibility": {
+              "hidden_subfields": {
+                "size": true,
+                "color": true,
+                "styles": true
+              }
+            },
+            "help_text": "Loads the 500 weight used by buttons, labels and eyebrows. Keep the same family as the body font."
+          },
+          {
+            "type": "choice",
+            "name": "heading_source",
+            "label": "Heading font source",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary (Google font)"
+              ],
+              [
+                "secondary",
+                "Secondary (custom font)"
+              ]
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "choice",
+            "name": "body_source",
+            "label": "Body font source",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary (Google font)"
+              ],
+              [
+                "secondary",
+                "Secondary (custom font)"
+              ]
+            ],
+            "default": "primary"
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "secondary_font",
+        "label": "Secondary font (custom)",
+        "expanded": false,
+        "children": [
+          {
+            "type": "text",
+            "name": "family_name",
+            "label": "Family name",
+            "default": "Secondary",
+            "help_text": "Name used in CSS. Change it when you upload a client font."
+          },
+          {
+            "type": "choice",
+            "name": "fallback",
+            "label": "Fallback",
+            "display": "select",
+            "choices": [
+              [
+                "serif",
+                "Serif"
+              ],
+              [
+                "sans-serif",
+                "Sans-serif"
+              ]
+            ],
+            "default": "serif"
+          },
+          {
+            "type": "file",
+            "name": "regular_woff2",
+            "label": "Regular (400) woff2",
+            "picker": "file",
+            "help_text": "Optional override. Leave all four empty to use the theme's default font files."
+          },
+          {
+            "type": "file",
+            "name": "regular_woff",
+            "label": "Regular (400) woff",
+            "picker": "file"
+          },
+          {
+            "type": "file",
+            "name": "medium_woff2",
+            "label": "Medium (500) woff2",
+            "picker": "file"
+          },
+          {
+            "type": "file",
+            "name": "medium_woff",
+            "label": "Medium (500) woff",
+            "picker": "file"
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "line_heights",
+        "label": "Line heights",
+        "expanded": false,
+        "children": [
+          {
+            "type": "number",
+            "name": "h1",
+            "label": "H1",
+            "display": "text",
+            "default": 1.011,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.001
+          },
+          {
+            "type": "number",
+            "name": "h2",
+            "label": "H2",
+            "display": "text",
+            "default": 1.071,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.001
+          },
+          {
+            "type": "number",
+            "name": "h3",
+            "label": "H3",
+            "display": "text",
+            "default": 1.119,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.001
+          },
+          {
+            "type": "number",
+            "name": "h4",
+            "label": "H4",
+            "display": "text",
+            "default": 1.117,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.001
+          },
+          {
+            "type": "number",
+            "name": "h5",
+            "label": "H5",
+            "display": "text",
+            "default": 1.2,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.001
+          },
+          {
+            "type": "number",
+            "name": "h6",
+            "label": "H6",
+            "display": "text",
+            "default": 1.2,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.001
+          },
+          {
+            "type": "number",
+            "name": "body",
+            "label": "Body",
+            "display": "text",
+            "default": 1.4,
+            "min": 1,
+            "max": 2.5,
+            "step": 0.05
+          },
+          {
+            "type": "number",
+            "name": "display",
+            "label": "Display",
+            "display": "text",
+            "default": 1,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.01
+          },
+          {
+            "type": "number",
+            "name": "lead",
+            "label": "Lead",
+            "display": "text",
+            "default": 1.3,
+            "min": 0.8,
+            "max": 2,
+            "step": 0.01
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "sizes",
+        "label": "Font sizes",
+        "expanded": false,
+        "children": [
+          {
+            "type": "group",
+            "name": "h1",
+            "label": "H1",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 85,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 72,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 64,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 56,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 48,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "h2",
+            "label": "H2",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 56,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 52,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 48,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 44,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 40,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "h3",
+            "label": "H3",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 42,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 40,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 38,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 36,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 36,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "h4",
+            "label": "H4",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 34,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 32,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 30,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 28,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 26,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "h5",
+            "label": "H5",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 24,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 22,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 22,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 20,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 20,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "h6",
+            "label": "H6",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 20,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 20,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 18,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 18,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 18,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "body",
+            "label": "Body",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 18,
+                "min": 16,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 18,
+                "min": 16,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 18,
+                "min": 16,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 16,
+                "min": 16,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 16,
+                "min": 16,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "display",
+            "label": "Display (.text-display)",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 140,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 120,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 100,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 80,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 60,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "lead",
+            "label": "Lead (.text-lead)",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop",
+                "display": "text",
+                "default": 32,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "large_laptop",
+                "label": "≤1366.98px",
+                "display": "text",
+                "default": 30,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 28,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 26,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 24,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "small",
+            "label": "Small (.text-small)",
+            "display": "text",
+            "default": 16,
+            "min": 12,
+            "max": 24,
+            "step": 1,
+            "suffix": "px"
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "eyebrow",
+        "label": "Eyebrow",
+        "expanded": false,
+        "children": [
+          {
+            "type": "number",
+            "name": "size",
+            "label": "Size",
+            "display": "text",
+            "default": 16,
+            "min": 10,
+            "max": 40,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "choice",
+            "name": "weight",
+            "label": "Weight",
+            "display": "select",
+            "choices": [
+              [
+                "400",
+                "400"
+              ],
+              [
+                "500",
+                "500"
+              ]
+            ],
+            "default": "500"
+          },
+          {
+            "type": "boolean",
+            "name": "uppercase",
+            "label": "Uppercase",
+            "display": "toggle",
+            "default": true
+          },
+          {
+            "type": "number",
+            "name": "letter_spacing",
+            "label": "Letter spacing",
+            "display": "text",
+            "default": 1.6,
+            "min": 0,
+            "max": 10,
+            "step": 0.1,
+            "suffix": "px"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "buttons",
+    "label": "Buttons",
+    "expanded": false,
+    "children": [
+      {
+        "type": "choice",
+        "name": "font_source",
+        "label": "Font",
+        "display": "select",
+        "choices": [
+          [
+            "body",
+            "Body font"
+          ],
+          [
+            "heading",
+            "Heading font"
+          ]
+        ],
+        "default": "body"
+      },
+      {
+        "type": "number",
+        "name": "font_size",
+        "label": "Font size",
+        "display": "text",
+        "default": 16,
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "choice",
+        "name": "font_weight",
+        "label": "Font weight",
+        "display": "select",
+        "choices": [
+          [
+            "400",
+            "400"
+          ],
+          [
+            "500",
+            "500"
+          ]
+        ],
+        "default": "500"
+      },
+      {
+        "type": "number",
+        "name": "line_height",
+        "label": "Line height",
+        "display": "text",
+        "default": 1.25,
+        "min": 1,
+        "max": 2,
+        "step": 0.05
+      },
+      {
+        "type": "number",
+        "name": "letter_spacing",
+        "label": "Letter spacing",
+        "display": "text",
+        "default": 0,
+        "min": 0,
+        "max": 10,
+        "step": 0.1,
+        "suffix": "px"
+      },
+      {
+        "type": "choice",
+        "name": "text_transform",
+        "label": "Text transform",
+        "display": "select",
+        "choices": [
+          [
+            "none",
+            "None"
+          ],
+          [
+            "uppercase",
+            "Uppercase"
+          ],
+          [
+            "capitalize",
+            "Capitalize"
+          ]
+        ],
+        "default": "none"
+      },
+      {
+        "type": "number",
+        "name": "border_width",
+        "label": "Border width",
+        "display": "text",
+        "default": 2,
+        "min": 0,
+        "max": 6,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "radius",
+        "label": "Corner radius",
+        "display": "text",
+        "default": 24,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "group",
+        "name": "padding",
+        "label": "Padding",
+        "expanded": false,
+        "children": [
+          {
+            "type": "number",
+            "name": "desktop_y",
+            "label": "Top/bottom",
+            "display": "text",
+            "default": 12,
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "desktop_x",
+            "label": "Left/right",
+            "display": "text",
+            "default": 32,
+            "min": 0,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "mobile_y",
+            "label": "Mobile (≤767.98px) top/bottom",
+            "display": "text",
+            "default": 10,
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "mobile_x",
+            "label": "Mobile (≤767.98px) left/right",
+            "display": "text",
+            "default": 24,
+            "min": 0,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          }
+        ]
+      },
+      {
+        "type": "number",
+        "name": "gap",
+        "label": "Gap between buttons",
+        "display": "text",
+        "default": 16,
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "group",
+        "name": "text_link",
+        "label": "Text link",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "font_weight",
+            "label": "Font weight",
+            "display": "select",
+            "choices": [
+              [
+                "400",
+                "400"
+              ],
+              [
+                "500",
+                "500"
+              ]
+            ],
+            "default": "500"
+          },
+          {
+            "type": "choice",
+            "name": "underline",
+            "label": "Underline",
+            "display": "select",
+            "choices": [
+              [
+                "none",
+                "None"
+              ],
+              [
+                "hover",
+                "On hover"
+              ],
+              [
+                "always",
+                "Always"
+              ]
+            ],
+            "default": "hover"
+          },
+          {
+            "type": "number",
+            "name": "underline_offset",
+            "label": "Underline offset",
+            "display": "text",
+            "default": 4,
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "suffix": "px"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "layout",
+    "label": "Layout & spacing",
+    "expanded": false,
+    "children": [
+      {
+        "type": "number",
+        "name": "container_width",
+        "label": "Container width",
+        "display": "text",
+        "default": 1320,
+        "min": 960,
+        "max": 1920,
+        "step": 1,
+        "suffix": "px",
+        "help_text": "Content width without gutters."
+      },
+      {
+        "type": "number",
+        "name": "narrow_width",
+        "label": "Narrow content width",
+        "display": "text",
+        "default": 860,
+        "min": 480,
+        "max": 1200,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "group",
+        "name": "gutter",
+        "label": "Gutter (min 20px)",
+        "expanded": false,
+        "children": [
+          {
+            "type": "number",
+            "name": "desktop",
+            "label": "Desktop",
+            "display": "text",
+            "default": 24,
+            "min": 20,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "large_laptop",
+            "label": "≤1366.98px",
+            "display": "text",
+            "default": 24,
+            "min": 20,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "laptop",
+            "label": "≤1200.98px",
+            "display": "text",
+            "default": 20,
+            "min": 20,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "tablet",
+            "label": "≤991.98px",
+            "display": "text",
+            "default": 20,
+            "min": 20,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "mobile",
+            "label": "≤767.98px",
+            "display": "text",
+            "default": 20,
+            "min": 20,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "section_padding",
+        "label": "Section padding",
+        "expanded": false,
+        "children": [
+          {
+            "type": "group",
+            "name": "small",
+            "label": "Small",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop & ≤1366.98px",
+                "display": "text",
+                "default": 72,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 65,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 58,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 52,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "medium",
+            "label": "Medium (default)",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop & ≤1366.98px",
+                "display": "text",
+                "default": 100,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 80,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 60,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 50,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          },
+          {
+            "type": "group",
+            "name": "large",
+            "label": "Large",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop & ≤1366.98px",
+                "display": "text",
+                "default": 144,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 130,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 116,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 104,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "spacing",
+        "label": "Spacing",
+        "expanded": false,
+        "children": [
+          {
+            "type": "number",
+            "name": "eyebrow_heading",
+            "label": "Eyebrow to heading",
+            "display": "text",
+            "default": 16,
+            "min": 0,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "heading_content",
+            "label": "Heading to content",
+            "display": "text",
+            "default": 24,
+            "min": 0,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "content_button",
+            "label": "Content to buttons",
+            "display": "text",
+            "default": 24,
+            "min": 0,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "paragraph",
+            "label": "Paragraph spacing",
+            "display": "text",
+            "default": 16,
+            "min": 0,
+            "max": 60,
+            "step": 1,
+            "suffix": "px"
+          },
+          {
+            "type": "number",
+            "name": "grid_gap",
+            "label": "Grid gap",
+            "display": "text",
+            "default": 24,
+            "min": 0,
+            "max": 80,
+            "step": 1,
+            "suffix": "px"
+          }
+        ]
+      },
+      {
+        "type": "number",
+        "name": "card_radius",
+        "label": "Card radius",
+        "display": "text",
+        "default": 4,
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "text",
+        "name": "shadow",
+        "label": "Card shadow",
+        "default": "0 2px 9px rgba(0, 0, 0, 0.2)",
+        "help_text": "CSS box-shadow value."
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "color_schemes",
+    "label": "Color schemes",
+    "expanded": false,
+    "children": [
+      {
+        "type": "group",
+        "name": "light",
+        "label": "Light",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "background",
+            "label": "Background",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "heading",
+            "label": "Heading",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "heading"
+          },
+          {
+            "type": "choice",
+            "name": "text",
+            "label": "Text (also form labels, help and error text)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "text"
+          },
+          {
+            "type": "choice",
+            "name": "eyebrow",
+            "label": "Eyebrow",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "secondary"
+          },
+          {
+            "type": "choice",
+            "name": "link",
+            "label": "Link",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "secondary"
+          },
+          {
+            "type": "choice",
+            "name": "link_hover",
+            "label": "Link (hover)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "heading"
+          },
+          {
+            "type": "choice",
+            "name": "border",
+            "label": "Border (decorative)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "border"
+          },
+          {
+            "type": "group",
+            "name": "buttons",
+            "label": "Buttons",
+            "expanded": false,
+            "children": [
+              {
+                "type": "group",
+                "name": "primary",
+                "label": "Primary",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "secondary",
+                "label": "Secondary",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "primary_outline",
+                "label": "Primary outline",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "secondary_outline",
+                "label": "Secondary outline",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "dark",
+        "label": "Dark",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "background",
+            "label": "Background",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "dark-bg"
+          },
+          {
+            "type": "choice",
+            "name": "heading",
+            "label": "Heading",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "text",
+            "label": "Text (also form labels, help and error text)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "eyebrow",
+            "label": "Eyebrow",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "accent"
+          },
+          {
+            "type": "choice",
+            "name": "link",
+            "label": "Link",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "accent"
+          },
+          {
+            "type": "choice",
+            "name": "link_hover",
+            "label": "Link (hover)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "border",
+            "label": "Border (decorative)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "secondary"
+          },
+          {
+            "type": "group",
+            "name": "buttons",
+            "label": "Buttons",
+            "expanded": false,
+            "children": [
+              {
+                "type": "group",
+                "name": "primary",
+                "label": "Primary",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "secondary",
+                "label": "Secondary",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "dark-bg"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "primary_outline",
+                "label": "Primary outline",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "primary"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "secondary_outline",
+                "label": "Secondary outline",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "dark-bg"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "brand",
+        "label": "Brand",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "background",
+            "label": "Background",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "secondary"
+          },
+          {
+            "type": "choice",
+            "name": "heading",
+            "label": "Heading",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "text",
+            "label": "Text (also form labels, help and error text)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "eyebrow",
+            "label": "Eyebrow",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "link",
+            "label": "Link",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "link_hover",
+            "label": "Link (hover)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "choice",
+            "name": "border",
+            "label": "Border (decorative)",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "white"
+          },
+          {
+            "type": "group",
+            "name": "buttons",
+            "label": "Buttons",
+            "expanded": false,
+            "children": [
+              {
+                "type": "group",
+                "name": "primary",
+                "label": "Primary",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "accent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "accent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "accent"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "secondary",
+                "label": "Secondary",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "primary_outline",
+                "label": "Primary outline",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "accent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "accent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "heading"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "accent"
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "name": "secondary_outline",
+                "label": "Secondary outline",
+                "expanded": false,
+                "children": [
+                  {
+                    "type": "choice",
+                    "name": "bg",
+                    "label": "Background",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "transparent"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text",
+                    "label": "Text",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border",
+                    "label": "Border",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "bg_hover",
+                    "label": "Background (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "text_hover",
+                    "label": "Text (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "secondary"
+                  },
+                  {
+                    "type": "choice",
+                    "name": "border_hover",
+                    "label": "Border (hover)",
+                    "display": "select",
+                    "choices": [
+                      [
+                        "primary",
+                        "Primary"
+                      ],
+                      [
+                        "secondary",
+                        "Secondary"
+                      ],
+                      [
+                        "accent",
+                        "Accent"
+                      ],
+                      [
+                        "heading",
+                        "Heading"
+                      ],
+                      [
+                        "text",
+                        "Text"
+                      ],
+                      [
+                        "muted",
+                        "Muted"
+                      ],
+                      [
+                        "border",
+                        "Border"
+                      ],
+                      [
+                        "light-bg",
+                        "Light background"
+                      ],
+                      [
+                        "dark-bg",
+                        "Dark background"
+                      ],
+                      [
+                        "white",
+                        "White"
+                      ],
+                      [
+                        "transparent",
+                        "Transparent"
+                      ]
+                    ],
+                    "default": "white"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "forms",
+    "label": "Forms",
+    "expanded": false,
+    "children": [
+      {
+        "type": "choice",
+        "name": "input_bg",
+        "label": "Input background",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
+            "heading",
+            "Heading"
+          ],
+          [
+            "text",
+            "Text"
+          ],
+          [
+            "muted",
+            "Muted"
+          ],
+          [
+            "border",
+            "Border"
+          ],
+          [
+            "light-bg",
+            "Light background"
+          ],
+          [
+            "dark-bg",
+            "Dark background"
+          ],
+          [
+            "white",
+            "White"
+          ]
+        ],
+        "default": "white"
+      },
+      {
+        "type": "choice",
+        "name": "input_text",
+        "label": "Input text",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
+            "heading",
+            "Heading"
+          ],
+          [
+            "text",
+            "Text"
+          ],
+          [
+            "muted",
+            "Muted"
+          ],
+          [
+            "border",
+            "Border"
+          ],
+          [
+            "light-bg",
+            "Light background"
+          ],
+          [
+            "dark-bg",
+            "Dark background"
+          ],
+          [
+            "white",
+            "White"
+          ]
+        ],
+        "default": "text"
+      },
+      {
+        "type": "choice",
+        "name": "input_border",
+        "label": "Input border",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
+            "heading",
+            "Heading"
+          ],
+          [
+            "text",
+            "Text"
+          ],
+          [
+            "muted",
+            "Muted"
+          ],
+          [
+            "border",
+            "Border"
+          ],
+          [
+            "light-bg",
+            "Light background"
+          ],
+          [
+            "dark-bg",
+            "Dark background"
+          ],
+          [
+            "white",
+            "White"
+          ]
+        ],
+        "default": "muted",
+        "help_text": "Keep at least 3:1 contrast against the input background."
+      },
+      {
+        "type": "choice",
+        "name": "placeholder",
+        "label": "Placeholder text",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
+            "heading",
+            "Heading"
+          ],
+          [
+            "text",
+            "Text"
+          ],
+          [
+            "muted",
+            "Muted"
+          ],
+          [
+            "border",
+            "Border"
+          ],
+          [
+            "light-bg",
+            "Light background"
+          ],
+          [
+            "dark-bg",
+            "Dark background"
+          ],
+          [
+            "white",
+            "White"
+          ]
+        ],
+        "default": "muted"
+      },
+      {
+        "type": "number",
+        "name": "input_border_width",
+        "label": "Input border width",
+        "display": "text",
+        "default": 1,
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "input_radius",
+        "label": "Input radius",
+        "display": "text",
+        "default": 4,
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "input_padding_y",
+        "label": "Input padding top/bottom",
+        "display": "text",
+        "default": 12,
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "input_padding_x",
+        "label": "Input padding left/right",
+        "display": "text",
+        "default": 16,
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "label_gap",
+        "label": "Label to input",
+        "display": "text",
+        "default": 8,
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "field_gap",
+        "label": "Gap between fields",
+        "display": "text",
+        "default": 16,
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "choice",
+        "name": "label_weight",
+        "label": "Label weight",
+        "display": "select",
+        "choices": [
+          [
+            "400",
+            "400"
+          ],
+          [
+            "500",
+            "500"
+          ]
+        ],
+        "default": "500"
+      },
+      {
+        "type": "choice",
+        "name": "submit_variant",
+        "label": "Submit button",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "primary-outline",
+            "Primary outline"
+          ],
+          [
+            "secondary-outline",
+            "Secondary outline"
+          ]
+        ],
+        "default": "primary"
+      }
+    ]
+  }
+]

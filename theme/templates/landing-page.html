@@ -1,0 +1,21 @@
+<!--
+  templateType: page
+  isAvailableForNewContent: true
+  label: Landing page
+-->
+{% extends "./layouts/base.html" %}
+
+{% block header %}
+  {% global_partial path="./partials/header-minimal.html" %}
+{% endblock header %}
+
+{% block body %}
+  {% dnd_area "main_content" label="Main content" %}
+    {% dnd_section full_width=true, padding={"top": "0px", "bottom": "0px", "left": "0px", "right": "0px"} %}
+      {% dnd_module path="@hubspot/rich_text", label="Intro text",
+        html="<div class='container section-pt-m section-pb-m'><h1>Landing page title</h1><p>Add theme modules to build this landing page.</p></div>"
+      %}
+      {% end_dnd_module %}
+    {% end_dnd_section %}
+  {% end_dnd_area %}
+{% endblock body %}

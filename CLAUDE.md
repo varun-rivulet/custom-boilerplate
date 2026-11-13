@@ -102,4 +102,14 @@ REFERENCE DOCUMENTS
 STATUS (resume here in a new session)
 - Phase 1 (Audit) is DONE and approved. Full audit (module mapping, token defaults, Luma issues, Phase 2 checklist): docs/phase-1-audit.md. Read it before starting Phase 2.
 - All decisions are recorded in this file; this file wins if docs/phase-1-audit.md disagrees.
-- Next: Phase 2 (Foundation). Start by re-reading this file and docs/phase-1-audit.md, confirm the Phase 2 plan with me, then build in theme/. Uploading needs the dev/sandbox portal (still pending).
+- Phase 2 (Foundation) is BUILT on branch phase-2-foundation (not yet tested in a portal; needs the dev/sandbox portal).
+- Next: test Phase 2 in the sandbox portal, then Phase 3 (Base Module).
+
+PHASE 2 DECISIONS (approved)
+- Color defaults are a neutral palette, never a client's brand: primary #3B82F6, secondary #334155, accent #F59E0B, heading #0F172A, text #1F2937, muted #64748B, border #CBD5E1, light bg #F8FAFC, dark bg #0B1F3A, white #FFFFFF. (Replaces the Luma hex values in docs/phase-1-audit.md.) All default scheme text pairs pass 4.5:1 and outline borders 3:1; tightest pair heading-on-primary 4.85.
+- Color schemes (Light/Dark/Brand) are choice fields that pick one of the 10 tokens (+ transparent for buttons), incl. per-variant button default/hover colors; max 4 group levels. Button radius/padding/font live in the global Buttons group.
+- Form labels, help and error text use the scheme text color; error text gets an icon + wording. Input boxes keep one global style; input borders use muted (border token is decorative only).
+- Fonts: primary Google = Inter (400/500). Secondary default = Source Serif 4 (OFL) built as static secondary-400/500 woff2+woff in theme/fonts/ with OFL.txt, internal name "Secondary". Override file fields "Regular (400)" / "Medium (500)" replace the defaults per weight. Tobi Pro is commercial: kept outside the repo in ../font-sources/, never committed.
+- Display/lead/small are optional type tokens with utility classes .text-display / .text-lead / .text-small.
+- No membership templates for now.
+- Swiper pinned to 14.3.0 (bundle build). Vendor files keep their MIT banners; the no-comments rule applies to our own code.
