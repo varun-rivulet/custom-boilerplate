@@ -221,7 +221,41 @@
           {
             "type": "choice",
             "name": "heading_source",
-            "label": "Heading font source",
+            "label": "Headings font",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary (Google font)"
+              ],
+              [
+                "secondary",
+                "Secondary (custom font)"
+              ]
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "choice",
+            "name": "eyebrow_source",
+            "label": "Eyebrow font",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary (Google font)"
+              ],
+              [
+                "secondary",
+                "Secondary (custom font)"
+              ]
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "choice",
+            "name": "display_source",
+            "label": "Display text font",
             "display": "select",
             "choices": [
               [
@@ -238,7 +272,7 @@
           {
             "type": "choice",
             "name": "body_source",
-            "label": "Body font source",
+            "label": "Body font",
             "display": "select",
             "choices": [
               [

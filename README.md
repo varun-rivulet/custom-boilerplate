@@ -28,6 +28,8 @@ docs/                  internal docs (never uploaded)
 | Swiper | **14.3.0** (pinned, released 2026-09-28) | `theme/js/swiper.min.js`, `theme/css/swiper.min.css` (the bundle build) |
 | normalize.css | 8.0.1 | `theme/css/generic/_normalize.css` |
 
+**Possible optimisation (not done yet):** Swiper currently loads on every page. Later it could load only on pages that have a slider module, by moving the `require_js` / `require_css` calls for Swiper into the slider module's `module.html`.
+
 The vendor files keep their MIT license banners. The only change to them is that the source-map reference lines were removed, because the `.map` files are not shipped. To upgrade Swiper, replace both files with the same version and update this table.
 
 ## Fonts
@@ -57,6 +59,15 @@ The defaults pass WCAG AA: 4.5:1 for every text pair in all three schemes, and 3
 - muted on white (form input borders and placeholder text)
 
 If a pair fails, change the scheme's token choice for it in Theme settings → Color schemes. Don't add new hex values.
+
+## Sandbox test checklist
+
+Do not merge `phase-2-foundation` into `main` until these pass on the dev/sandbox portal:
+
+1. **Built-in module parameters:** the header and footer `@hubspot/menu` options (`flow`, `flyouts`, `max_levels`) and the `@hubspot/logo` placeholder image (`img.override_inherited_src`, `src`, `alt`, `loading`) behave as expected.
+2. **Google font weight:** check how HubSpot reports the font field's `variant` (for example `"500"` or `"regular"`), so `--fw-heading` outputs a real number, and check that weights 400 and 500 both load.
+3. **Viewport meta:** check that `standard_header_includes` outputs `<meta name="viewport">`. If it doesn't, add it to `layouts/base.html` after the charset.
+4. **New form editor:** check forms built in HubSpot's new form editor, not only legacy `.hs-form` markup, against the global form styling (labels, help and error text in the scheme color, input boxes, focus, error icon).
 
 ## Notes
 
