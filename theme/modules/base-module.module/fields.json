@@ -1,0 +1,747 @@
+[
+  {
+    "type": "text",
+    "name": "eyebrow",
+    "label": "Eyebrow",
+    "default": "Eyebrow"
+  },
+  {
+    "type": "text",
+    "name": "heading",
+    "label": "Heading",
+    "default": "Section heading"
+  },
+  {
+    "type": "choice",
+    "name": "heading_tag",
+    "label": "Heading tag",
+    "display": "select",
+    "choices": [
+      [
+        "h1",
+        "H1"
+      ],
+      [
+        "h2",
+        "H2"
+      ],
+      [
+        "h3",
+        "H3"
+      ],
+      [
+        "h4",
+        "H4"
+      ],
+      [
+        "h5",
+        "H5"
+      ],
+      [
+        "h6",
+        "H6"
+      ],
+      [
+        "p",
+        "Paragraph"
+      ]
+    ],
+    "default": "h2",
+    "help_text": "Use one H1 per page. Paragraph keeps the H2 look."
+  },
+  {
+    "type": "richtext",
+    "name": "description",
+    "label": "Description",
+    "default": "<p>Add a short description for this section.</p>"
+  },
+  {
+    "type": "image",
+    "name": "image",
+    "label": "Image",
+    "responsive": true,
+    "resizable": true,
+    "show_loading": true,
+    "help_text": "Alt text is required for meaningful images; leave it empty only for decorative images. Use Eager loading only for the first image on the page.",
+    "default": {
+      "src": "",
+      "alt": "",
+      "loading": "lazy"
+    }
+  },
+  {
+    "type": "group",
+    "name": "buttons",
+    "label": "Buttons",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "text",
+        "label": "Button text",
+        "default": "Button text"
+      },
+      {
+        "type": "choice",
+        "name": "style",
+        "label": "Style",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "primary-outline",
+            "Primary outline"
+          ],
+          [
+            "secondary-outline",
+            "Secondary outline"
+          ],
+          [
+            "text-link",
+            "Text link"
+          ]
+        ],
+        "default": "primary"
+      },
+      {
+        "type": "link",
+        "name": "link",
+        "label": "Link",
+        "show_advanced_rel_options": true,
+        "default": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        }
+      },
+      {
+        "type": "text",
+        "name": "aria_label",
+        "label": "Accessible label (optional)",
+        "default": "",
+        "help_text": "Use when the button text alone doesn't describe the destination."
+      }
+    ],
+    "occurrence": {
+      "min": 0,
+      "max": 4,
+      "default": 1,
+      "sorting_label_field": "buttons.text"
+    },
+    "default": [
+      {
+        "text": "Button text",
+        "style": "primary",
+        "link": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "aria_label": ""
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "style",
+    "label": "Style",
+    "expanded": false,
+    "children": [
+      {
+        "type": "choice",
+        "name": "color_scheme",
+        "label": "Color scheme",
+        "display": "select",
+        "choices": [
+          [
+            "light",
+            "Light"
+          ],
+          [
+            "dark",
+            "Dark"
+          ],
+          [
+            "brand",
+            "Brand"
+          ]
+        ],
+        "default": "light"
+      },
+      {
+        "type": "group",
+        "name": "background",
+        "label": "Background",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "type",
+            "label": "Background",
+            "display": "select",
+            "choices": [
+              [
+                "none",
+                "None (scheme background)"
+              ],
+              [
+                "color",
+                "Color"
+              ],
+              [
+                "image",
+                "Image"
+              ]
+            ],
+            "default": "none"
+          },
+          {
+            "type": "choice",
+            "name": "color",
+            "label": "Background color",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "dark-bg",
+            "required": true,
+            "help_text": "Always set, also shown behind an image while it loads or if it fails.",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^(color|image)$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "image",
+            "name": "image",
+            "label": "Background image",
+            "responsive": false,
+            "resizable": false,
+            "show_loading": false,
+            "default": {
+              "src": "",
+              "alt": ""
+            },
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^image$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "choice",
+            "name": "position",
+            "label": "Image position",
+            "display": "select",
+            "choices": [
+              [
+                "center",
+                "Center"
+              ],
+              [
+                "top",
+                "Top"
+              ],
+              [
+                "bottom",
+                "Bottom"
+              ],
+              [
+                "left",
+                "Left"
+              ],
+              [
+                "right",
+                "Right"
+              ]
+            ],
+            "default": "center",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^image$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "choice",
+            "name": "overlay_color",
+            "label": "Overlay color",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "dark-bg",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^image$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "number",
+            "name": "overlay_opacity",
+            "label": "Overlay opacity",
+            "display": "text",
+            "default": 50,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "suffix": "%",
+            "help_text": "Pick the color scheme that keeps text readable on the overlay.",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^image$"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "name": "padding",
+        "label": "Padding",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "top",
+            "label": "Top",
+            "display": "select",
+            "choices": [
+              [
+                "small",
+                "Small"
+              ],
+              [
+                "medium",
+                "Medium"
+              ],
+              [
+                "large",
+                "Large"
+              ],
+              [
+                "custom",
+                "Custom"
+              ]
+            ],
+            "default": "medium"
+          },
+          {
+            "type": "group",
+            "name": "top_custom",
+            "label": "Top (custom)",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop & ≤1366.98px",
+                "display": "text",
+                "default": 100,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 80,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 60,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 50,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ],
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.padding.top",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^custom$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "choice",
+            "name": "bottom",
+            "label": "Bottom",
+            "display": "select",
+            "choices": [
+              [
+                "small",
+                "Small"
+              ],
+              [
+                "medium",
+                "Medium"
+              ],
+              [
+                "large",
+                "Large"
+              ],
+              [
+                "custom",
+                "Custom"
+              ]
+            ],
+            "default": "medium"
+          },
+          {
+            "type": "group",
+            "name": "bottom_custom",
+            "label": "Bottom (custom)",
+            "expanded": false,
+            "children": [
+              {
+                "type": "number",
+                "name": "desktop",
+                "label": "Desktop & ≤1366.98px",
+                "display": "text",
+                "default": 100,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "laptop",
+                "label": "≤1200.98px",
+                "display": "text",
+                "default": 80,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "tablet",
+                "label": "≤991.98px",
+                "display": "text",
+                "default": 60,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              },
+              {
+                "type": "number",
+                "name": "mobile",
+                "label": "≤767.98px",
+                "display": "text",
+                "default": 50,
+                "min": 0,
+                "max": 400,
+                "step": 1,
+                "suffix": "px"
+              }
+            ],
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.padding.bottom",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^custom$"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "choice",
+        "name": "content_width",
+        "label": "Content width",
+        "display": "select",
+        "choices": [
+          [
+            "container",
+            "Container"
+          ],
+          [
+            "narrow",
+            "Narrow"
+          ],
+          [
+            "full",
+            "Full width"
+          ]
+        ],
+        "default": "container"
+      },
+      {
+        "type": "choice",
+        "name": "content_alignment",
+        "label": "Content alignment",
+        "display": "select",
+        "choices": [
+          [
+            "left",
+            "Left"
+          ],
+          [
+            "center",
+            "Center"
+          ],
+          [
+            "right",
+            "Right"
+          ]
+        ],
+        "default": "left"
+      },
+      {
+        "type": "choice",
+        "name": "text_align_desktop",
+        "label": "Text alignment",
+        "display": "select",
+        "choices": [
+          [
+            "left",
+            "Left"
+          ],
+          [
+            "center",
+            "Center"
+          ],
+          [
+            "right",
+            "Right"
+          ]
+        ],
+        "default": "left"
+      },
+      {
+        "type": "choice",
+        "name": "text_align_mobile",
+        "label": "Text alignment (mobile ≤767.98px)",
+        "display": "select",
+        "choices": [
+          [
+            "inherit",
+            "Same as desktop"
+          ],
+          [
+            "left",
+            "Left"
+          ],
+          [
+            "center",
+            "Center"
+          ],
+          [
+            "right",
+            "Right"
+          ]
+        ],
+        "default": "inherit"
+      },
+      {
+        "type": "group",
+        "name": "advanced",
+        "label": "Advanced",
+        "expanded": false,
+        "children": [
+          {
+            "type": "text",
+            "name": "section_id",
+            "label": "Section ID (anchor)",
+            "default": "",
+            "help_text": "Without #. Converted to lowercase-with-hyphens."
+          },
+          {
+            "type": "text",
+            "name": "custom_class",
+            "label": "Custom class",
+            "default": ""
+          },
+          {
+            "type": "boolean",
+            "name": "hide_desktop",
+            "label": "Hide on desktop (above 991.98px)",
+            "display": "toggle",
+            "default": false
+          },
+          {
+            "type": "boolean",
+            "name": "hide_tablet",
+            "label": "Hide on tablet (768–991.98px)",
+            "display": "toggle",
+            "default": false
+          },
+          {
+            "type": "boolean",
+            "name": "hide_mobile",
+            "label": "Hide on mobile (≤767.98px)",
+            "display": "toggle",
+            "default": false
+          },
+          {
+            "type": "boolean",
+            "name": "show_section",
+            "label": "Show section",
+            "display": "toggle",
+            "default": true
+          }
+        ]
+      }
+    ],
+    "tab": "STYLE"
+  }
+]

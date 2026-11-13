@@ -1,0 +1,77 @@
+{# Base module #}
+{% set s = module.style %}
+{% set bg = s.background %}
+{% set pad = s.padding %}
+{% set adv = s.advanced %}
+{% set img = module.image %}
+{% set pad_class = {"small": "s", "medium": "m", "large": "l"} %}
+{% set valid_buttons = [] %}
+{% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
+{% set has_eyebrow = module.eyebrow|trim %}
+{% set has_heading = module.heading|trim %}
+{% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description or "<iframe" in module.description) %}
+{% set has_image = img.src %}
+{% set has_bg_image = bg.type == "image" and bg.image.src %}
+{% set section_id = adv.section_id|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
+
+{% if adv.show_section and (has_eyebrow or has_heading or has_description or has_image or valid_buttons) %}
+  {% set classes = ["base-module", "scheme-" ~ s.color_scheme, "text-align-" ~ s.text_align_desktop] %}
+  {% if s.text_align_mobile != "inherit" %}{% do classes.append("text-align-mobile-" ~ s.text_align_mobile) %}{% endif %}
+  {% if pad.top != "custom" %}{% do classes.append("section-pt-" ~ pad_class[pad.top]) %}{% endif %}
+  {% if pad.bottom != "custom" %}{% do classes.append("section-pb-" ~ pad_class[pad.bottom]) %}{% endif %}
+  {% if bg.type == "color" or has_bg_image %}{% do classes.append("bg-" ~ bg.color) %}{% endif %}
+  {% if has_bg_image %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ bg.position) %}{% endif %}
+  {% if adv.hide_desktop %}{% do classes.append("hide-desktop") %}{% endif %}
+  {% if adv.hide_tablet %}{% do classes.append("hide-tablet") %}{% endif %}
+  {% if adv.hide_mobile %}{% do classes.append("hide-mobile") %}{% endif %}
+  {% if adv.custom_class|trim %}{% do classes.append(adv.custom_class|trim|escape_attr) %}{% endif %}
+
+  {% if pad.top == "custom" or pad.bottom == "custom" or has_bg_image %}
+    {% require_css %}
+    <style>
+    {% scope_css %}
+    {% for row in [["desktop", ""], ["laptop", "1200.98"], ["tablet", "991.98"], ["mobile", "767.98"]] %}
+      {% set tier = row[0] %}
+      {% set decl = [] %}
+      {% if pad.top == "custom" and pad.top_custom[tier] is number %}{% do decl.append("padding-top:" ~ pad.top_custom[tier] ~ "px") %}{% endif %}
+      {% if pad.bottom == "custom" and pad.bottom_custom[tier] is number %}{% do decl.append("padding-bottom:" ~ pad.bottom_custom[tier] ~ "px") %}{% endif %}
+      {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("--overlay-color:var(--color-" ~ bg.overlay_color ~ ")") %}{% do decl.append("--overlay-opacity:" ~ ((bg.overlay_opacity|float) / 100)) %}{% endif %}
+      {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.base-module{ {{- decl|join(";") -}} }}{% else %}.base-module{ {{- decl|join(";") -}} }{% endif %}
+      {% endif %}
+    {% endfor %}
+    {% end_scope_css %}
+    </style>
+    {% end_require_css %}
+  {% endif %}
+
+  <section{% if section_id %} id="{{ section_id }}"{% endif %} class="{{ classes|join(' ') }}" data-base-module>
+    <div class="container{% if s.content_width == 'full' %} container-full{% endif %}">
+      <div class="section-content content-align-{{ s.content_alignment }}{% if s.content_width == 'narrow' %} content-narrow{% endif %}">
+        {% if has_eyebrow %}<p class="section-eyebrow">{{ module.eyebrow|escape_html }}</p>{% endif %}
+        {% if has_heading %}<{{ module.heading_tag }} class="section-title{% if module.heading_tag == 'p' %} h2{% endif %}">{{ module.heading|escape_html }}</{{ module.heading_tag }}>{% endif %}
+        {% if has_description %}<div class="section-description">{{ module.description }}</div>{% endif %}
+        {% if valid_buttons %}
+          <div class="section-buttons btn-group">
+            {% for item in valid_buttons %}
+              {% set url = item.link.url %}
+              {% set href = url.href or "" %}
+              {% if href and url.type == "EMAIL_ADDRESS" and "mailto:" not in href %}{% set href = "mailto:" ~ href %}{% endif %}
+              {% if href and url.type in ["PHONE", "PHONE_NUMBER"] and "tel:" not in href %}{% set href = "tel:" ~ href %}{% endif %}
+              {% set rel = [] %}
+              {% if item.link.open_in_new_tab %}{% do rel.append("noopener") %}{% do rel.append("noreferrer") %}{% endif %}
+              {% if item.link.no_follow %}{% do rel.append("nofollow") %}{% endif %}
+              {% if item.link.sponsored %}{% do rel.append("sponsored") %}{% endif %}
+              {% if item.link.user_generated_content %}{% do rel.append("ugc") %}{% endif %}
+              <a class="{{ 'text-link' if item.style == 'text-link' else 'btn btn-' ~ item.style }}"{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if item.link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% if item.aria_label|trim %} aria-label="{{ item.aria_label|escape_attr }}"{% endif %}>{{ item.text|escape_html }}</a>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if has_image %}
+          <div class="section-media">
+            <img src="{{ resize_image_url(img.src, img.width) if img.width else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img.width %} width="{{ img.width }}"{% endif %}{% if img.height %} height="{{ img.height }}"{% endif %}{% if img.loading and img.loading != 'disabled' %} loading="{{ img.loading }}"{% endif %}>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}

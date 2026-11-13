@@ -48,6 +48,26 @@
 .scheme-brand{ {{- scheme_vars(cs.brand) -}} }
 body,.scheme-light,.scheme-dark,.scheme-brand{background-color:var(--scheme-bg);color:var(--scheme-text)}
 
+{# Section backgrounds #}
+.bg-primary{background-color:var(--color-primary)}
+.bg-secondary{background-color:var(--color-secondary)}
+.bg-accent{background-color:var(--color-accent)}
+.bg-heading{background-color:var(--color-heading)}
+.bg-text{background-color:var(--color-text)}
+.bg-muted{background-color:var(--color-muted)}
+.bg-border{background-color:var(--color-border)}
+.bg-light-bg{background-color:var(--color-light-bg)}
+.bg-dark-bg{background-color:var(--color-dark-bg)}
+.bg-white{background-color:var(--color-white)}
+.has-bg-image{position:relative;isolation:isolate;background-repeat:no-repeat;background-size:cover}
+.has-bg-image::before{content:"";position:absolute;inset:0;background-color:var(--overlay-color);opacity:var(--overlay-opacity, 0);pointer-events:none}
+.has-bg-image > .container{position:relative;z-index:10}
+.bg-position-center{background-position:center}
+.bg-position-top{background-position:center top}
+.bg-position-bottom{background-position:center bottom}
+.bg-position-left{background-position:left center}
+.bg-position-right{background-position:right center}
+
 {# Base #}
 body{font-family:var(--font-body);font-size:var(--fs-body);font-weight:var(--fw-body);line-height:var(--lh-body);overflow-wrap:break-word}
 img,video{max-width:100%;height:auto}
@@ -66,7 +86,7 @@ a:hover{color:var(--scheme-link-hover)}
 a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabindex="-1"]):focus-visible{outline:var(--focus-width) solid var(--scheme-link);outline-offset:var(--focus-offset)}
 .text-link{font-weight:var(--text-link-weight);text-decoration:{{ "none" if b.text_link.underline in ["none", "hover"] else "underline" }}}
 .text-link:hover{text-decoration:{{ "none" if b.text_link.underline == "none" else "underline" }}}
-.eyebrow{display:block;margin:0 0 var(--space-eyebrow-heading);font-family:var(--font-eyebrow);font-size:var(--eyebrow-size);font-weight:var(--eyebrow-weight);letter-spacing:var(--eyebrow-spacing);text-transform:var(--eyebrow-transform);color:var(--scheme-eyebrow)}
+.section-eyebrow{display:block;margin:0 0 var(--space-eyebrow-heading);font-family:var(--font-eyebrow);font-size:var(--eyebrow-size);font-weight:var(--eyebrow-weight);letter-spacing:var(--eyebrow-spacing);text-transform:var(--eyebrow-transform);color:var(--scheme-eyebrow)}
 .text-display{font-family:var(--font-display);font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display)}
 .text-lead{font-size:var(--fs-lead);line-height:var(--lh-lead)}
 .text-small{font-size:var(--fs-small)}
@@ -86,6 +106,27 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabin
 .hide-desktop{display:none}
 @media (max-width:991.98px){.hide-desktop{display:revert}.hide-tablet{display:none}}
 @media (max-width:767.98px){.hide-tablet{display:revert}.hide-mobile{display:none}}
+
+{# Section content #}
+.section-content{width:100%}
+.content-narrow{max-width:var(--narrow-width)}
+.content-align-left{margin-right:auto}
+.content-align-center{margin-inline:auto}
+.content-align-right{margin-left:auto}
+.section-eyebrow:last-child{margin-bottom:0}
+.section-buttons,.section-media{margin-top:var(--space-content-button)}
+.section-buttons:first-child,.section-media:first-child,.section-title + .section-buttons,.section-title + .section-media{margin-top:0}
+.section-media img{display:block}
+.text-align-left{text-align:left}
+.text-align-center{text-align:center}
+.text-align-right{text-align:right}
+.text-align-center .section-buttons{justify-content:center}
+.text-align-right .section-buttons{justify-content:flex-end}
+.text-align-center .section-media img{margin-inline:auto}
+.text-align-right .section-media img{margin-left:auto}
+@media (max-width:767.98px){.text-align-mobile-left{text-align:left}.text-align-mobile-center{text-align:center}.text-align-mobile-right{text-align:right}.text-align-mobile-left .section-buttons{justify-content:flex-start}.text-align-mobile-center .section-buttons{justify-content:center}.text-align-mobile-right .section-buttons{justify-content:flex-end}.text-align-mobile-left .section-media img{margin-inline:0 auto}.text-align-mobile-center .section-media img{margin-inline:auto}.text-align-mobile-right .section-media img{margin-inline:auto 0}}
+
+{# Base module #}
 
 {# Buttons #}
 .btn-group{display:flex;flex-wrap:wrap;align-items:center;gap:var(--btn-gap)}

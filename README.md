@@ -68,6 +68,9 @@ Do not merge `phase-2-foundation` into `main` until these pass on the dev/sandbo
 2. **Google font weight:** check how HubSpot reports the font field's `variant` (for example `"500"` or `"regular"`), so `--fw-heading` outputs a real number, and check that weights 400 and 500 both load.
 3. **Viewport meta:** check that `standard_header_includes` outputs `<meta name="viewport">`. If it doesn't, add it to `layouts/base.html` after the charset.
 4. **New form editor:** check forms built in HubSpot's new form editor, not only legacy `.hs-form` markup, against the global form styling (labels, help and error text in the scheme color, input boxes, focus, error icon).
+5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
+6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
+7. **Overlay opacity:** the Base Module outputs `--overlay-opacity` as a decimal (for example `0.5` for 50%), not `0`.
 
 ## Notes
 
