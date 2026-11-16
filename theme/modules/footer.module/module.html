@@ -49,7 +49,7 @@
             <nav class="site-footer-nav" aria-label="{{ module.labels.nav_label|trim|escape_attr or 'Footer' }}">
               {% for col in valid_columns %}
                 <div class="site-footer-column">
-                  {% if col.heading|trim %}<{{ tag }} class="site-footer-heading">{{ col.heading|escape_html }}</{{ tag }}>{% endif %}
+                  {% if col.heading|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ col.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <ul class="site-footer-list">
                     {% for item in col.links %}<li><a{{ link_attrs(item.link) }}>{{ item.text|escape_html }}</a></li>{% endfor %}
                   </ul>
@@ -61,7 +61,7 @@
             <div class="site-footer-aside">
               {% if valid_contact %}
                 <div class="site-footer-group">
-                  {% if module.contact.heading|trim %}<{{ tag }} class="site-footer-heading">{{ module.contact.heading|escape_html }}</{{ tag }}>{% endif %}
+                  {% if module.contact.heading|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.contact.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <address class="site-footer-address">
                     <ul class="site-footer-list">
                       {% for item in valid_contact %}
@@ -80,7 +80,7 @@
               {% endif %}
               {% if valid_social %}
                 <div class="site-footer-group">
-                  {% if module.social.heading|trim %}<{{ tag }} class="site-footer-heading">{{ module.social.heading|escape_html }}</{{ tag }}>{% endif %}
+                  {% if module.social.heading|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.social.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <ul class="site-footer-social">
                     {% for item in valid_social %}
                       <li><a{{ link_attrs(item.link) }}>{{ icon(item.platform) }}<span class="visually-hidden">{{ (item.accessible_label|trim or platform_names[item.platform] or module.labels.other_social|trim or "Website")|escape_html }}</span></a></li>

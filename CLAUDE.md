@@ -75,6 +75,7 @@ CODING CONVENTIONS & HUBSPOT GOTCHAS
 - HubL {% set %} inside {% for %} doesn't persist outside; use selectattr pre-filtering or namespace().
 - dnd_module IDs are unpredictable; use static named {% module %} tags for template-scope field access.
 - outline on full-bleed buttons needs outline-offset: -2px or inset box-shadow.
+- UI headings (e.g. footer columns) are sized via their wrapper; content headings use the global h1–h6 sizes. Example: footer column, contact and social headings stay semantic (<h2> by default) inside <div class="site-footer-col-title">, styled at the H6 size through .site-footer .site-footer-col-title h2/h3/h4/p.
 - HubSpot field limits (upload validation): no text/file fields in a module's Style tab (put them in the Content tab); no field may be named "body" (use body_text); theme fields.json rejects text and file fields (use choice/number/color/font fields, or a global module for free text and files). A field may not be named "label" either. The "cta" field type fails the upload in portals without CTA access ("Account must be upgraded to use cta field type"), so it is never in the boilerplate.
 
 WORKFLOW

@@ -93,7 +93,7 @@ The site footer is the global **Footer** module, placed in `templates/partials/f
 
 - **Logo:** image + optional link (usually the home page). Alt text is required when the logo is linked. The partial passes the theme's placeholder logo as the starting value; replace it for each client. Empty image = no logo.
 - **Description:** rich text under the logo.
-- **Menu columns:** up to 4 columns, each with an optional heading and up to 8 links. A column shows only when at least one link has text and a URL. The heading tag (H2/H3/H4/Paragraph) is one setting for all footer headings and doesn't change their look.
+- **Menu columns:** up to 4 columns, each with an optional heading and up to 8 links. A column shows only when at least one link has text and a URL. The heading tag (H2 by default, or H3/H4/Paragraph) is one setting for the column, contact and social headings. These are UI headings: each sits in a `<div class="site-footer-col-title">` wrapper that sizes it at the H6 size, so the tag doesn't change their look. Content headings elsewhere use the global h1–h6 sizes.
 - **Contact:** up to 4 items (email, phone, address). Email and phone link automatically (`mailto:` / `tel:`) from the text; the optional link field overrides that or links an address to a map.
 - **Social links:** up to 8 (Facebook, Instagram, LinkedIn, X, YouTube, TikTok, Other). A link shows only when it has a URL. Screen readers hear the platform name or the optional accessible label.
 - **Bottom bar:** © + current year (toggle) + copyright text, and up to 5 legal links.
