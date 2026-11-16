@@ -13,7 +13,7 @@ theme/                 everything that uploads to HubSpot (and nothing else)
   css/swiper.min.css   vendor file
   js/main.js           theme JS: slider init with a data-* init guard
   js/swiper.min.js     vendor file
-  fonts/               default secondary font (Source Serif 4, OFL) and OFL.txt
+  fonts/               default secondary font: Tobi Pro 300/400/500 (woff2 + woff)
   images/              placeholder logo and theme screenshot
   modules/             base-module (clone template), header and footer (global), site-fonts (global, secondary font)
   templates/           layouts/base.html, page, landing page, blog listing, blog post, partials, system pages
@@ -36,21 +36,20 @@ The vendor files keep their MIT license banners. The only change to them is that
 ## Fonts
 
 - **Primary font:** a Google font picked in the theme settings (Typography → Fonts). The default is Inter, using weights 400 and 500. HubSpot loads it through its font field.
-- **Secondary font:** a custom font output as `@font-face` with `font-display: swap`, woff2 first and woff as the fallback.
-  - The defaults are `theme/fonts/secondary-400.woff2/.woff` and `secondary-500.woff2/.woff`.
-  - They are Source Serif 4 (SIL Open Font License), built as static 400 and 500 weights from Adobe's variable font.
-  - Under the OFL Reserved Font Name rule, the modified files are renamed internally to "Secondary". The copyright and license notices are kept, and `OFL.txt` must stay next to the files.
+- **Secondary font:** Tobi Pro, provided by us. `main.css` loads it with `@font-face` (woff2 first, then woff, `font-display: swap`) as family "Tobi Pro", weights Light 300, Regular 400 and Medium 500: `theme/fonts/TobiPro-300`, `TobiPro-400` and `TobiPro-500` (.woff2 and .woff).
+  - The files are a format conversion only (OTF to WOFF2/WOFF) of the Light, Regular and Medium OTFs in `../font-sources/Tobi Pro Family/`, with no other changes. The source folder stays untouched.
+  - Tobi Pro is a sans-serif, so `--font-secondary` is `"Tobi Pro", sans-serif` (fallback default: Sans-serif).
+  - **Licence:** Tobi Pro is a commercial font. Every client site built from this boilerplate serves it, so keep our web licence covering that use. If a client site isn't covered, set that client's own font in Site fonts or switch the font roles to Primary.
 - **Client font:** set in the global **Site fonts** module, not in theme settings (HubSpot doesn't allow text or file fields in theme settings).
   - The module is in `theme/modules/site-fonts.module/`. It's placed once in `templates/layouts/base.html`, so it applies to every template: pages, landing pages, blog listing and post, and system pages. It's hidden from drag-and-drop, so editors can't add it to pages.
   - **Where editors find it:** open any page built on this theme in the page editor. In the left sidebar, click the **Contents** (site tree) icon, then click **Site fonts** (it has the global content icon) and choose **Open in global content editor**. Make the changes, then click **Publish to [#] assets**. This needs the "Global content and theme settings" permission. Developers can also edit it from Design Manager. Confirm these menu names in the test portal; HubSpot's UI labels change from time to time.
   - Fill in **Secondary font family name** and upload the files under **Regular (400)** and **Medium (500)**: woff2 first and woff as the fallback. A weight only gets an `@font-face` when it has at least one file.
   - **Always request both the 400 and 500 files (woff2, plus woff if available) from the client.** The theme never mixes font families per weight, and the browser never fakes a missing weight (`font-synthesis: style` on every element set to the secondary font). With only one weight uploaded, text set to the other weight renders in the nearest real weight.
   - **Italics:** the secondary font has no italic files, so the browser fakes (slants) italic text. If a client's brand requires a true italic, we can add italic file fields to the Site fonts module later.
-  - When any file is set, the client font replaces the default font completely. If the name is empty or "Secondary", it's renamed "Secondary Custom" so it can't clash with the default.
-  - The default font (Source Serif 4 from `theme/fonts/`, family name "Secondary") is always loaded from `main.css`. The Site fonts module only outputs the client font: when no files are set, it outputs nothing.
+  - The client font needs its real family name (for example "Brand Sans"). With files and a name set, `--font-secondary` becomes `"Brand Sans", <fallback>` and the client font replaces Tobi Pro completely. With no files or an empty name, the module outputs nothing and Tobi Pro stays.
   - The fallback (serif or sans-serif) is still in Theme settings → Typography → Secondary font. Which elements use the secondary font is still set in Theme settings → Typography → Fonts.
   - **Defaults:** headings use the primary font (Inter). Body text, eyebrows, display text and buttons use the secondary font. Forms follow the body font. Buttons have their own choice in Theme settings → Buttons → Font (Secondary, Primary, Same as body text, Same as headings).
-  - Never commit commercial font files to this repo. Upload them to the client's portal only.
+  - Never commit a client's own font files to this repo. Upload them to that client's portal only.
 
 ## Card shadow
 
@@ -59,7 +58,7 @@ Theme settings → Layout → **Card shadow**: None, Small (default), Medium or 
 ## H1 size and image radius
 
 - **H1** has one size setting (Theme settings → Typography → Font sizes → H1 (largest size), default 85px). It is full size on screens 1440px wide and up, then scales down with the screen width and stops at 55% of the value (never below 40px). With 85px: 81px at 1366, 71px at 1200, 58px at 991, 47px at 767 and below. H2–H6 and body keep one setting per breakpoint.
-- **Image radius** (Theme settings → Layout & spacing → Image radius, default 4px) rounds content images in sections: the Base Module image and the blog post featured image. Logos, icons, header and footer images and images inside rich text are never rounded.
+- **Image radius** (Theme settings → Layout & spacing → Image radius, default 4px) rounds images inside any element with the utility class `.img-radius` (the class goes on the image wrapper, for example `<div class="section-media img-radius">`). The Base Module image and the blog post featured image use it. Logos, icons, header and footer images and images inside rich text don't get the class, so they are never rounded. New modules add the class to their content-image wrapper.
 
 ## Color schemes
 
@@ -157,8 +156,8 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
 4. **New form editor:** check forms built in HubSpot's new form editor, not only legacy `.hs-form` markup, against the global form styling (labels, help and error text in the scheme color, input boxes, focus, error icon).
 5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
-7. **Overlay opacity:** the Base Module outputs `--overlay-opacity` as a decimal (for example `0.5` for 50%), not `0`.
-8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), DevTools → Network → Font shows `secondary-400.woff2` and `secondary-500.woff2` with status 200 (the default `@font-face` URLs come from `main.css` and must point at the theme's `fonts/` folder, not a 404). DevTools → Elements → Computed on body text shows the rendered font "Secondary"; headings show Inter. With no client files, the Site fonts module outputs no `<style>` block. After you upload client files and publish the Site fonts global module, the client font replaces the default on all those templates and its `<style>` block appears in `<head>`. If the default font files 404, check that `theme/fonts/` was uploaded.
+7. **Overlay color:** the Base Module overlay is a color picker with opacity. It starts as the theme's Dark background color at 50%. Check that `--overlay-opacity` is a decimal (for example `0.5`), that the overlay color also shows behind the image while it loads, and that Auto text color follows the picked overlay color and opacity.
+8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), DevTools → Network → Font shows `TobiPro-400.woff2` and `TobiPro-500.woff2` with status 200 (and `TobiPro-300.woff2` wherever 300 is used). DevTools → Elements → Computed on body text shows the rendered font "Tobi Pro"; headings show Inter. With no client font, the Site fonts module outputs no `<style>` block. After you upload client files, set the real family name and publish the Site fonts global module, the client font replaces Tobi Pro on all those templates and its `<style>` block appears in `<head>`. If the font files 404, check that `theme/fonts/` was uploaded.
 9. **Spacing field value shape:** turn on "Change spacing" in a Base Module and set all four sides at each breakpoint. Check that the values arrive as `padding.top.value` / `padding.top.units` (and the same for right, bottom and left), and that the scoped CSS outputs each side at the right breakpoint. Also check that a side left empty keeps the value from the larger breakpoint.
 10. **Light text on dark backgrounds:** with a dark picked background color (and Text color Auto or Light), check that the heading, text, eyebrow and links are light. Secondary and secondary outline buttons should use the white variants. A visible keyboard focus outline should show on every link and button.
 11. **Image type with no image:** set Background type to Image without choosing an image. The section should have no background and use dark text (Auto), with no broken `background-image` in the CSS.

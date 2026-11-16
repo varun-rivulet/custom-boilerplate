@@ -16,7 +16,7 @@
       </p>
     </header>
     {% if content.featured_image %}
-      <figure class="blog-post-image">
+      <figure class="blog-post-image img-radius">
         <img src="{{ resize_image_url(content.featured_image, 1200) }}" alt="{{ content.featured_image_alt_text }}" width="1200" height="675" loading="eager">
       </figure>
     {% endif %}

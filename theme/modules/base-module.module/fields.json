@@ -6,48 +6,16 @@
     "default": "Eyebrow"
   },
   {
-    "type": "text",
+    "type": "richtext",
     "name": "heading",
     "label": "Heading",
-    "default": "Section heading"
-  },
-  {
-    "type": "choice",
-    "name": "heading_tag",
-    "label": "Heading tag",
-    "display": "select",
-    "choices": [
-      [
-        "h1",
-        "H1"
-      ],
-      [
-        "h2",
-        "H2"
-      ],
-      [
-        "h3",
-        "H3"
-      ],
-      [
-        "h4",
-        "H4"
-      ],
-      [
-        "h5",
-        "H5"
-      ],
-      [
-        "h6",
-        "H6"
-      ],
-      [
-        "p",
-        "Paragraph"
-      ]
+    "enabled_features": [
+      "block",
+      "standard_emphasis",
+      "link"
     ],
-    "default": "h2",
-    "help_text": "Changes only the HTML tag for SEO; the heading looks the same with every tag. Use one H1 per page."
+    "default": "<h2>Section heading</h2>",
+    "help_text": "Pick the heading level (H1–H6) or Paragraph in the format menu. Use one H1 per page."
   },
   {
     "type": "richtext",
@@ -321,77 +289,20 @@
             }
           },
           {
-            "type": "choice",
+            "type": "color",
             "name": "overlay_color",
             "label": "Overlay color",
-            "display": "select",
-            "choices": [
-              [
-                "primary",
-                "Primary"
-              ],
-              [
-                "secondary",
-                "Secondary"
-              ],
-              [
-                "accent",
-                "Accent"
-              ],
-              [
-                "heading",
-                "Heading"
-              ],
-              [
-                "text",
-                "Text"
-              ],
-              [
-                "muted",
-                "Muted"
-              ],
-              [
-                "border",
-                "Border"
-              ],
-              [
-                "light-bg",
-                "Light background"
-              ],
-              [
-                "dark-bg",
-                "Dark background"
-              ],
-              [
-                "white",
-                "White"
-              ]
-            ],
-            "default": "dark-bg",
-            "required": true,
-            "visibility_rules": "ADVANCED",
-            "advanced_visibility": {
-              "boolean_operator": "AND",
-              "criteria": [
-                {
-                  "controlling_field_path": "style.background.type",
-                  "operator": "MATCHES_REGEX",
-                  "controlling_value_regex": "^image$"
-                }
-              ]
+            "show_opacity": true,
+            "inherited_value": {
+              "property_value_paths": {
+                "color": "theme.colors.dark_bg.color"
+              }
             },
-            "help_text": "Also shown behind the image while it loads or if it fails."
-          },
-          {
-            "type": "number",
-            "name": "overlay_opacity",
-            "label": "Overlay opacity",
-            "display": "slider",
-            "min": 0,
-            "max": 100,
-            "step": 5,
-            "suffix": "%",
-            "default": 50,
+            "default": {
+              "color": null,
+              "opacity": 50
+            },
+            "help_text": "Color and opacity of the layer over the image. Defaults to the theme's Dark background color at 50%. The color is also shown behind the image while it loads.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -590,7 +501,7 @@
               ]
             ],
             "default": "auto",
-            "help_text": "Auto: Color background: light or dark text, whichever contrasts more with the picked color (opacity included). Image: light text on a dark overlay color (dark background, secondary, heading, text), dark text otherwise. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, set Dark or Light manually."
+            "help_text": "Auto picks light or dark text from the background: for Color and Image backgrounds it uses the picked color (overlay color for images) and its opacity, and chooses the text color with the higher contrast. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, set Dark or Light manually."
           }
         ]
       },

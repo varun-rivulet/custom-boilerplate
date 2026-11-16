@@ -11,7 +11,7 @@
 {% set valid_buttons = [] %}
 {% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
 {% set has_eyebrow = module.eyebrow|trim %}
-{% set has_heading = module.heading|trim %}
+{% set has_heading = module.heading and module.heading|striptags|trim %}
 {% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description or "<iframe" in module.description) %}
 {% set has_image = img.src %}
 {% set has_bg_color = bg.type == "color" %}
@@ -22,17 +22,23 @@
 {% set content_width = (width_value if width_value < container_max else container_max) if ca.custom_width else 0 %}
 {% set section_id = adv.section_id|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
 
+{% set bg_hex = "" %}
 {% if has_bg_color %}
   {% set bg_hex = bg.color.color or colors.dark_bg.color %}
   {% set bg_alpha = (bg.color.opacity if bg.color.color and bg.color.opacity is number else 100) / 100 %}
+{% elif has_bg_image %}
+  {% set bg_hex = bg.overlay_color.color or colors.dark_bg.color %}
+  {% set bg_alpha = (bg.overlay_color.opacity if bg.overlay_color.opacity is number else 50) / 100 %}
+{% endif %}
+{% if bg_hex %}
   {% set bg_rgb = bg_hex|convert_rgb|replace(" ", "")|split(",") %}
   {% set bg_css = bg_hex if bg_alpha >= 1 else "rgba(" ~ (bg_rgb|join(",")) ~ "," ~ bg_alpha ~ ")" %}
 {% endif %}
 
 {% set text_color = bg.text_color or "auto" %}
 {% if text_color == "auto" %}
-  {% if has_bg_color %}
-    {# Auto from hex: blend the picked color (with opacity) over the page background, then pick the scheme text color with the higher WCAG contrast. The sRGB curve uses a cubic approximation, so no pow is needed. #}
+  {% if bg_hex %}
+    {# Auto from hex (background color, or the overlay color for images): blend the picked color (with opacity) over the page background, then pick the scheme text color with the higher WCAG contrast. The sRGB curve uses a cubic approximation, so no pow is needed. #}
     {% set page_hex = colors[(schemes.light.background or "white")|replace("-", "_")].color or colors.white.color %}
     {% set dark_hex = colors[(schemes.light.text or "text")|replace("-", "_")].color or colors.text.color %}
     {% set light_hex = colors[(schemes.dark.text or "white")|replace("-", "_")].color or colors.white.color %}
@@ -51,7 +57,6 @@
     {% set contrast_dark = (l_bg / l_dark) if l_bg > l_dark else (l_dark / l_bg) %}
     {% set contrast_light = (l_bg / l_light) if l_bg > l_light else (l_light / l_bg) %}
     {% set text_color = "light" if contrast_light > contrast_dark else "dark" %}
-  {% elif has_bg_image %}{% set text_color = "light" if bg.overlay_color in dark_tokens else "dark" %}
   {% elif has_bg_gradient %}{% set text_color = "light" if bg.gradient_start in dark_tokens and bg.gradient_end in dark_tokens else "dark" %}
   {% else %}{% set text_color = "dark" %}
   {% endif %}
@@ -61,7 +66,7 @@
   {% set classes = ["base-module", "text-color-" ~ text_color, "text-align-" ~ ca.text_align_desktop] %}
   {% if ca.text_align_mobile != "inherit" %}{% do classes.append("text-align-mobile-" ~ ca.text_align_mobile) %}{% endif %}
   {% if not sp.change_spacing %}{% do classes.append("section-pt-m") %}{% do classes.append("section-pb-m") %}{% endif %}
-  {% if has_bg_image %}{% do classes.append("bg-" ~ bg.overlay_color) %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ (bg.position or "center")) %}{% endif %}
+  {% if has_bg_image %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ (bg.position or "center")) %}{% endif %}
   {% if has_bg_gradient %}{% do classes.append("bg-" ~ bg.gradient_end) %}{% endif %}
   {% if adv.hide_desktop %}{% do classes.append("hide-desktop") %}{% endif %}
   {% if adv.hide_tablet %}{% do classes.append("hide-tablet") %}{% endif %}
@@ -80,7 +85,7 @@
         {% for side in ["top", "right", "bottom", "left"] %}{% if pad[side].value is number %}{% do decl.append("padding-" ~ side ~ ":" ~ pad[side].value ~ (pad[side].units or "px")) %}{% endif %}{% endfor %}
       {% endif %}
       {% if tier == "desktop" and has_bg_color %}{% do decl.append("background-color:" ~ bg_css) %}{% endif %}
-      {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("--overlay-color:var(--color-" ~ bg.overlay_color ~ ")") %}{% do decl.append("--overlay-opacity:" ~ ((bg.overlay_opacity|float) / 100)) %}{% endif %}
+      {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("background-color:" ~ bg_hex) %}{% do decl.append("--overlay-color:" ~ bg_hex) %}{% do decl.append("--overlay-opacity:" ~ bg_alpha) %}{% endif %}
       {% if tier == "desktop" and has_bg_gradient %}{% do decl.append("background-image:linear-gradient(to " ~ (bg.gradient_direction or "right")|replace("-", " ") ~ ",var(--color-" ~ bg.gradient_start ~ "),var(--color-" ~ bg.gradient_end ~ "))") %}{% endif %}
       {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.base-module{ {{- decl|join(";") -}} }}{% else %}.base-module{ {{- decl|join(";") -}} }{% endif %}
       {% endif %}
@@ -95,7 +100,7 @@
     <div class="container">
       <div class="section-content{% if content_width %} content-align-{{ ca.block_position or 'center' }}{% endif %}">
         {% if has_eyebrow %}<div class="section-eyebrow"><p>{{ module.eyebrow|escape_html }}</p></div>{% endif %}
-        {% if has_heading %}<div class="section-title"><{{ module.heading_tag }}>{{ module.heading|escape_html }}</{{ module.heading_tag }}></div>{% endif %}
+        {% if has_heading %}<div class="section-title">{{ module.heading }}</div>{% endif %}
         {% if has_description %}<div class="section-description">{{ module.description }}</div>{% endif %}
         {% if valid_buttons %}
           <div class="section-buttons btn-group">
@@ -114,7 +119,7 @@
           </div>
         {% endif %}
         {% if has_image %}
-          <div class="section-media">
+          <div class="section-media img-radius">
             {% set img_max = (theme.layout.container_width or 1320) * 2 %}
             <img src="{{ resize_image_url(img.src, img_max) if img.width and img.width > img_max else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img.width %} width="{{ img.width }}"{% endif %}{% if img.height %} height="{{ img.height }}"{% endif %} loading="lazy">
           </div>

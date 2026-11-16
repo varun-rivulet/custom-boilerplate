@@ -28,7 +28,7 @@
 
 {# Design tokens #}
 :root{--color-primary:{{ c.primary.color }};--color-secondary:{{ c.secondary.color }};--color-accent:{{ c.accent.color }};--color-heading:{{ c.heading.color }};--color-text:{{ c.text.color }};--color-muted:{{ c.muted.color }};--color-border:{{ c.border.color }};--color-light-bg:{{ c.light_bg.color }};--color-dark-bg:{{ c.dark_bg.color }};--color-white:{{ c.white.color }}}
-:root{--font-secondary:"Secondary", {{ sf.fallback or "serif" }};--font-heading:{{ fam_secondary if f.heading_source == "secondary" else fam_heading_google }};--font-body:{{ fam_secondary if f.body_source == "secondary" else fam_body_google }};--font-eyebrow:{{ fam_secondary if f.eyebrow_source == "secondary" else fam_body_google }};--font-display:{{ fam_secondary if f.display_source == "secondary" else fam_heading_google }};--synth-heading:{{ "style" if f.heading_source == "secondary" else "auto" }};--synth-body:{{ "style" if f.body_source == "secondary" else "auto" }};--synth-eyebrow:{{ "style" if f.eyebrow_source == "secondary" else "auto" }};--synth-display:{{ "style" if f.display_source == "secondary" else "auto" }};--fw-heading:{{ fw_heading }};--fw-display:{{ fw_display }};--fw-body:400;--fw-medium:500;--lh-h1:{{ lh.h1 }};--lh-h2:{{ lh.h2 }};--lh-h3:{{ lh.h3 }};--lh-h4:{{ lh.h4 }};--lh-h5:{{ lh.h5 }};--lh-h6:{{ lh.h6 }};--lh-body:{{ lh.body_text }};--lh-display:{{ lh.display }};--lh-lead:{{ lh.lead }}}
+:root{--font-secondary:"Tobi Pro", {{ sf.fallback or "sans-serif" }};--font-heading:{{ fam_secondary if f.heading_source == "secondary" else fam_heading_google }};--font-body:{{ fam_secondary if f.body_source == "secondary" else fam_body_google }};--font-eyebrow:{{ fam_secondary if f.eyebrow_source == "secondary" else fam_body_google }};--font-display:{{ fam_secondary if f.display_source == "secondary" else fam_heading_google }};--synth-heading:{{ "style" if f.heading_source == "secondary" else "auto" }};--synth-body:{{ "style" if f.body_source == "secondary" else "auto" }};--synth-eyebrow:{{ "style" if f.eyebrow_source == "secondary" else "auto" }};--synth-display:{{ "style" if f.display_source == "secondary" else "auto" }};--fw-heading:{{ fw_heading }};--fw-display:{{ fw_display }};--fw-body:400;--fw-medium:500;--lh-h1:{{ lh.h1 }};--lh-h2:{{ lh.h2 }};--lh-h3:{{ lh.h3 }};--lh-h4:{{ lh.h4 }};--lh-h5:{{ lh.h5 }};--lh-h6:{{ lh.h6 }};--lh-body:{{ lh.body_text }};--lh-display:{{ lh.display }};--lh-lead:{{ lh.lead }}}
 :root{--fs-h1:clamp({{ h1_min }}px, {{ (h1_max / 14.4)|round(4) }}vw, {{ h1_max }}px);--fs-h2:{{ sz.h2.desktop }}px;--fs-h3:{{ sz.h3.desktop }}px;--fs-h4:{{ sz.h4.desktop }}px;--fs-h5:{{ sz.h5.desktop }}px;--fs-h6:{{ sz.h6.desktop }}px;--fs-body:{{ sz.body_text.desktop }}px;--fs-display:{{ sz.display.desktop }}px;--fs-lead:{{ sz.lead.desktop }}px;--fs-small:{{ sz.small }}px}
 :root{--eyebrow-size:{{ eb.size }}px;--eyebrow-weight:{{ eb.weight }};--eyebrow-transform:{{ "uppercase" if eb.uppercase else "none" }};--eyebrow-spacing:{{ eb.letter_spacing }}px}
 :root{--container-width:{{ l.container_width }}px;--narrow-width:{{ l.narrow_width }}px;--gutter:{{ l.gutter.desktop }}px;--section-pad-s:{{ sp.small.desktop }}px;--section-pad-m:{{ sp.medium.desktop }}px;--section-pad-l:{{ sp.large.desktop }}px;--space-eyebrow-heading:{{ l.spacing.eyebrow_heading }}px;--space-heading-content:{{ l.spacing.heading_content }}px;--space-content-button:{{ l.spacing.content_button }}px;--space-paragraph:{{ l.spacing.paragraph }}px;--grid-gap:{{ l.spacing.grid_gap }}px;--card-radius:{{ l.card_radius }}px;--image-radius:{{ l.image_radius or 0 }}px;--shadow-sm:0 2px 8px color-mix(in srgb,var(--color-heading) 12%,transparent);--shadow-md:0 6px 18px color-mix(in srgb,var(--color-heading) 16%,transparent);--shadow-lg:0 12px 32px color-mix(in srgb,var(--color-heading) 20%,transparent);--card-shadow:{{ "none" if l.shadow == "none" else "var(--shadow-" ~ (l.shadow or "sm") ~ ")" }};--line-width:1px;--focus-width:2px;--focus-offset:2px;--transition:0.3s ease}
@@ -41,8 +41,9 @@
 @media (max-width:767.98px){:root{--fs-h2:{{ sz.h2.mobile }}px;--fs-h3:{{ sz.h3.mobile }}px;--fs-h4:{{ sz.h4.mobile }}px;--fs-h5:{{ sz.h5.mobile }}px;--fs-h6:{{ sz.h6.mobile }}px;--fs-body:{{ sz.body_text.mobile }}px;--fs-display:{{ sz.display.mobile }}px;--fs-lead:{{ sz.lead.mobile }}px;--gutter:{{ l.gutter.mobile }}px;--section-pad-s:{{ sp.small.mobile }}px;--section-pad-m:{{ sp.medium.mobile }}px;--section-pad-l:{{ sp.large.mobile }}px;--btn-pad-y:{{ b.padding.mobile_y }}px;--btn-pad-x:{{ b.padding.mobile_x }}px}}
 
 {# Secondary font #}
-@font-face{font-family:"Secondary";src:url("{{ get_asset_url('../fonts/secondary-400.woff2') }}") format("woff2"),url("{{ get_asset_url('../fonts/secondary-400.woff') }}") format("woff");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Secondary";src:url("{{ get_asset_url('../fonts/secondary-500.woff2') }}") format("woff2"),url("{{ get_asset_url('../fonts/secondary-500.woff') }}") format("woff");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Tobi Pro";src:url("{{ get_asset_url('../fonts/TobiPro-300.woff2') }}") format("woff2"),url("{{ get_asset_url('../fonts/TobiPro-300.woff') }}") format("woff");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Tobi Pro";src:url("{{ get_asset_url('../fonts/TobiPro-400.woff2') }}") format("woff2"),url("{{ get_asset_url('../fonts/TobiPro-400.woff') }}") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Tobi Pro";src:url("{{ get_asset_url('../fonts/TobiPro-500.woff2') }}") format("woff2"),url("{{ get_asset_url('../fonts/TobiPro-500.woff') }}") format("woff");font-weight:500;font-style:normal;font-display:swap}
 
 {# Color schemes #}
 :root,.scheme-light{ {{- scheme_vars(cs.light) -}} }
@@ -94,6 +95,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabin
 .text-display{font-family:var(--font-display);font-synthesis:var(--synth-display);font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display)}
 .text-lead{font-size:var(--fs-lead);line-height:var(--lh-lead)}
 .text-small{font-size:var(--fs-small)}
+.img-radius img{border-radius:var(--image-radius)}
 .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .site-main:focus{outline:none}
 
@@ -120,12 +122,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabin
 .section-eyebrow p{margin:0}
 .section-title{margin:0 0 var(--space-heading-content)}
 .section-title:last-child{margin-bottom:0}
-.section-title h1,.section-title h2,.section-title h3,.section-title h4,.section-title h5,.section-title h6,.section-title p{margin:0;font-family:var(--font-heading);font-synthesis:var(--synth-heading);font-size:var(--fs-h2);font-weight:var(--fw-heading);line-height:var(--lh-h2);color:var(--scheme-heading)}
 .section-description ul,.section-description ol{padding-left:0;list-style-position:inside}
 .section-description li ul,.section-description li ol{padding-left:1em}
 .section-buttons,.section-media{margin-top:var(--space-content-button)}
 .section-buttons:first-child,.section-media:first-child,.section-title + .section-buttons,.section-title + .section-media{margin-top:0}
-.section-media img{display:block;border-radius:var(--image-radius)}
+.section-media img{display:block}
 .text-align-left{text-align:left}
 .text-align-center{text-align:center}
 .text-align-right{text-align:right}
@@ -243,7 +244,7 @@ a.site-header-mega-link:hover{color:var(--scheme-link-hover);text-decoration:und
 .blog-post-header{margin-bottom:var(--space-content-button)}
 .blog-post-meta{margin:0}
 .blog-post-image{margin:0 0 var(--space-content-button)}
-.blog-post-image img{display:block;width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:var(--image-radius)}
+.blog-post-image img{display:block;width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover}
 .blog-post-tags{display:flex;flex-wrap:wrap;gap:var(--btn-gap);margin:var(--space-content-button) 0 0;padding:0;list-style:none}
 
 {# Footer #}
