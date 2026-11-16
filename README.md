@@ -118,6 +118,9 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
 7. **Overlay opacity:** the Base Module outputs `--overlay-opacity` as a decimal (for example `0.5` for 50%), not `0`.
 8. **Site fonts module overrides the default font on all templates:** with no files, the default "Secondary" font loads. After you upload client files and publish the Site fonts global module, the client font replaces it on a page, landing page, blog listing, blog post and a system page (404). The `<style>` block appears in `<head>`.
+9. **Spacing field value shape:** turn on "Change spacing" in a Base Module and set all four sides at each breakpoint. Check that the values arrive as `padding.top.value` / `padding.top.units` (and the same for right, bottom and left), and that the scoped CSS outputs each side at the right breakpoint. Also check that a side left empty keeps the value from the larger breakpoint.
+10. **Light text on dark backgrounds:** with a Dark background color (and Text color Auto or Light), check that the heading, text, eyebrow and links are light. Secondary and secondary outline buttons should use the white variants. A visible keyboard focus outline should show on every link and button.
+11. **Image type with no image:** set Background type to Image without choosing an image. The section should have no background and use dark text (Auto), with no broken `background-image` in the CSS.
 
 ## Notes
 
