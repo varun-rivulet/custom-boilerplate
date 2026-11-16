@@ -1,54 +1,74 @@
 {# Base module #}
 {% set s = module.style %}
 {% set bg = s.background %}
-{% set pad = s.padding %}
+{% set sp = s.spacing %}
+{% set ca = s.content_align %}
 {% set adv = module.advanced %}
 {% set img = module.image %}
 {% set pad_class = {"small": "s", "medium": "m", "large": "l"} %}
+{% set dark_tokens = ["dark-bg", "secondary", "heading", "text"] %}
 {% set valid_buttons = [] %}
 {% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
 {% set has_eyebrow = module.eyebrow|trim %}
 {% set has_heading = module.heading|trim %}
 {% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description or "<iframe" in module.description) %}
 {% set has_image = img.src %}
+{% set has_bg_color = bg.type == "color" and bg.color %}
 {% set has_bg_image = bg.type == "image" and bg.image.src %}
+{% set has_bg_gradient = bg.type == "gradient" and bg.gradient_start and bg.gradient_end %}
+{% set container_max = theme.layout.container_width or 1320 %}
+{% set width_value = ca.width or 860 %}
+{% set content_width = (width_value if width_value < container_max else container_max) if ca.custom_width else 0 %}
 {% set section_id = adv.section_id|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
 
+{% set text_color = bg.text_color or "auto" %}
+{% if text_color == "auto" %}
+  {% if has_bg_color %}{% set text_color = "light" if bg.color in dark_tokens else "dark" %}
+  {% elif has_bg_image %}{% set text_color = "light" if bg.overlay_color in dark_tokens else "dark" %}
+  {% elif has_bg_gradient %}{% set text_color = "light" if bg.gradient_start in dark_tokens and bg.gradient_end in dark_tokens else "dark" %}
+  {% else %}{% set text_color = "dark" %}
+  {% endif %}
+{% endif %}
+
 {% if adv.show_section and (has_eyebrow or has_heading or has_description or has_image or valid_buttons) %}
-  {% set classes = ["base-module", "scheme-" ~ s.color_scheme, "text-align-" ~ s.text_align_desktop] %}
-  {% if s.text_align_mobile != "inherit" %}{% do classes.append("text-align-mobile-" ~ s.text_align_mobile) %}{% endif %}
-  {% if pad.top != "custom" %}{% do classes.append("section-pt-" ~ pad_class[pad.top]) %}{% endif %}
-  {% if pad.bottom != "custom" %}{% do classes.append("section-pb-" ~ pad_class[pad.bottom]) %}{% endif %}
-  {% if bg.type == "color" or has_bg_image %}{% do classes.append("bg-" ~ bg.color) %}{% endif %}
+  {% set classes = ["base-module", "text-color-" ~ text_color, "text-align-" ~ ca.text_align_desktop] %}
+  {% if ca.text_align_mobile != "inherit" %}{% do classes.append("text-align-mobile-" ~ ca.text_align_mobile) %}{% endif %}
+  {% if not sp.change_spacing %}{% do classes.append("section-pt-" ~ pad_class[sp.top or "medium"]) %}{% do classes.append("section-pb-" ~ pad_class[sp.bottom or "medium"]) %}{% endif %}
+  {% if has_bg_color or has_bg_image %}{% do classes.append("bg-" ~ bg.color) %}{% endif %}
   {% if has_bg_image %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ bg.position) %}{% endif %}
+  {% if has_bg_gradient %}{% do classes.append("bg-" ~ bg.gradient_end) %}{% endif %}
   {% if adv.hide_desktop %}{% do classes.append("hide-desktop") %}{% endif %}
   {% if adv.hide_tablet %}{% do classes.append("hide-tablet") %}{% endif %}
   {% if adv.hide_mobile %}{% do classes.append("hide-mobile") %}{% endif %}
   {% if adv.custom_class|trim %}{% do classes.append(adv.custom_class|trim|escape_attr) %}{% endif %}
 
-  {% if pad.top == "custom" or pad.bottom == "custom" or has_bg_image %}
+  {% if sp.change_spacing or has_bg_image or has_bg_gradient or content_width %}
     {% require_css %}
     <style>
     {% scope_css %}
     {% for row in [["desktop", ""], ["laptop", "1200.98"], ["tablet", "991.98"], ["mobile", "767.98"]] %}
       {% set tier = row[0] %}
       {% set decl = [] %}
-      {% if pad.top == "custom" and pad.top_custom[tier] is number %}{% do decl.append("padding-top:" ~ pad.top_custom[tier] ~ "px") %}{% endif %}
-      {% if pad.bottom == "custom" and pad.bottom_custom[tier] is number %}{% do decl.append("padding-bottom:" ~ pad.bottom_custom[tier] ~ "px") %}{% endif %}
+      {% if sp.change_spacing %}
+        {% set pad = sp[tier].padding %}
+        {% for side in ["top", "right", "bottom", "left"] %}{% if pad[side].value is number %}{% do decl.append("padding-" ~ side ~ ":" ~ pad[side].value ~ (pad[side].units or "px")) %}{% endif %}{% endfor %}
+      {% endif %}
       {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("--overlay-color:var(--color-" ~ bg.overlay_color ~ ")") %}{% do decl.append("--overlay-opacity:" ~ ((bg.overlay_opacity|float) / 100)) %}{% endif %}
+      {% if tier == "desktop" and has_bg_gradient %}{% do decl.append("background-image:linear-gradient(to " ~ (bg.gradient_direction or "right")|replace("-", " ") ~ ",var(--color-" ~ bg.gradient_start ~ "),var(--color-" ~ bg.gradient_end ~ "))") %}{% endif %}
       {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.base-module{ {{- decl|join(";") -}} }}{% else %}.base-module{ {{- decl|join(";") -}} }{% endif %}
       {% endif %}
     {% endfor %}
+    {% if content_width %}.base-module .section-content{max-width:{{ content_width }}px}{% endif %}
     {% end_scope_css %}
     </style>
     {% end_require_css %}
   {% endif %}
 
   <section{% if section_id %} id="{{ section_id }}"{% endif %} class="{{ classes|join(' ') }}" data-base-module>
-    <div class="container{% if s.content_width == 'full' %} container-full{% endif %}">
-      <div class="section-content content-align-{{ s.content_alignment }}{% if s.content_width == 'narrow' %} content-narrow{% endif %}">
-        {% if has_eyebrow %}<p class="section-eyebrow">{{ module.eyebrow|escape_html }}</p>{% endif %}
-        {% if has_heading %}<{{ module.heading_tag }} class="section-title{% if module.heading_tag == 'p' %} h2{% endif %}">{{ module.heading|escape_html }}</{{ module.heading_tag }}>{% endif %}
+    <div class="container">
+      <div class="section-content{% if content_width %} content-align-{{ ca.box_alignment or 'center' }}{% endif %}">
+        {% if has_eyebrow %}<div class="section-eyebrow"><p>{{ module.eyebrow|escape_html }}</p></div>{% endif %}
+        {% if has_heading %}<div class="section-title"><{{ module.heading_tag }}>{{ module.heading|escape_html }}</{{ module.heading_tag }}></div>{% endif %}
         {% if has_description %}<div class="section-description">{{ module.description }}</div>{% endif %}
         {% if valid_buttons %}
           <div class="section-buttons btn-group">
@@ -68,7 +88,8 @@
         {% endif %}
         {% if has_image %}
           <div class="section-media">
-            <img src="{{ resize_image_url(img.src, img.width) if img.width else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img.width %} width="{{ img.width }}"{% endif %}{% if img.height %} height="{{ img.height }}"{% endif %}{% if img.loading and img.loading != 'disabled' %} loading="{{ img.loading }}"{% endif %}>
+            {% set img_max = (theme.layout.container_width or 1320) * 2 %}
+            <img src="{{ resize_image_url(img.src, img_max) if img.width and img.width > img_max else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img.width %} width="{{ img.width }}"{% endif %}{% if img.height %} height="{{ img.height }}"{% endif %} loading="lazy">
           </div>
         {% endif %}
       </div>

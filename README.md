@@ -59,6 +59,11 @@ Theme settings → Layout → **Card shadow**: None, Small (default), Medium or 
 
 The 10 color tokens are the only hex values. The Light, Dark and Brand schemes pick tokens from that list, including button colors and hover states. So re-skinning a client normally means changing only the 10 tokens.
 
+How modules use them:
+- **Light** is the page default. The Base Module's **Text color: Dark** also uses the Light scheme values.
+- **Dark** supplies the values for the Base Module's **Text color: Light**: light text, links and button variants for dark backgrounds.
+- **Brand** is kept for future modules. The Base Module doesn't use it.
+
 ### Re-skin warning: check contrast
 
 The defaults pass WCAG AA: 4.5:1 for every text pair in all three schemes, and 3:1 for outline button borders. The tightest pair is **heading text on a primary background (4.85:1)**, which the primary buttons use. When you change a client's colors, re-check at least these pairs:
@@ -95,7 +100,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
    - The editor preview works: placeholder content such as buttons without a link still shows when `is_in_editor` is true, and doesn't show on the live page.
    - Two instances on one page don't affect each other (scoped CSS, init guard).
 9. **Test**:
-   - all 3 color schemes (Light, Dark, Brand), with and without a background color or image;
+   - text color Auto / Dark / Light on light, dark, image and gradient backgrounds;
    - every breakpoint: desktop, ≤1366.98, ≤1200.98, ≤991.98, ≤767.98, ≤575.98, down to 360px wide, with no horizontal scroll;
    - keyboard: every link, button and control can be reached with Tab and shows a visible focus style, in every scheme.
 

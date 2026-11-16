@@ -47,7 +47,7 @@
       ]
     ],
     "default": "h2",
-    "help_text": "Use one H1 per page. Paragraph keeps the H2 look."
+    "help_text": "Changes only the HTML tag for SEO; the heading looks the same with every tag. Use one H1 per page."
   },
   {
     "type": "richtext",
@@ -60,13 +60,12 @@
     "name": "image",
     "label": "Image",
     "responsive": true,
-    "resizable": true,
-    "show_loading": true,
-    "help_text": "Alt text is required for meaningful images; leave it empty only for decorative images. Use Eager loading only for the first image on the page.",
+    "resizable": false,
+    "show_loading": false,
+    "help_text": "Alt text is required for meaningful images; leave it empty only for decorative images.",
     "default": {
       "src": "",
-      "alt": "",
-      "loading": "lazy"
+      "alt": ""
     }
   },
   {
@@ -212,42 +211,18 @@
     "expanded": false,
     "children": [
       {
-        "type": "choice",
-        "name": "color_scheme",
-        "label": "Color scheme",
-        "display": "select",
-        "choices": [
-          [
-            "light",
-            "Light"
-          ],
-          [
-            "dark",
-            "Dark"
-          ],
-          [
-            "brand",
-            "Brand"
-          ]
-        ],
-        "default": "light"
-      },
-      {
         "type": "group",
         "name": "background",
         "label": "Background",
-        "expanded": false,
+        "expanded": true,
         "children": [
           {
             "type": "choice",
             "name": "type",
-            "label": "Background",
+            "label": "Background type",
             "display": "select",
+            "placeholder": "No background",
             "choices": [
-              [
-                "none",
-                "None (scheme background)"
-              ],
               [
                 "color",
                 "Color"
@@ -255,9 +230,13 @@
               [
                 "image",
                 "Image"
+              ],
+              [
+                "gradient",
+                "Gradient"
               ]
             ],
-            "default": "none"
+            "help_text": "Leave empty for no background."
           },
           {
             "type": "choice",
@@ -308,7 +287,7 @@
             ],
             "default": "dark-bg",
             "required": true,
-            "help_text": "Always set, also shown behind an image while it loads or if it fails.",
+            "help_text": "With an image, shown while it loads or if it fails.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -325,7 +304,6 @@
             "type": "image",
             "name": "image",
             "label": "Background image",
-            "responsive": false,
             "resizable": false,
             "show_loading": false,
             "default": {
@@ -432,6 +410,7 @@
               ]
             ],
             "default": "dark-bg",
+            "required": true,
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -448,13 +427,12 @@
             "type": "number",
             "name": "overlay_opacity",
             "label": "Overlay opacity",
-            "display": "text",
-            "default": 50,
+            "display": "slider",
             "min": 0,
             "max": 100,
-            "step": 1,
+            "step": 5,
             "suffix": "%",
-            "help_text": "Pick the color scheme that keeps text readable on the overlay.",
+            "default": 50,
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -466,19 +444,215 @@
                 }
               ]
             }
+          },
+          {
+            "type": "choice",
+            "name": "gradient_start",
+            "label": "Gradient start color",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "secondary",
+            "required": true,
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^gradient$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "choice",
+            "name": "gradient_end",
+            "label": "Gradient end color",
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "accent",
+                "Accent"
+              ],
+              [
+                "heading",
+                "Heading"
+              ],
+              [
+                "text",
+                "Text"
+              ],
+              [
+                "muted",
+                "Muted"
+              ],
+              [
+                "border",
+                "Border"
+              ],
+              [
+                "light-bg",
+                "Light background"
+              ],
+              [
+                "dark-bg",
+                "Dark background"
+              ],
+              [
+                "white",
+                "White"
+              ]
+            ],
+            "default": "dark-bg",
+            "required": true,
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^gradient$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "choice",
+            "name": "gradient_direction",
+            "label": "Gradient direction",
+            "display": "select",
+            "choices": [
+              [
+                "right",
+                "Left to right"
+              ],
+              [
+                "left",
+                "Right to left"
+              ],
+              [
+                "bottom",
+                "Top to bottom"
+              ],
+              [
+                "top",
+                "Bottom to top"
+              ],
+              [
+                "bottom-right",
+                "Top left to bottom right"
+              ],
+              [
+                "top-right",
+                "Bottom left to top right"
+              ]
+            ],
+            "default": "right",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.background.type",
+                  "operator": "MATCHES_REGEX",
+                  "controlling_value_regex": "^gradient$"
+                }
+              ]
+            }
+          },
+          {
+            "type": "choice",
+            "name": "text_color",
+            "label": "Text color",
+            "display": "select",
+            "choices": [
+              [
+                "auto",
+                "Auto"
+              ],
+              [
+                "dark",
+                "Dark"
+              ],
+              [
+                "light",
+                "Light"
+              ]
+            ],
+            "default": "auto",
+            "help_text": "Auto: light text and white buttons on dark colors (dark background, secondary, heading, text), dark text otherwise. Image: follows the overlay color. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, set Dark or Light manually."
           }
         ]
       },
       {
         "type": "group",
-        "name": "padding",
-        "label": "Padding",
+        "name": "spacing",
+        "label": "Spacing",
         "expanded": false,
         "children": [
           {
+            "type": "boolean",
+            "name": "change_spacing",
+            "label": "Change spacing",
+            "display": "toggle",
+            "default": false,
+            "help_text": "Off: preset padding from theme settings. On: custom top and bottom padding per breakpoint."
+          },
+          {
             "type": "choice",
             "name": "top",
-            "label": "Top",
+            "label": "Top padding",
             "display": "select",
             "choices": [
               [
@@ -492,73 +666,17 @@
               [
                 "large",
                 "Large"
-              ],
-              [
-                "custom",
-                "Custom"
               ]
             ],
-            "default": "medium"
-          },
-          {
-            "type": "group",
-            "name": "top_custom",
-            "label": "Top (custom)",
-            "expanded": false,
-            "children": [
-              {
-                "type": "number",
-                "name": "desktop",
-                "label": "Desktop & ≤1366.98px",
-                "display": "text",
-                "default": 100,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "laptop",
-                "label": "≤1200.98px",
-                "display": "text",
-                "default": 80,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "tablet",
-                "label": "≤991.98px",
-                "display": "text",
-                "default": 60,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "mobile",
-                "label": "≤767.98px",
-                "display": "text",
-                "default": 50,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              }
-            ],
+            "default": "medium",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
               "criteria": [
                 {
-                  "controlling_field_path": "style.padding.top",
-                  "operator": "MATCHES_REGEX",
-                  "controlling_value_regex": "^custom$"
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "false"
                 }
               ]
             }
@@ -566,7 +684,7 @@
           {
             "type": "choice",
             "name": "bottom",
-            "label": "Bottom",
+            "label": "Bottom padding",
             "display": "select",
             "choices": [
               [
@@ -580,73 +698,281 @@
               [
                 "large",
                 "Large"
-              ],
-              [
-                "custom",
-                "Custom"
               ]
             ],
-            "default": "medium"
-          },
-          {
-            "type": "group",
-            "name": "bottom_custom",
-            "label": "Bottom (custom)",
-            "expanded": false,
-            "children": [
-              {
-                "type": "number",
-                "name": "desktop",
-                "label": "Desktop & ≤1366.98px",
-                "display": "text",
-                "default": 100,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "laptop",
-                "label": "≤1200.98px",
-                "display": "text",
-                "default": 80,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "tablet",
-                "label": "≤991.98px",
-                "display": "text",
-                "default": 60,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "mobile",
-                "label": "≤767.98px",
-                "display": "text",
-                "default": 50,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              }
-            ],
+            "default": "medium",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
               "criteria": [
                 {
-                  "controlling_field_path": "style.padding.bottom",
-                  "operator": "MATCHES_REGEX",
-                  "controlling_value_regex": "^custom$"
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "false"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "desktop",
+            "label": "Desktop & ≤1366.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 100,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 100,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "laptop",
+            "label": "≤1200.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 80,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 80,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "tablet",
+            "label": "≤991.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 60,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 60,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "mobile",
+            "label": "≤767.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 40,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 40,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
                 }
               ]
             }
@@ -654,92 +980,121 @@
         ]
       },
       {
-        "type": "choice",
-        "name": "content_width",
-        "label": "Content width",
-        "display": "select",
-        "choices": [
-          [
-            "container",
-            "Container"
-          ],
-          [
-            "narrow",
-            "Narrow"
-          ],
-          [
-            "full",
-            "Full width"
-          ]
-        ],
-        "default": "container"
-      },
-      {
-        "type": "choice",
-        "name": "content_alignment",
-        "label": "Content alignment",
-        "display": "select",
-        "choices": [
-          [
-            "left",
-            "Left"
-          ],
-          [
-            "center",
-            "Center"
-          ],
-          [
-            "right",
-            "Right"
-          ]
-        ],
-        "default": "left"
-      },
-      {
-        "type": "choice",
-        "name": "text_align_desktop",
-        "label": "Text alignment",
-        "display": "select",
-        "choices": [
-          [
-            "left",
-            "Left"
-          ],
-          [
-            "center",
-            "Center"
-          ],
-          [
-            "right",
-            "Right"
-          ]
-        ],
-        "default": "left"
-      },
-      {
-        "type": "choice",
-        "name": "text_align_mobile",
-        "label": "Text alignment (mobile ≤767.98px)",
-        "display": "select",
-        "choices": [
-          [
-            "inherit",
-            "Same as desktop"
-          ],
-          [
-            "left",
-            "Left"
-          ],
-          [
-            "center",
-            "Center"
-          ],
-          [
-            "right",
-            "Right"
-          ]
-        ],
-        "default": "inherit"
+        "type": "group",
+        "name": "content_align",
+        "label": "Content align",
+        "expanded": false,
+        "children": [
+          {
+            "type": "choice",
+            "name": "text_align_desktop",
+            "label": "Text alignment",
+            "display": "select",
+            "choices": [
+              [
+                "left",
+                "Left"
+              ],
+              [
+                "center",
+                "Center"
+              ],
+              [
+                "right",
+                "Right"
+              ]
+            ],
+            "default": "left"
+          },
+          {
+            "type": "choice",
+            "name": "text_align_mobile",
+            "label": "Text alignment (mobile ≤767.98px)",
+            "display": "select",
+            "choices": [
+              [
+                "inherit",
+                "Same as desktop"
+              ],
+              [
+                "left",
+                "Left"
+              ],
+              [
+                "center",
+                "Center"
+              ],
+              [
+                "right",
+                "Right"
+              ]
+            ],
+            "default": "inherit"
+          },
+          {
+            "type": "boolean",
+            "name": "custom_width",
+            "label": "Change custom width",
+            "display": "toggle",
+            "default": false,
+            "help_text": "Off: content uses the full container width."
+          },
+          {
+            "type": "number",
+            "name": "width",
+            "label": "Content width",
+            "display": "text",
+            "min": 320,
+            "max": 1920,
+            "step": 10,
+            "suffix": "px",
+            "default": 860,
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.content_align.custom_width",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            },
+            "help_text": "From 320px up to the theme container width (Theme settings → Layout). Larger values are capped at the container width."
+          },
+          {
+            "type": "choice",
+            "name": "box_alignment",
+            "label": "Box alignment",
+            "display": "select",
+            "choices": [
+              [
+                "left",
+                "Left"
+              ],
+              [
+                "center",
+                "Center"
+              ],
+              [
+                "right",
+                "Right"
+              ]
+            ],
+            "default": "center",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.content_align.custom_width",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          }
+        ]
       }
     ],
     "tab": "STYLE"
