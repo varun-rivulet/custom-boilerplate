@@ -250,7 +250,7 @@
                 "Secondary (custom font)"
               ]
             ],
-            "default": "primary"
+            "default": "secondary"
           },
           {
             "type": "choice",
@@ -267,7 +267,7 @@
                 "Secondary (custom font)"
               ]
             ],
-            "default": "primary"
+            "default": "secondary"
           },
           {
             "type": "choice",
@@ -284,7 +284,7 @@
                 "Secondary (custom font)"
               ]
             ],
-            "default": "primary"
+            "default": "secondary"
           }
         ]
       },
@@ -419,67 +419,16 @@
         "expanded": false,
         "children": [
           {
-            "type": "group",
-            "name": "h1",
-            "label": "H1",
-            "expanded": false,
-            "children": [
-              {
-                "type": "number",
-                "name": "desktop",
-                "label": "Desktop",
-                "display": "text",
-                "default": 85,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "large_laptop",
-                "label": "≤1366.98px",
-                "display": "text",
-                "default": 72,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "laptop",
-                "label": "≤1200.98px",
-                "display": "text",
-                "default": 64,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "tablet",
-                "label": "≤991.98px",
-                "display": "text",
-                "default": 56,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              },
-              {
-                "type": "number",
-                "name": "mobile",
-                "label": "≤767.98px",
-                "display": "text",
-                "default": 48,
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px"
-              }
-            ]
+            "type": "number",
+            "name": "h1_max",
+            "label": "H1 (largest size)",
+            "help_text": "One value for every screen. H1 scales down automatically on smaller screens: it is this size on screens 1440px wide and up and never goes below 55% of it (and never below 40px), so it never overflows on a 360px phone.",
+            "display": "text",
+            "default": 85,
+            "min": 40,
+            "max": 400,
+            "step": 1,
+            "suffix": "px"
           },
           {
             "type": "group",
@@ -1067,15 +1016,23 @@
         "display": "select",
         "choices": [
           [
+            "secondary",
+            "Secondary (custom font)"
+          ],
+          [
+            "primary",
+            "Primary (Google font)"
+          ],
+          [
             "body",
-            "Body font"
+            "Same as body text"
           ],
           [
             "heading",
-            "Heading font"
+            "Same as headings"
           ]
         ],
-        "default": "body"
+        "default": "secondary"
       },
       {
         "type": "number",
@@ -1614,6 +1571,18 @@
         "type": "number",
         "name": "card_radius",
         "label": "Card radius",
+        "display": "text",
+        "default": 4,
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "suffix": "px"
+      },
+      {
+        "type": "number",
+        "name": "image_radius",
+        "label": "Image radius",
+        "help_text": "Corner radius of content images in sections (for example the Base Module image and the blog post featured image). Logos, icons, header and footer images are never rounded.",
         "display": "text",
         "default": 4,
         "min": 0,

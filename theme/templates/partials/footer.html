@@ -2,32 +2,15 @@
   templateType: global_partial
   label: Site footer
 -->
-<footer class="site-footer scheme-dark section-pt-s section-pb-s">
-  <div class="container">
-    <div class="site-footer-inner">
-      <div class="site-footer-about">
-        {% module "footer_about"
-          path="@hubspot/rich_text",
-          label="Footer text",
-          html="<p>A short description of the company goes here.</p>"
-        %}
-      </div>
-      <div class="site-footer-menu">
-        {% module "footer_menu"
-          path="@hubspot/menu",
-          label="Footer menu",
-          flow="vertical",
-          flyouts=false,
-          max_levels=1
-        %}
-      </div>
-    </div>
-    <div class="site-footer-bottom">
-      {% module "footer_copyright"
-        path="@hubspot/rich_text",
-        label="Copyright",
-        html="<p>&copy; Company name. All rights reserved.</p>"
-      %}
-    </div>
-  </div>
-</footer>
+{% module "site_footer"
+  path="../../modules/footer.module",
+  label="Footer",
+  logo={
+    "image": {
+      "src": get_asset_url("../../images/logo-placeholder.svg"),
+      "alt": "Logo",
+      "width": 160,
+      "height": 40
+    }
+  }
+%}

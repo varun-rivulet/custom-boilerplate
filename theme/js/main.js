@@ -47,24 +47,4 @@ const initSliders = (root = document) => {
   });
 };
 
-const initNavToggles = (root = document) => {
-  root.querySelectorAll('[data-nav-toggle]').forEach((button) => {
-    if (button.dataset.navInit === 'true') return;
-    const nav = document.getElementById(button.getAttribute('aria-controls'));
-    if (!nav) return;
-    const setOpen = (open) => {
-      button.setAttribute('aria-expanded', String(open));
-      nav.classList.toggle('is-open', open);
-    };
-    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
-    nav.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
-      setOpen(false);
-      button.focus();
-    });
-    button.dataset.navInit = 'true';
-  });
-};
-
 initSliders();
-initNavToggles();

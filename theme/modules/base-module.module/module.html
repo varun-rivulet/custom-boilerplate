@@ -5,7 +5,8 @@
 {% set ca = s.content_align %}
 {% set adv = module.advanced %}
 {% set img = module.image %}
-{% set pad_class = {"small": "s", "medium": "m", "large": "l"} %}
+{% set colors = theme.colors %}
+{% set schemes = theme.color_schemes %}
 {% set dark_tokens = ["dark-bg", "secondary", "heading", "text"] %}
 {% set valid_buttons = [] %}
 {% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
@@ -13,7 +14,7 @@
 {% set has_heading = module.heading|trim %}
 {% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description or "<iframe" in module.description) %}
 {% set has_image = img.src %}
-{% set has_bg_color = bg.type == "color" and bg.color %}
+{% set has_bg_color = bg.type == "color" %}
 {% set has_bg_image = bg.type == "image" and bg.image.src %}
 {% set has_bg_gradient = bg.type == "gradient" and bg.gradient_start and bg.gradient_end %}
 {% set container_max = theme.layout.container_width or 1320 %}
@@ -21,9 +22,35 @@
 {% set content_width = (width_value if width_value < container_max else container_max) if ca.custom_width else 0 %}
 {% set section_id = adv.section_id|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
 
+{% if has_bg_color %}
+  {% set bg_hex = bg.color.color or colors.dark_bg.color %}
+  {% set bg_alpha = (bg.color.opacity if bg.color.color and bg.color.opacity is number else 100) / 100 %}
+  {% set bg_rgb = bg_hex|convert_rgb|replace(" ", "")|split(",") %}
+  {% set bg_css = bg_hex if bg_alpha >= 1 else "rgba(" ~ (bg_rgb|join(",")) ~ "," ~ bg_alpha ~ ")" %}
+{% endif %}
+
 {% set text_color = bg.text_color or "auto" %}
 {% if text_color == "auto" %}
-  {% if has_bg_color %}{% set text_color = "light" if bg.color in dark_tokens else "dark" %}
+  {% if has_bg_color %}
+    {# Auto from hex: blend the picked color (with opacity) over the page background, then pick the scheme text color with the higher WCAG contrast. The sRGB curve uses a cubic approximation, so no pow is needed. #}
+    {% set page_hex = colors[(schemes.light.background or "white")|replace("-", "_")].color or colors.white.color %}
+    {% set dark_hex = colors[(schemes.light.text or "text")|replace("-", "_")].color or colors.text.color %}
+    {% set light_hex = colors[(schemes.dark.text or "white")|replace("-", "_")].color or colors.white.color %}
+    {% set page_rgb = page_hex|convert_rgb|replace(" ", "")|split(",") %}
+    {% set mixes = [] %}
+    {% for i in [0, 1, 2] %}{% do mixes.append((bg_rgb[i]|int) * bg_alpha + (page_rgb[i]|int) * (1 - bg_alpha)) %}{% endfor %}
+    {% set lums = [] %}
+    {% for rgb in [mixes, dark_hex|convert_rgb|replace(" ", "")|split(","), light_hex|convert_rgb|replace(" ", "")|split(",")] %}
+      {% set lin = [] %}
+      {% for i in [0, 1, 2] %}{% set c = (rgb[i]|float) / 255 %}{% do lin.append(c * (c * (c * 0.305306011 + 0.682171111) + 0.012522878)) %}{% endfor %}
+      {% do lums.append(0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2]) %}
+    {% endfor %}
+    {% set l_bg = lums[0] + 0.05 %}
+    {% set l_dark = lums[1] + 0.05 %}
+    {% set l_light = lums[2] + 0.05 %}
+    {% set contrast_dark = (l_bg / l_dark) if l_bg > l_dark else (l_dark / l_bg) %}
+    {% set contrast_light = (l_bg / l_light) if l_bg > l_light else (l_light / l_bg) %}
+    {% set text_color = "light" if contrast_light > contrast_dark else "dark" %}
   {% elif has_bg_image %}{% set text_color = "light" if bg.overlay_color in dark_tokens else "dark" %}
   {% elif has_bg_gradient %}{% set text_color = "light" if bg.gradient_start in dark_tokens and bg.gradient_end in dark_tokens else "dark" %}
   {% else %}{% set text_color = "dark" %}
@@ -33,16 +60,15 @@
 {% if adv.show_section and (has_eyebrow or has_heading or has_description or has_image or valid_buttons) %}
   {% set classes = ["base-module", "text-color-" ~ text_color, "text-align-" ~ ca.text_align_desktop] %}
   {% if ca.text_align_mobile != "inherit" %}{% do classes.append("text-align-mobile-" ~ ca.text_align_mobile) %}{% endif %}
-  {% if not sp.change_spacing %}{% do classes.append("section-pt-" ~ pad_class[sp.top or "medium"]) %}{% do classes.append("section-pb-" ~ pad_class[sp.bottom or "medium"]) %}{% endif %}
-  {% if has_bg_color or has_bg_image %}{% do classes.append("bg-" ~ bg.color) %}{% endif %}
-  {% if has_bg_image %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ bg.position) %}{% endif %}
+  {% if not sp.change_spacing %}{% do classes.append("section-pt-m") %}{% do classes.append("section-pb-m") %}{% endif %}
+  {% if has_bg_image %}{% do classes.append("bg-" ~ bg.overlay_color) %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ (bg.position or "center")) %}{% endif %}
   {% if has_bg_gradient %}{% do classes.append("bg-" ~ bg.gradient_end) %}{% endif %}
   {% if adv.hide_desktop %}{% do classes.append("hide-desktop") %}{% endif %}
   {% if adv.hide_tablet %}{% do classes.append("hide-tablet") %}{% endif %}
   {% if adv.hide_mobile %}{% do classes.append("hide-mobile") %}{% endif %}
   {% if adv.custom_class|trim %}{% do classes.append(adv.custom_class|trim|escape_attr) %}{% endif %}
 
-  {% if sp.change_spacing or has_bg_image or has_bg_gradient or content_width %}
+  {% if sp.change_spacing or has_bg_color or has_bg_image or has_bg_gradient or content_width %}
     {% require_css %}
     <style>
     {% scope_css %}
@@ -53,6 +79,7 @@
         {% set pad = sp[tier].padding %}
         {% for side in ["top", "right", "bottom", "left"] %}{% if pad[side].value is number %}{% do decl.append("padding-" ~ side ~ ":" ~ pad[side].value ~ (pad[side].units or "px")) %}{% endif %}{% endfor %}
       {% endif %}
+      {% if tier == "desktop" and has_bg_color %}{% do decl.append("background-color:" ~ bg_css) %}{% endif %}
       {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("--overlay-color:var(--color-" ~ bg.overlay_color ~ ")") %}{% do decl.append("--overlay-opacity:" ~ ((bg.overlay_opacity|float) / 100)) %}{% endif %}
       {% if tier == "desktop" and has_bg_gradient %}{% do decl.append("background-image:linear-gradient(to " ~ (bg.gradient_direction or "right")|replace("-", " ") ~ ",var(--color-" ~ bg.gradient_start ~ "),var(--color-" ~ bg.gradient_end ~ "))") %}{% endif %}
       {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.base-module{ {{- decl|join(";") -}} }}{% else %}.base-module{ {{- decl|join(";") -}} }{% endif %}
@@ -66,23 +93,23 @@
 
   <section{% if section_id %} id="{{ section_id }}"{% endif %} class="{{ classes|join(' ') }}" data-base-module>
     <div class="container">
-      <div class="section-content{% if content_width %} content-align-{{ ca.box_alignment or 'center' }}{% endif %}">
+      <div class="section-content{% if content_width %} content-align-{{ ca.block_position or 'center' }}{% endif %}">
         {% if has_eyebrow %}<div class="section-eyebrow"><p>{{ module.eyebrow|escape_html }}</p></div>{% endif %}
         {% if has_heading %}<div class="section-title"><{{ module.heading_tag }}>{{ module.heading|escape_html }}</{{ module.heading_tag }}></div>{% endif %}
         {% if has_description %}<div class="section-description">{{ module.description }}</div>{% endif %}
         {% if valid_buttons %}
           <div class="section-buttons btn-group">
             {% for item in valid_buttons %}
-              {% set url = item.link.url %}
-              {% set href = url.href or "" %}
-              {% if href and url.type == "EMAIL_ADDRESS" and "mailto:" not in href %}{% set href = "mailto:" ~ href %}{% endif %}
-              {% if href and url.type in ["PHONE", "PHONE_NUMBER"] and "tel:" not in href %}{% set href = "tel:" ~ href %}{% endif %}
-              {% set rel = [] %}
-              {% if item.link.open_in_new_tab %}{% do rel.append("noopener") %}{% do rel.append("noreferrer") %}{% endif %}
-              {% if item.link.no_follow %}{% do rel.append("nofollow") %}{% endif %}
-              {% if item.link.sponsored %}{% do rel.append("sponsored") %}{% endif %}
-              {% if item.link.user_generated_content %}{% do rel.append("ugc") %}{% endif %}
-              <a class="{{ 'text-link' if item.style == 'text-link' else 'btn btn-' ~ item.style }}"{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if item.link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% if item.aria_label|trim %} aria-label="{{ item.aria_label|escape_attr }}"{% endif %}>{{ item.text|escape_html }}</a>
+                {% set url = item.link.url %}
+                {% set href = url.href or "" %}
+                {% if href and url.type == "EMAIL_ADDRESS" and "mailto:" not in href %}{% set href = "mailto:" ~ href %}{% endif %}
+                {% if href and url.type in ["PHONE", "PHONE_NUMBER"] and "tel:" not in href %}{% set href = "tel:" ~ href %}{% endif %}
+                {% set rel = [] %}
+                {% if item.link.open_in_new_tab %}{% do rel.append("noopener") %}{% do rel.append("noreferrer") %}{% endif %}
+                {% if item.link.no_follow %}{% do rel.append("nofollow") %}{% endif %}
+                {% if item.link.sponsored %}{% do rel.append("sponsored") %}{% endif %}
+                {% if item.link.user_generated_content %}{% do rel.append("ugc") %}{% endif %}
+                <a class="{{ 'text-link' if item.style == 'text-link' else 'btn btn-' ~ item.style }}"{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if item.link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% if item.aria_label|trim %} aria-label="{{ item.aria_label|escape_attr }}"{% endif %}>{{ item.text|escape_html }}</a>
             {% endfor %}
           </div>
         {% endif %}

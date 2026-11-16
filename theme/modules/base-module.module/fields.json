@@ -239,55 +239,21 @@
             "help_text": "Leave empty for no background."
           },
           {
-            "type": "choice",
+            "type": "color",
             "name": "color",
             "label": "Background color",
-            "display": "select",
-            "choices": [
-              [
-                "primary",
-                "Primary"
-              ],
-              [
-                "secondary",
-                "Secondary"
-              ],
-              [
-                "accent",
-                "Accent"
-              ],
-              [
-                "heading",
-                "Heading"
-              ],
-              [
-                "text",
-                "Text"
-              ],
-              [
-                "muted",
-                "Muted"
-              ],
-              [
-                "border",
-                "Border"
-              ],
-              [
-                "light-bg",
-                "Light background"
-              ],
-              [
-                "dark-bg",
-                "Dark background"
-              ],
-              [
-                "white",
-                "White"
-              ]
-            ],
-            "default": "dark-bg",
-            "required": true,
-            "help_text": "With an image, shown while it loads or if it fails.",
+            "show_opacity": true,
+            "inherited_value": {
+              "property_value_paths": {
+                "color": "theme.colors.dark_bg.color",
+                "opacity": "theme.colors.dark_bg.opacity"
+              }
+            },
+            "default": {
+              "color": null,
+              "opacity": null
+            },
+            "help_text": "Defaults to the theme's Dark background color (Theme settings > Colors) until you pick another color.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -295,7 +261,7 @@
                 {
                   "controlling_field_path": "style.background.type",
                   "operator": "MATCHES_REGEX",
-                  "controlling_value_regex": "^(color|image)$"
+                  "controlling_value_regex": "^color$"
                 }
               ]
             }
@@ -329,24 +295,16 @@
             "display": "select",
             "choices": [
               [
-                "center",
-                "Center"
-              ],
-              [
                 "top",
                 "Top"
               ],
               [
+                "center",
+                "Center"
+              ],
+              [
                 "bottom",
                 "Bottom"
-              ],
-              [
-                "left",
-                "Left"
-              ],
-              [
-                "right",
-                "Right"
               ]
             ],
             "default": "center",
@@ -421,7 +379,8 @@
                   "controlling_value_regex": "^image$"
                 }
               ]
-            }
+            },
+            "help_text": "Also shown behind the image while it loads or if it fails."
           },
           {
             "type": "number",
@@ -631,7 +590,7 @@
               ]
             ],
             "default": "auto",
-            "help_text": "Auto: light text and white buttons on dark colors (dark background, secondary, heading, text), dark text otherwise. Image: follows the overlay color. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, set Dark or Light manually."
+            "help_text": "Auto: Color background: light or dark text, whichever contrasts more with the picked color (opacity included). Image: light text on a dark overlay color (dark background, secondary, heading, text), dark text otherwise. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, set Dark or Light manually."
           }
         ]
       },
@@ -647,71 +606,7 @@
             "label": "Change spacing",
             "display": "toggle",
             "default": false,
-            "help_text": "Off: preset padding from theme settings. On: custom top and bottom padding per breakpoint."
-          },
-          {
-            "type": "choice",
-            "name": "top",
-            "label": "Top padding",
-            "display": "select",
-            "choices": [
-              [
-                "small",
-                "Small"
-              ],
-              [
-                "medium",
-                "Medium"
-              ],
-              [
-                "large",
-                "Large"
-              ]
-            ],
-            "default": "medium",
-            "visibility_rules": "ADVANCED",
-            "advanced_visibility": {
-              "boolean_operator": "AND",
-              "criteria": [
-                {
-                  "controlling_field_path": "style.spacing.change_spacing",
-                  "operator": "EQUAL",
-                  "controlling_value_regex": "false"
-                }
-              ]
-            }
-          },
-          {
-            "type": "choice",
-            "name": "bottom",
-            "label": "Bottom padding",
-            "display": "select",
-            "choices": [
-              [
-                "small",
-                "Small"
-              ],
-              [
-                "medium",
-                "Medium"
-              ],
-              [
-                "large",
-                "Large"
-              ]
-            ],
-            "default": "medium",
-            "visibility_rules": "ADVANCED",
-            "advanced_visibility": {
-              "boolean_operator": "AND",
-              "criteria": [
-                {
-                  "controlling_field_path": "style.spacing.change_spacing",
-                  "operator": "EQUAL",
-                  "controlling_value_regex": "false"
-                }
-              ]
-            }
+            "help_text": "Off: the theme's default section padding (Theme settings > Layout > Section padding, Medium). On: custom padding per breakpoint."
           },
           {
             "type": "spacing",
@@ -1064,8 +959,8 @@
           },
           {
             "type": "choice",
-            "name": "box_alignment",
-            "label": "Box alignment",
+            "name": "block_position",
+            "label": "Content block position",
             "display": "select",
             "choices": [
               [
@@ -1092,7 +987,8 @@
                   "controlling_value_regex": "true"
                 }
               ]
-            }
+            },
+            "help_text": "Where the content block sits inside the container when it is narrower than the container (custom width). The text inside follows Text alignment."
           }
         ]
       }

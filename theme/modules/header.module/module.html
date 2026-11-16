@@ -1,0 +1,92 @@
+{# Header #}
+{% macro link_attrs(link, fallback) %}{% set url = link.url %}{% set href = url.href or fallback or "" %}{% if href and url.type == "EMAIL_ADDRESS" and "mailto:" not in href %}{% set href = "mailto:" ~ href %}{% endif %}{% if href and url.type in ["PHONE", "PHONE_NUMBER"] and "tel:" not in href %}{% set href = "tel:" ~ href %}{% endif %}{% set rel = [] %}{% if link.open_in_new_tab %}{% do rel.append("noopener") %}{% do rel.append("noreferrer") %}{% endif %}{% if link.no_follow %}{% do rel.append("nofollow") %}{% endif %}{% if link.sponsored %}{% do rel.append("sponsored") %}{% endif %}{% if link.user_generated_content %}{% do rel.append("ugc") %}{% endif %}{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% endmacro %}
+{% macro node_link(node, cls) %}{% if node.url %}<a class="{{ cls }}" href="{{ node.url|escape_attr }}"{% if node.linkTarget == "_blank" %} target="_blank" rel="noopener noreferrer"{% endif %}{% if node.activeNode %} aria-current="page"{% endif %}>{{ node.label|escape_html }}</a>{% else %}<span class="{{ cls }} is-label">{{ node.label|escape_html }}</span>{% endif %}{% endmacro %}
+{% macro chevron() %}<svg class="site-header-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2 4.5 6 8.5 10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>{% endmacro %}
+{% set s = module.style %}
+{% set logo = module.logo %}
+{% set labels = module.labels %}
+{% set header_cta = module.cta %}
+{% set is_mega = module.menu_type == "mega" %}
+{% set nav = menu(module.menu or "default") %}
+{% set nav_items = nav.children if nav and nav.children else [] %}
+{% set has_logo_image = logo.image.src %}
+{% set logo_src = logo.image.src if has_logo_image else get_asset_url("../../images/logo-placeholder.svg") %}
+{% set logo_width = logo.image.width if has_logo_image else 160 %}
+{% set logo_height = logo.image.height if has_logo_image else 40 %}
+{% set logo_alt = (logo.image.alt|trim if has_logo_image else "") or labels.home|trim or "Home page" %}
+{% set has_link_cta = header_cta.type == "link" and header_cta.text|trim and (header_cta.link.url.href or is_in_editor) %}
+{% set has_panel = nav_items or has_link_cta %}
+{% set classes = ["site-header", "scheme-" ~ (s.color_scheme or "light")] %}
+{% if not s.border %}{% do classes.append("is-borderless") %}{% endif %}
+<header class="{{ classes|join(' ') }}" data-site-header>
+  <div class="site-header-inner container">
+    <div class="site-header-logo">
+      <a{{ link_attrs(logo.link, "/") }}>
+        <img src="{{ logo_src }}" alt="{{ logo_alt|escape_attr }}"{% if logo_width %} width="{{ logo_width }}"{% endif %}{% if logo_height %} height="{{ logo_height }}"{% endif %} loading="eager">
+      </a>
+    </div>
+    {% if has_panel %}
+      <button class="site-header-toggle" type="button" aria-expanded="false" aria-controls="siteHeaderPanel" data-header-toggle>
+        <svg class="site-header-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="site-header-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="visually-hidden">{{ labels.menu_button|trim|escape_html or "Menu" }}</span>
+      </button>
+      <div id="siteHeaderPanel" class="site-header-panel">
+        {% if nav_items %}
+          <nav class="site-header-nav site-header-nav-{{ 'mega site-header-mega-cols-' ~ (module.mega_columns or '4') if is_mega else 'simple' }}" aria-label="{{ labels.nav_label|trim|escape_attr or 'Main navigation' }}">
+            <ul class="site-header-menu">
+              {% for item in nav_items %}
+                {% set sub_id = "siteHeaderSub" ~ loop.index %}
+                <li class="site-header-item{% if item.children %} has-children{% endif %}{% if item.activeBranch or item.activeNode %} is-active{% endif %}"{% if item.children %} data-header-item{% endif %}>
+                  <div class="site-header-item-row">
+                    {% if item.children and not item.url %}
+                      <button class="site-header-link site-header-label-toggle" type="button" aria-expanded="false" aria-controls="{{ sub_id }}" data-header-sub-toggle>{{ item.label|escape_html }}{{ chevron() }}</button>
+                    {% else %}
+                      {{ node_link(item, "site-header-link") }}
+                      {% if item.children %}
+                        <button class="site-header-sub-toggle" type="button" aria-expanded="false" aria-controls="{{ sub_id }}" data-header-sub-toggle>{{ chevron() }}<span class="visually-hidden">{{ item.label|escape_html }} {{ labels.submenu|trim|escape_html or "submenu" }}</span></button>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                  {% if item.children %}
+                    <div id="{{ sub_id }}" class="site-header-dropdown">
+                      {% if is_mega %}
+                        <div class="site-header-mega container">
+                          <ul class="site-header-mega-grid">
+                            {% for column in item.children %}
+                              <li class="site-header-mega-col">
+                                {{ node_link(column, "site-header-mega-heading") }}
+                                {% if column.children %}
+                                  <ul class="site-header-mega-list">
+                                    {% for child in column.children %}
+                                      <li>{{ node_link(child, "site-header-mega-link") }}</li>
+                                    {% endfor %}
+                                  </ul>
+                                {% endif %}
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      {% else %}
+                        <ul class="site-header-sublist">
+                          {% for child in item.children %}
+                            <li>{{ node_link(child, "site-header-sublink") }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        {% endif %}
+        {% if has_link_cta %}
+          <div class="site-header-cta">
+            <a class="btn btn-{{ header_cta.style or 'primary' }}"{{ link_attrs(header_cta.link, "") }}{% if header_cta.aria_label|trim %} aria-label="{{ header_cta.aria_label|escape_attr }}"{% endif %}>{{ header_cta.text|escape_html }}</a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</header>

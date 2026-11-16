@@ -2,31 +2,4 @@
   templateType: global_partial
   label: Site header
 -->
-<header class="site-header scheme-light">
-  <div class="site-header-inner container">
-    <div class="site-header-logo">
-      {% module "header_logo"
-        path="@hubspot/logo",
-        label="Logo",
-        img={
-          "override_inherited_src": true,
-          "src": get_asset_url("../../images/logo-placeholder.svg"),
-          "alt": "Logo",
-          "width": 160,
-          "height": 40,
-          "loading": "eager"
-        }
-      %}
-    </div>
-    <button class="site-header-toggle btn btn-secondary-outline" type="button" aria-expanded="false" aria-controls="siteNav" data-nav-toggle>Menu</button>
-    <div id="siteNav" class="site-header-nav">
-      {% module "header_menu"
-        path="@hubspot/menu",
-        label="Main menu",
-        flow="horizontal",
-        flyouts=false,
-        max_levels=1
-      %}
-    </div>
-  </div>
-</header>
+{% module "site_header" path="../../modules/header.module", label="Header" %}

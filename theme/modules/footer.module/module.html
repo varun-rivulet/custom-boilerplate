@@ -1,0 +1,109 @@
+{# Footer #}
+{% macro link_attrs(lk, fallback_href="") %}{% set url = lk.url %}{% set href = url.href or fallback_href or "" %}{% if url.href and url.type == "EMAIL_ADDRESS" and "mailto:" not in href %}{% set href = "mailto:" ~ href %}{% endif %}{% if url.href and url.type in ["PHONE", "PHONE_NUMBER"] and "tel:" not in href %}{% set href = "tel:" ~ href %}{% endif %}{% set rel = [] %}{% if lk.open_in_new_tab %}{% do rel.append("noopener") %}{% do rel.append("noreferrer") %}{% endif %}{% if lk.no_follow %}{% do rel.append("nofollow") %}{% endif %}{% if lk.sponsored %}{% do rel.append("sponsored") %}{% endif %}{% if lk.user_generated_content %}{% do rel.append("ugc") %}{% endif %}{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if lk.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% endmacro %}
+{% macro icon(name) %}{% if name == "email" %}<svg class="site-footer-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 3.2V17h16V8.2l-8 5.3zM5.6 7l6.4 4.25L18.4 7z"/></svg>{% elif name == "phone" %}<svg class="site-footer-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h10V4zm5 13a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>{% elif name == "address" %}<svg class="site-footer-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7zm0 4.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>{% elif name == "facebook" %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.5 22v-8h2.75l.5-3.25H13.5V8.75c0-.9.45-1.75 1.85-1.75h1.4V4.2s-1.3-.2-2.5-.2c-2.55 0-4.25 1.55-4.25 4.35v2.4H7.25V14H10v8z"/></svg>{% elif name == "instagram" %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.25 5.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg>{% elif name == "linkedin" %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 9h3.5v11H4zM5.75 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM9.5 9h3.35v1.5h.05c.47-.88 1.6-1.8 3.3-1.8 3.53 0 4.3 2.3 4.3 5.3V20H17v-5.4c0-1.3-.03-2.95-1.8-2.95-1.8 0-2.1 1.4-2.1 2.85V20H9.5z"/></svg>{% elif name == "x" %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M3 3h6l12 18h-6zM18.6 3h2.2l-6.9 7.9-1.2-1.6zM3.2 21h2.2l6.1-7-1.2-1.6z"/></svg>{% elif name == "youtube" %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M21.6 7.2a2.5 2.5 0 0 0-1.77-1.77C18.27 5 12 5 12 5s-6.27 0-7.83.43A2.5 2.5 0 0 0 2.4 7.2C2 8.76 2 12 2 12s0 3.24.4 4.8a2.5 2.5 0 0 0 1.77 1.77C5.73 19 12 19 12 19s6.27 0 7.83-.43a2.5 2.5 0 0 0 1.77-1.77C22 15.24 22 12 22 12s0-3.24-.4-4.8zM10 15V9l5.2 3z"/></svg>{% elif name == "tiktok" %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M16.5 3c.3 2.2 1.7 3.6 4 3.8v3.1c-1.5 0-2.8-.4-4-1.2V15a6 6 0 1 1-6-6h.5v3.2a3 3 0 1 0 2.5 2.95V3z"/></svg>{% else %}<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/><path d="M3 11h18v2H3z"/><path fill-rule="evenodd" d="M12 2c2.5 2.6 3.8 6 3.8 10s-1.3 7.4-3.8 10c-2.5-2.6-3.8-6-3.8-10S9.5 4.6 12 2zm0 2.9c-1.2 1.9-1.8 4.4-1.8 7.1s.6 5.2 1.8 7.1c1.2-1.9 1.8-4.4 1.8-7.1s-.6-5.2-1.8-7.1z"/></svg>{% endif %}{% endmacro %}
+{% set s = module.style %}
+{% set logo = module.logo %}
+{% set bottom = module.bottom %}
+{% set tag = module.heading_tag or "h2" %}
+{% set pad_class = {"small": "s", "medium": "m", "large": "l"} %}
+{% set platform_names = {"facebook": "Facebook", "instagram": "Instagram", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube", "tiktok": "TikTok", "other": module.labels.other_social|trim or "Website"} %}
+
+{% set valid_columns = [] %}
+{% for col in module.columns %}
+  {% set links = [] %}
+  {% for item in col.links %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do links.append(item) %}{% endif %}{% endfor %}
+  {% if links %}{% do valid_columns.append({"heading": col.heading, "links": links}) %}{% endif %}
+{% endfor %}
+{% set valid_contact = [] %}
+{% for item in module.contact.items %}{% if item.text|trim %}{% do valid_contact.append(item) %}{% endif %}{% endfor %}
+{% set valid_social = [] %}
+{% for item in module.social.items %}{% if item.link.url.href or is_in_editor %}{% do valid_social.append(item) %}{% endif %}{% endfor %}
+{% set valid_legal = [] %}
+{% for item in bottom.legal_links %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_legal.append(item) %}{% endif %}{% endfor %}
+
+{% set has_logo = logo.image.src %}
+{% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description) %}
+{% set has_brand = has_logo or has_description %}
+{% set has_aside = valid_contact or valid_social %}
+{% set has_top = has_brand or valid_columns or has_aside %}
+{% set has_copyright = bottom.copyright|trim %}
+{% set has_bottom = has_copyright or valid_legal %}
+
+{% if has_top or has_bottom %}
+  <footer class="site-footer scheme-{{ s.color_scheme or 'dark' }} section-pt-{{ pad_class[s.padding_top or 'medium'] }} section-pb-{{ pad_class[s.padding_bottom or 'small'] }}">
+    <div class="container">
+      {% if has_top %}
+        <div class="site-footer-top">
+          {% if has_brand %}
+            <div class="site-footer-brand">
+              {% if has_logo %}
+                {% set logo_href = logo.link.url.href %}
+                <div class="site-footer-logo">
+                  {% if logo_href %}<a{{ link_attrs(logo.link) }}>{% endif %}<img src="{{ logo.image.src }}" alt="{{ (logo.image.alt or ((module.labels.logo_alt|trim or 'Logo') if logo_href else ''))|escape_attr }}"{% if logo.image.width %} width="{{ logo.image.width }}"{% endif %}{% if logo.image.height %} height="{{ logo.image.height }}"{% endif %} loading="lazy">{% if logo_href %}</a>{% endif %}
+                </div>
+              {% endif %}
+              {% if has_description %}<div class="site-footer-description">{{ module.description }}</div>{% endif %}
+            </div>
+          {% endif %}
+          {% if valid_columns %}
+            <nav class="site-footer-nav" aria-label="{{ module.labels.nav_label|trim|escape_attr or 'Footer' }}">
+              {% for col in valid_columns %}
+                <div class="site-footer-column">
+                  {% if col.heading|trim %}<{{ tag }} class="site-footer-heading">{{ col.heading|escape_html }}</{{ tag }}>{% endif %}
+                  <ul class="site-footer-list">
+                    {% for item in col.links %}<li><a{{ link_attrs(item.link) }}>{{ item.text|escape_html }}</a></li>{% endfor %}
+                  </ul>
+                </div>
+              {% endfor %}
+            </nav>
+          {% endif %}
+          {% if has_aside %}
+            <div class="site-footer-aside">
+              {% if valid_contact %}
+                <div class="site-footer-group">
+                  {% if module.contact.heading|trim %}<{{ tag }} class="site-footer-heading">{{ module.contact.heading|escape_html }}</{{ tag }}>{% endif %}
+                  <address class="site-footer-address">
+                    <ul class="site-footer-list">
+                      {% for item in valid_contact %}
+                        {% set label = item.text|trim %}
+                        {% set auto_href = "" %}
+                        {% if item.type == "email" %}{% set auto_href = "mailto:" ~ label|replace(" ", "") %}{% elif item.type == "phone" %}{% set auto_href = "tel:" ~ label|regex_replace("[^0-9+]", "") %}{% endif %}
+                        {% if item.link.url.href or auto_href %}
+                          <li><a{{ link_attrs(item.link, auto_href) }}>{{ icon(item.type) }}<span>{{ label|escape_html }}</span></a></li>
+                        {% else %}
+                          <li><span class="site-footer-contact-item">{{ icon(item.type) }}<span>{{ label|escape_html }}</span></span></li>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </address>
+                </div>
+              {% endif %}
+              {% if valid_social %}
+                <div class="site-footer-group">
+                  {% if module.social.heading|trim %}<{{ tag }} class="site-footer-heading">{{ module.social.heading|escape_html }}</{{ tag }}>{% endif %}
+                  <ul class="site-footer-social">
+                    {% for item in valid_social %}
+                      <li><a{{ link_attrs(item.link) }}>{{ icon(item.platform) }}<span class="visually-hidden">{{ (item.accessible_label|trim or platform_names[item.platform] or module.labels.other_social|trim or "Website")|escape_html }}</span></a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if has_bottom %}
+        <div class="site-footer-bottom">
+          {% if has_copyright %}<p class="site-footer-copyright">&copy; {% if bottom.show_year %}{{ local_dt|format_datetime("yyyy") }} {% endif %}{{ bottom.copyright|trim|escape_html }}</p>{% endif %}
+          {% if valid_legal %}
+            <nav class="site-footer-legal" aria-label="{{ module.labels.legal_label|trim|escape_attr or 'Legal' }}">
+              <ul class="site-footer-legal-list">
+                {% for item in valid_legal %}<li><a{{ link_attrs(item.link) }}>{{ item.text|escape_html }}</a></li>{% endfor %}
+              </ul>
+            </nav>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </footer>
+{% endif %}

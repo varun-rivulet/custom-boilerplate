@@ -1,0 +1,731 @@
+[
+  {
+    "type": "group",
+    "name": "logo",
+    "label": "Logo",
+    "expanded": true,
+    "children": [
+      {
+        "type": "image",
+        "name": "image",
+        "label": "Logo image",
+        "responsive": true,
+        "resizable": true,
+        "show_loading": false,
+        "help_text": "Alt text is required, especially when the logo is linked (it becomes the link name). Leave the image empty to hide the logo.",
+        "default": {
+          "src": "",
+          "alt": "",
+          "width": 160,
+          "height": 40
+        }
+      },
+      {
+        "type": "link",
+        "name": "link",
+        "label": "Logo link",
+        "show_advanced_rel_options": true,
+        "default": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "help_text": "Usually the home page. Leave empty for an unlinked logo."
+      }
+    ]
+  },
+  {
+    "type": "richtext",
+    "name": "description",
+    "label": "Description",
+    "default": "<p>A short description of the company goes here.</p>"
+  },
+  {
+    "type": "choice",
+    "name": "heading_tag",
+    "label": "Column heading tag",
+    "display": "select",
+    "choices": [
+      [
+        "h2",
+        "H2"
+      ],
+      [
+        "h3",
+        "H3"
+      ],
+      [
+        "h4",
+        "H4"
+      ],
+      [
+        "p",
+        "Paragraph"
+      ]
+    ],
+    "default": "h2",
+    "help_text": "Changes only the HTML tag of the column, contact and social headings; they look the same with every tag."
+  },
+  {
+    "type": "group",
+    "name": "columns",
+    "label": "Menu columns",
+    "expanded": false,
+    "occurrence": {
+      "min": 0,
+      "max": 4,
+      "default": 3,
+      "sorting_label_field": "columns.heading"
+    },
+    "help_text": "A column shows only when it has at least one link with text and a URL.",
+    "children": [
+      {
+        "type": "text",
+        "name": "heading",
+        "label": "Column heading",
+        "default": "Column heading",
+        "help_text": "Optional."
+      },
+      {
+        "type": "group",
+        "name": "links",
+        "label": "Links",
+        "expanded": false,
+        "occurrence": {
+          "min": 0,
+          "max": 8,
+          "default": 3,
+          "sorting_label_field": "columns.links.text"
+        },
+        "children": [
+          {
+            "type": "text",
+            "name": "text",
+            "label": "Link text",
+            "default": "Link text"
+          },
+          {
+            "type": "link",
+            "name": "link",
+            "label": "Link",
+            "show_advanced_rel_options": true,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ],
+        "default": [
+          {
+            "text": "Link text",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Link text",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Link text",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ]
+      }
+    ],
+    "default": [
+      {
+        "heading": "Company",
+        "links": [
+          {
+            "text": "About",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Careers",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Contact",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ]
+      },
+      {
+        "heading": "Services",
+        "links": [
+          {
+            "text": "Service one",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Service two",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Service three",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ]
+      },
+      {
+        "heading": "Resources",
+        "links": [
+          {
+            "text": "Blog",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Guides",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "FAQ",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "contact",
+    "label": "Contact",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "heading",
+        "label": "Contact heading",
+        "default": "Contact",
+        "help_text": "Optional."
+      },
+      {
+        "type": "group",
+        "name": "items",
+        "label": "Contact items",
+        "expanded": false,
+        "occurrence": {
+          "min": 0,
+          "max": 4,
+          "default": 3,
+          "sorting_label_field": "contact.items.text"
+        },
+        "children": [
+          {
+            "type": "choice",
+            "name": "type",
+            "label": "Type",
+            "display": "select",
+            "choices": [
+              [
+                "email",
+                "Email"
+              ],
+              [
+                "phone",
+                "Phone"
+              ],
+              [
+                "address",
+                "Address"
+              ]
+            ],
+            "default": "email",
+            "help_text": "Sets the icon. Email and phone link automatically (mailto: / tel:) from the text."
+          },
+          {
+            "type": "text",
+            "name": "text",
+            "label": "Text",
+            "default": "",
+            "help_text": "The email address, phone number or address as it should appear."
+          },
+          {
+            "type": "link",
+            "name": "link",
+            "label": "Link (optional)",
+            "show_advanced_rel_options": true,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            },
+            "help_text": "Overrides the automatic email/phone link, or links an address to a map."
+          }
+        ],
+        "default": [
+          {
+            "type": "email",
+            "text": "hello@example.com",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "type": "phone",
+            "text": "+1 555 010 0100",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "type": "address",
+            "text": "123 Example Street, City",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "social",
+    "label": "Social links",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "heading",
+        "label": "Social heading",
+        "default": "Follow us",
+        "help_text": "Optional."
+      },
+      {
+        "type": "group",
+        "name": "items",
+        "label": "Social links",
+        "expanded": false,
+        "occurrence": {
+          "min": 0,
+          "max": 8,
+          "default": 3,
+          "sorting_label_field": "social.items.platform"
+        },
+        "help_text": "A social link shows only when it has a URL.",
+        "children": [
+          {
+            "type": "choice",
+            "name": "platform",
+            "label": "Platform",
+            "display": "select",
+            "choices": [
+              [
+                "facebook",
+                "Facebook"
+              ],
+              [
+                "instagram",
+                "Instagram"
+              ],
+              [
+                "linkedin",
+                "LinkedIn"
+              ],
+              [
+                "x",
+                "X"
+              ],
+              [
+                "youtube",
+                "YouTube"
+              ],
+              [
+                "tiktok",
+                "TikTok"
+              ],
+              [
+                "other",
+                "Other (globe icon)"
+              ]
+            ],
+            "default": "linkedin"
+          },
+          {
+            "type": "link",
+            "name": "link",
+            "label": "Profile URL",
+            "show_advanced_rel_options": true,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "type": "text",
+            "name": "accessible_label",
+            "label": "Accessible label (optional)",
+            "default": "",
+            "help_text": "Read by screen readers instead of the platform name, for example \"Company on LinkedIn\". Recommended for Other."
+          }
+        ],
+        "default": [
+          {
+            "platform": "linkedin",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            },
+            "accessible_label": ""
+          },
+          {
+            "platform": "facebook",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            },
+            "accessible_label": ""
+          },
+          {
+            "platform": "instagram",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            },
+            "accessible_label": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "bottom",
+    "label": "Bottom bar",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "copyright",
+        "label": "Copyright text",
+        "default": "Company name. All rights reserved.",
+        "help_text": "Shown after the © symbol (and the year, when on)."
+      },
+      {
+        "type": "boolean",
+        "name": "show_year",
+        "label": "Insert current year",
+        "display": "toggle",
+        "default": true,
+        "help_text": "Adds the year automatically, so it never needs updating by hand."
+      },
+      {
+        "type": "group",
+        "name": "legal_links",
+        "label": "Legal links",
+        "expanded": false,
+        "occurrence": {
+          "min": 0,
+          "max": 5,
+          "default": 2,
+          "sorting_label_field": "bottom.legal_links.text"
+        },
+        "children": [
+          {
+            "type": "text",
+            "name": "text",
+            "label": "Link text",
+            "default": "Link text"
+          },
+          {
+            "type": "link",
+            "name": "link",
+            "label": "Link",
+            "show_advanced_rel_options": true,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ],
+        "default": [
+          {
+            "text": "Privacy policy",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          },
+          {
+            "text": "Terms of use",
+            "link": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "labels",
+    "label": "Accessibility labels",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "nav_label",
+        "label": "Menu columns label",
+        "default": "Footer",
+        "help_text": "Read by screen readers for the footer menu landmark."
+      },
+      {
+        "type": "text",
+        "name": "legal_label",
+        "label": "Legal links label",
+        "default": "Legal",
+        "help_text": "Read by screen readers for the legal links landmark."
+      },
+      {
+        "type": "text",
+        "name": "logo_alt",
+        "label": "Logo fallback alt text",
+        "default": "Logo",
+        "help_text": "Used when a linked logo image has no alt text."
+      },
+      {
+        "type": "text",
+        "name": "other_social",
+        "label": "\"Other\" social link name",
+        "default": "Website",
+        "help_text": "Read by screen readers for social links set to Other without an accessible label."
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "style",
+    "label": "Style",
+    "expanded": false,
+    "tab": "STYLE",
+    "children": [
+      {
+        "type": "choice",
+        "name": "color_scheme",
+        "label": "Color scheme",
+        "display": "select",
+        "choices": [
+          [
+            "dark",
+            "Dark"
+          ],
+          [
+            "light",
+            "Light"
+          ],
+          [
+            "brand",
+            "Brand"
+          ]
+        ],
+        "default": "dark",
+        "help_text": "Uses the color schemes from Theme settings → Color schemes."
+      },
+      {
+        "type": "choice",
+        "name": "padding_top",
+        "label": "Top padding",
+        "display": "select",
+        "choices": [
+          [
+            "small",
+            "Small"
+          ],
+          [
+            "medium",
+            "Medium"
+          ],
+          [
+            "large",
+            "Large"
+          ]
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "choice",
+        "name": "padding_bottom",
+        "label": "Bottom padding",
+        "display": "select",
+        "choices": [
+          [
+            "small",
+            "Small"
+          ],
+          [
+            "medium",
+            "Medium"
+          ],
+          [
+            "large",
+            "Large"
+          ]
+        ],
+        "default": "small"
+      }
+    ]
+  }
+]

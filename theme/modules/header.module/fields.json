@@ -1,0 +1,287 @@
+[
+  {
+    "type": "group",
+    "name": "logo",
+    "label": "Logo",
+    "expanded": true,
+    "children": [
+      {
+        "type": "image",
+        "name": "image",
+        "label": "Logo image",
+        "responsive": true,
+        "resizable": true,
+        "show_loading": false,
+        "help_text": "Leave empty to show the theme placeholder logo. Set the width and height here; the logo is always loaded eagerly. Alt text: the company name.",
+        "default": {
+          "src": "",
+          "alt": ""
+        }
+      },
+      {
+        "type": "link",
+        "name": "link",
+        "label": "Logo link",
+        "show_advanced_rel_options": true,
+        "help_text": "Defaults to the home page (/).",
+        "default": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "/",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        }
+      }
+    ]
+  },
+  {
+    "type": "menu",
+    "name": "menu",
+    "label": "Menu",
+    "help_text": "Pick a navigation menu (Settings > Content > Navigation menus). Leave empty to use the portal's default menu. Simple dropdown shows 2 levels; Mega menu shows 3.",
+    "default": null
+  },
+  {
+    "type": "choice",
+    "name": "menu_type",
+    "label": "Menu type",
+    "display": "radio",
+    "choices": [
+      [
+        "simple",
+        "Simple dropdown"
+      ],
+      [
+        "mega",
+        "Mega menu"
+      ]
+    ],
+    "default": "simple",
+    "help_text": "Simple: top-level items open a small dropdown of their sub-pages. Mega: top-level items open a full-width panel; 2nd-level items become column headings and 3rd-level items the links below them."
+  },
+  {
+    "type": "choice",
+    "name": "mega_columns",
+    "label": "Mega menu columns",
+    "display": "select",
+    "choices": [
+      [
+        "4",
+        "4 columns"
+      ],
+      [
+        "5",
+        "5 columns"
+      ]
+    ],
+    "default": "4",
+    "help_text": "Maximum columns per row on desktop; extra columns wrap to a new row.",
+    "visibility_rules": "ADVANCED",
+    "advanced_visibility": {
+      "boolean_operator": "AND",
+      "criteria": [
+        {
+          "controlling_field_path": "menu_type",
+          "operator": "MATCHES_REGEX",
+          "controlling_value_regex": "^mega$"
+        }
+      ]
+    }
+  },
+  {
+    "type": "group",
+    "name": "cta",
+    "label": "Header button",
+    "expanded": false,
+    "children": [
+      {
+        "type": "choice",
+        "name": "type",
+        "label": "Button type",
+        "display": "select",
+        "placeholder": "No button",
+        "choices": [
+          [
+            "link",
+            "Link button"
+          ]
+        ],
+        "default": "link",
+        "help_text": "Leave empty for no button."
+      },
+      {
+        "type": "text",
+        "name": "text",
+        "label": "Button text",
+        "default": "Get started",
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      },
+      {
+        "type": "choice",
+        "name": "style",
+        "label": "Style",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "primary-outline",
+            "Primary outline"
+          ],
+          [
+            "secondary-outline",
+            "Secondary outline"
+          ]
+        ],
+        "default": "primary",
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      },
+      {
+        "type": "link",
+        "name": "link",
+        "label": "Link",
+        "show_advanced_rel_options": true,
+        "help_text": "The button only shows on the live page once a link is set.",
+        "default": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "name": "aria_label",
+        "label": "Accessible label (optional)",
+        "default": "",
+        "help_text": "Use when the button text alone doesn't describe the destination.",
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "labels",
+    "label": "Accessibility labels",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "nav_label",
+        "label": "Navigation label",
+        "default": "Main navigation",
+        "help_text": "Read by screen readers for the menu landmark."
+      },
+      {
+        "type": "text",
+        "name": "menu_button",
+        "label": "Menu button label",
+        "default": "Menu",
+        "help_text": "Screen-reader text of the mobile menu button."
+      },
+      {
+        "type": "text",
+        "name": "submenu",
+        "label": "Submenu button label",
+        "default": "submenu",
+        "help_text": "Read after the menu item name, e.g. \"About submenu\"."
+      },
+      {
+        "type": "text",
+        "name": "home",
+        "label": "Logo fallback alt text",
+        "default": "Home page",
+        "help_text": "Used when the logo image has no alt text."
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "style",
+    "label": "Style",
+    "expanded": false,
+    "tab": "STYLE",
+    "children": [
+      {
+        "type": "choice",
+        "name": "color_scheme",
+        "label": "Color scheme",
+        "display": "select",
+        "choices": [
+          [
+            "light",
+            "Light"
+          ],
+          [
+            "dark",
+            "Dark"
+          ],
+          [
+            "brand",
+            "Brand"
+          ]
+        ],
+        "default": "light"
+      },
+      {
+        "type": "boolean",
+        "name": "border",
+        "label": "Bottom border",
+        "display": "toggle",
+        "default": true
+      }
+    ]
+  }
+]

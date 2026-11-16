@@ -11,11 +11,11 @@ theme/                 everything that uploads to HubSpot (and nothing else)
   css/main.css         the one shared stylesheet (tokens, sections and their media queries)
   css/generic/         _reset.css and _normalize.css (kept as separate files, included in main.css)
   css/swiper.min.css   vendor file
-  js/main.js           theme JS: slider init and nav toggle, each with a data-* init guard
+  js/main.js           theme JS: slider init with a data-* init guard
   js/swiper.min.js     vendor file
   fonts/               default secondary font (Source Serif 4, OFL) and OFL.txt
   images/              placeholder logo and theme screenshot
-  modules/             base-module (clone template) and site-fonts (global, secondary font)
+  modules/             base-module (clone template), header and footer (global), site-fonts (global, secondary font)
   templates/           layouts/base.html, page, landing page, blog listing, blog post, partials, system pages
 docs/                  internal docs (never uploaded)
 ```
@@ -47,13 +47,19 @@ The vendor files keep their MIT license banners. The only change to them is that
   - **Always request both the 400 and 500 files (woff2, plus woff if available) from the client.** The theme never mixes font families per weight, and the browser never fakes a missing weight (`font-synthesis: style` on every element set to the secondary font). With only one weight uploaded, text set to the other weight renders in the nearest real weight.
   - **Italics:** the secondary font has no italic files, so the browser fakes (slants) italic text. If a client's brand requires a true italic, we can add italic file fields to the Site fonts module later.
   - When any file is set, the client font replaces the default font completely. If the name is empty or "Secondary", it's renamed "Secondary Custom" so it can't clash with the default.
-  - When no files are set, the module loads the default Source Serif 4 files from `theme/fonts/`.
+  - The default font (Source Serif 4 from `theme/fonts/`, family name "Secondary") is always loaded from `main.css`. The Site fonts module only outputs the client font: when no files are set, it outputs nothing.
   - The fallback (serif or sans-serif) is still in Theme settings → Typography → Secondary font. Which elements use the secondary font is still set in Theme settings → Typography → Fonts.
+  - **Defaults:** headings use the primary font (Inter). Body text, eyebrows, display text and buttons use the secondary font. Forms follow the body font. Buttons have their own choice in Theme settings → Buttons → Font (Secondary, Primary, Same as body text, Same as headings).
   - Never commit commercial font files to this repo. Upload them to the client's portal only.
 
 ## Card shadow
 
 Theme settings → Layout → **Card shadow**: None, Small (default), Medium or Large. `main.css` defines `--shadow-sm`, `--shadow-md` and `--shadow-lg`. Their color is the heading color token mixed with transparency (`color-mix()`), so shadows re-skin with the colors. Cards use `--card-shadow`, which points to the chosen size, or `none`.
+
+## H1 size and image radius
+
+- **H1** has one size setting (Theme settings → Typography → Font sizes → H1 (largest size), default 85px). It is full size on screens 1440px wide and up, then scales down with the screen width and stops at 55% of the value (never below 40px). With 85px: 81px at 1366, 71px at 1200, 58px at 991, 47px at 767 and below. H2–H6 and body keep one setting per breakpoint.
+- **Image radius** (Theme settings → Layout & spacing → Image radius, default 4px) rounds content images in sections: the Base Module image and the blog post featured image. Logos, icons, header and footer images and images inside rich text are never rounded.
 
 ## Color schemes
 
@@ -77,6 +83,40 @@ The defaults pass WCAG AA: 4.5:1 for every text pair in all three schemes, and 3
 
 If a pair fails, change the scheme's token choice for it in Theme settings → Color schemes. Don't add new hex values.
 
+## Header
+The site header is one global module (`modules/header.module`) called with a static `{% module "site_header" %}` tag in `templates/partials/header.html`. Content lives in the global content editor, so every page shares it. Menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (theme button variants). For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
+
+**Sticky header (not built yet):** HubSpot wraps the header partial in its own `<div>`, so `position: sticky` on `.site-header` only sticks inside that wrapper and scrolls away with it. A sticky header needs a workaround, for example making HubSpot's wrapper div the sticky element, or a small script. Decide and test it in the sandbox before adding it.
+
+## Footer
+
+The site footer is the global **Footer** module, placed in `templates/partials/footer.html`. Edit it once and it changes on every page (global content editor, same route as Site fonts).
+
+- **Logo:** image + optional link (usually the home page). Alt text is required when the logo is linked. The partial passes the theme's placeholder logo as the starting value; replace it for each client. Empty image = no logo.
+- **Description:** rich text under the logo.
+- **Menu columns:** up to 4 columns, each with an optional heading and up to 8 links. A column shows only when at least one link has text and a URL. The heading tag (H2/H3/H4/Paragraph) is one setting for all footer headings and doesn't change their look.
+- **Contact:** up to 4 items (email, phone, address). Email and phone link automatically (`mailto:` / `tel:`) from the text; the optional link field overrides that or links an address to a map.
+- **Social links:** up to 8 (Facebook, Instagram, LinkedIn, X, YouTube, TikTok, Other). A link shows only when it has a URL. Screen readers hear the platform name or the optional accessible label.
+- **Bottom bar:** © + current year (toggle) + copyright text, and up to 5 legal links.
+- **Accessibility labels:** screen-reader names for the menu columns landmark ("Footer"), the legal links landmark ("Legal"), the logo fallback alt text and "Other" social links. Translate them for non-English sites.
+- **Style tab:** color scheme Dark (default) / Light / Brand and top/bottom padding presets.
+- Placeholder links without a URL show only in the editor, never on the live page.
+
+## HubSpot CTA buttons (opt-in add-on)
+
+The boilerplate has link buttons only. HubSpot's `cta` field type needs CTA access (Content Hub Professional or Enterprise). In a portal without it, the whole upload fails with "Account must be upgraded to use 'cta' field type", so the field can't be in the shared boilerplate. Add it per client, only when that portal has CTA access.
+
+**Base Module buttons**
+1. In `fields.json`, inside the `buttons` repeater, add a first field: choice `button_type` "Button type" with choices `link` "Link button" / `cta` "HubSpot CTA" (default `link`). Give `text`, `style`, `link` and `aria_label` an `advanced_visibility` rule (`buttons.button_type` matches `^link$`), and add `{"type": "cta", "name": "cta", "label": "HubSpot CTA"}` shown when `buttons.button_type` matches `^cta$`. Add `"button_type": "link"` to the repeater default.
+2. In `module.html`, count a CTA item as valid only when one is picked: `{% if item.button_type == "cta" %}{% if item.cta %}{% do valid_buttons.append(item) %}{% endif %}{% elif item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}`.
+3. In the buttons loop, render it before the link button: `{% if item.button_type == "cta" %}<div class="section-cta">{% cta guid="{{ item.cta }}" %}</div>{% else %}` … link button … `{% endif %}`. The CTA's look and link come from HubSpot's CTA tool, not the theme button styles.
+
+**Header button**
+1. In `fields.json`, in the `cta` group, add the choice `["hubspot", "HubSpot CTA"]` to `type`, and add `{"type": "cta", "name": "hubspot_cta", "label": "HubSpot CTA"}` shown when `cta.type` matches `^hubspot$`.
+2. In `module.html`, add `{% set has_hubspot_cta = header_cta.type == "hubspot" and header_cta.hubspot_cta %}`, include it in `has_panel`, and after the link button block add `{% elif has_hubspot_cta %}<div class="site-header-cta">{% cta guid="{{ header_cta.hubspot_cta }}" %}</div>`.
+
+Then run sandbox check 15 in that client's portal.
+
 ## Base Module clone checklist
 
 Every new module starts as a copy of `theme/modules/base-module.module/`. The examples below use `cards-grid` as the new module name.
@@ -88,6 +128,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
    - In `module.js`, change the selector `[data-base-module]`, the guard key `dataset.baseModuleInit` (it becomes `dataset.cardsGridInit`) and the function name `initBaseModule`.
    - If the module needs no JS, leave `module.js` as the stub. Slider modules never get module JS: their init lives in `js/main.js`.
 4. **Remove the base fields the module doesn't need** from `fields.json`, together with their `{% set %}` lines, classes and checks in `module.html`. If you remove a content field, also take it out of the "is anything filled in" check on the outer `{% if %}`.
+   - If the module has no buttons, remove the whole `buttons` repeater and the `valid_buttons` loop.
 5. **Add the new fields** inside the existing tabs and groups. Keep to 5 nesting levels at most. Text, file and other free-input fields go in the Content tab: HubSpot rejects them in the Style tab. Never name a field `body`. Use `visibility` / `advanced_visibility` (with `boolean_operator: "AND"`) instead of extra groups.
 6. **Put the CSS in `theme/css/main.css`.**
    - Add a section under its own `{# Cards grid #}` label, in page display order, with that section's media queries right after it (desktop first, large to small, theme breakpoints only).
@@ -100,7 +141,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
    - The editor preview works: placeholder content such as buttons without a link still shows when `is_in_editor` is true, and doesn't show on the live page.
    - Two instances on one page don't affect each other (scoped CSS, init guard).
 9. **Test**:
-   - text color Auto / Dark / Light on light, dark, image and gradient backgrounds;
+   - text color Auto / Dark / Light on: a light picked color, a dark picked color, a mid-tone (for example the primary token) and a picked color at 50% opacity; an image with light and dark overlay colors; light, dark and mixed gradients;
    - every breakpoint: desktop, ≤1366.98, ≤1200.98, ≤991.98, ≤767.98, ≤575.98, down to 360px wide, with no horizontal scroll;
    - keyboard: every link, button and control can be reached with Tab and shows a visible focus style, in every scheme.
 
@@ -110,17 +151,37 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
 
 0. **Delete the old theme folder first:** in the test portal's Design Manager, delete the folder named "Custom Boilerplate" (left over from an earlier upload from another folder). Test only the `custom-boilerplate` theme folder.
 
-1. **Built-in module parameters:** the header and footer `@hubspot/menu` options (`flow`, `flyouts`, `max_levels`) and the `@hubspot/logo` placeholder image (`img.override_inherited_src`, `src`, `alt`, `loading`) behave as expected.
+1. **Built-in module parameters:** the `@hubspot/logo` placeholder image in header-minimal.html (`img.override_inherited_src`, `src`, `alt`, `loading`) behaves as expected.
 2. **Google font weight:** check how HubSpot reports the font field's `variant` (for example `"500"` or `"regular"`), so `--fw-heading` outputs a real number, and check that weights 400 and 500 both load.
 3. **Viewport meta:** check that `standard_header_includes` outputs `<meta name="viewport">`. If it doesn't, add it to `layouts/base.html` after the charset.
 4. **New form editor:** check forms built in HubSpot's new form editor, not only legacy `.hs-form` markup, against the global form styling (labels, help and error text in the scheme color, input boxes, focus, error icon).
 5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
 7. **Overlay opacity:** the Base Module outputs `--overlay-opacity` as a decimal (for example `0.5` for 50%), not `0`.
-8. **Site fonts module overrides the default font on all templates:** with no files, the default "Secondary" font loads. After you upload client files and publish the Site fonts global module, the client font replaces it on a page, landing page, blog listing, blog post and a system page (404). The `<style>` block appears in `<head>`.
+8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), DevTools → Network → Font shows `secondary-400.woff2` and `secondary-500.woff2` with status 200 (the default `@font-face` URLs come from `main.css` and must point at the theme's `fonts/` folder, not a 404). DevTools → Elements → Computed on body text shows the rendered font "Secondary"; headings show Inter. With no client files, the Site fonts module outputs no `<style>` block. After you upload client files and publish the Site fonts global module, the client font replaces the default on all those templates and its `<style>` block appears in `<head>`. If the default font files 404, check that `theme/fonts/` was uploaded.
 9. **Spacing field value shape:** turn on "Change spacing" in a Base Module and set all four sides at each breakpoint. Check that the values arrive as `padding.top.value` / `padding.top.units` (and the same for right, bottom and left), and that the scoped CSS outputs each side at the right breakpoint. Also check that a side left empty keeps the value from the larger breakpoint.
-10. **Light text on dark backgrounds:** with a Dark background color (and Text color Auto or Light), check that the heading, text, eyebrow and links are light. Secondary and secondary outline buttons should use the white variants. A visible keyboard focus outline should show on every link and button.
+10. **Light text on dark backgrounds:** with a dark picked background color (and Text color Auto or Light), check that the heading, text, eyebrow and links are light. Secondary and secondary outline buttons should use the white variants. A visible keyboard focus outline should show on every link and button.
 11. **Image type with no image:** set Background type to Image without choosing an image. The section should have no background and use dark text (Auto), with no broken `background-image` in the CSS.
+12. **H1 and image radius:** at 1440px an H1 is 85px; at 360px it is 47px and nothing overflows horizontally. A Base Module image and a blog post featured image get the Image radius; the header logo does not.
+13. **Background color picker inheritance:** add a Base Module, set Background type Color and don't touch the picker. It should show the theme's Dark background color. Change Dark background in theme settings: the module follows it. Then pick another color: it keeps that color. If HubSpot rejects `theme.colors.dark_bg.color` in `inherited_value` (or the `{"color": null, "opacity": null}` default) on upload, remove `inherited_value`, set the default to `{"color": "", "opacity": 100}` and rely on the HubL fallback.
+14. **Auto text color from hex:** check that `convert_rgb` returns three numbers (for example `59,130,246`), and that Auto gives dark text on #3B82F6, light text on #334155 and #64748B, dark text on #F59E0B, and dark text on #0B1F3A at 10% opacity. With opacity below 100, the CSS shows `rgba(r,g,b,0.5)`.
+15. **HubSpot CTA add-on (only in a portal with CTA access):** after adding the add-on ("HubSpot CTA buttons (opt-in add-on)" above), pick a CTA in a button set to HubSpot CTA. It renders on the live page and in the editor; a button with no CTA picked renders nothing (no empty `section-cta` div). Check whether the `cta` field lists new CTAs (Marketing > CTAs) or only legacy ones; if new ones render nothing with `{% cta guid=... %}`, try `{{ cta(item.cta) }}`. The WLIQ test portal has no CTA access, so this can't be tested there.
+16. **Image position:** top, center and bottom each move the background image as expected.
+17. **Header module (global):** open Header in the global content editor.
+  - Menu: with the Menu field empty the portal's default menu shows; pick another menu and it switches. Build a test menu with 3 levels, a "no link" parent and an item set to open in a new tab.
+  - Simple dropdown: hover opens; Tab to the arrow button, Enter/Space opens, Escape closes and focus returns to the arrow; clicking outside closes; the current page link has aria-current="page".
+  - Mega menu: full-width panel under the header; 2nd-level items are column headings (linked when they have a URL), 3rd-level items list below; 4 and 5 columns wrap on smaller desktops.
+  - Mobile (≤991.98px): the menu button opens/closes the panel; submenus open as accordions in both menu types; Escape closes.
+  - Logo: empty image shows the placeholder (theme/images/logo-placeholder.svg via get_asset_url) at 160×40; an uploaded logo outputs its width/height and loading="eager".
+  - Header button: the link button is hidden on the live page until a link is set.
+  - All 3 color schemes (Light/Dark/Brand): dropdown backgrounds, text, borders and focus outlines are visible.
+18. **Footer module:**
+   - The placeholder logo passed from the partial (`logo={"image": {...}}` with `get_asset_url`) appears on first upload. If global module tag parameters are ignored, the logo is simply hidden until an image is chosen.
+   - `local_dt|format_datetime("yyyy")` prints the four-digit year (fallback: `local_dt|datetimeformat('%Y')`). Check that a cached live page shows the new year after 1 January (republish if needed).
+   - Nested repeaters (columns → links) save and reorder correctly; `sorting_label_field` paths (`columns.links.text`, `contact.items.text`, `social.items.platform`) show useful labels.
+   - Email/phone items output `mailto:` / `tel:` once (never doubled), with and without the optional link field.
+   - Dark, Light and Brand schemes: text, headings, links, social icon borders and the bottom-bar border are visible; focus outline shows on every link.
+   - Layout at every breakpoint down to 360px: three areas side by side on desktop, logo row on top at ≤991.98, one column with 2-column menus at ≤767.98, no horizontal scroll.
 
 ## Notes
 
