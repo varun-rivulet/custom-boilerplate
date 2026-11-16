@@ -1,0 +1,50 @@
+[
+  {
+    "type": "text",
+    "name": "family_name",
+    "label": "Secondary font family name",
+    "default": "",
+    "placeholder": "Client font name",
+    "help_text": "Used only when you upload font files below. Leave all files empty to use the theme's default secondary font. The fallback (serif or sans-serif) is in Theme settings → Typography → Secondary font."
+  },
+  {
+    "type": "group",
+    "name": "regular",
+    "label": "Regular (400)",
+    "expanded": true,
+    "children": [
+      {
+        "type": "file",
+        "name": "woff2",
+        "label": "woff2 file",
+        "picker": "file"
+      },
+      {
+        "type": "file",
+        "name": "woff",
+        "label": "woff file",
+        "picker": "file"
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "medium",
+    "label": "Medium (500)",
+    "expanded": true,
+    "children": [
+      {
+        "type": "file",
+        "name": "woff2",
+        "label": "woff2 file",
+        "picker": "file"
+      },
+      {
+        "type": "file",
+        "name": "woff",
+        "label": "woff file",
+        "picker": "file"
+      }
+    ]
+  }
+]

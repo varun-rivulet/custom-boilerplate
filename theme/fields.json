@@ -295,16 +295,10 @@
         "expanded": false,
         "children": [
           {
-            "type": "text",
-            "name": "family_name",
-            "label": "Family name",
-            "default": "Secondary",
-            "help_text": "Name used in CSS. Change it when you upload a client font."
-          },
-          {
             "type": "choice",
             "name": "fallback",
             "label": "Fallback",
+            "help_text": "Used while the secondary font loads or if it fails. Set the font name and files in the global Site fonts module.",
             "display": "select",
             "choices": [
               [
@@ -317,31 +311,6 @@
               ]
             ],
             "default": "serif"
-          },
-          {
-            "type": "file",
-            "name": "regular_woff2",
-            "label": "Regular (400) woff2",
-            "picker": "file",
-            "help_text": "Optional override. Leave all four empty to use the theme's default font files."
-          },
-          {
-            "type": "file",
-            "name": "regular_woff",
-            "label": "Regular (400) woff",
-            "picker": "file"
-          },
-          {
-            "type": "file",
-            "name": "medium_woff2",
-            "label": "Medium (500) woff2",
-            "picker": "file"
-          },
-          {
-            "type": "file",
-            "name": "medium_woff",
-            "label": "Medium (500) woff",
-            "picker": "file"
           }
         ]
       },
@@ -413,7 +382,7 @@
           },
           {
             "type": "number",
-            "name": "body",
+            "name": "body_text",
             "label": "Body",
             "display": "text",
             "default": 1.4,
@@ -829,7 +798,7 @@
           },
           {
             "type": "group",
-            "name": "body",
+            "name": "body_text",
             "label": "Body",
             "expanded": false,
             "children": [
@@ -1653,11 +1622,30 @@
         "suffix": "px"
       },
       {
-        "type": "text",
+        "type": "choice",
         "name": "shadow",
         "label": "Card shadow",
-        "default": "0 2px 9px rgba(0, 0, 0, 0.2)",
-        "help_text": "CSS box-shadow value."
+        "display": "select",
+        "choices": [
+          [
+            "none",
+            "None"
+          ],
+          [
+            "sm",
+            "Small"
+          ],
+          [
+            "md",
+            "Medium"
+          ],
+          [
+            "lg",
+            "Large"
+          ]
+        ],
+        "default": "sm",
+        "help_text": "Shadow color comes from the heading color token."
       }
     ]
   },

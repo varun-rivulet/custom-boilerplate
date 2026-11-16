@@ -15,6 +15,7 @@ theme/                 everything that uploads to HubSpot (and nothing else)
   js/swiper.min.js     vendor file
   fonts/               default secondary font (Source Serif 4, OFL) and OFL.txt
   images/              placeholder logo and theme screenshot
+  modules/             base-module (clone template) and site-fonts (global, secondary font)
   templates/           layouts/base.html, page, landing page, blog listing, blog post, partials, system pages
 docs/                  internal docs (never uploaded)
 ```
@@ -39,9 +40,18 @@ The vendor files keep their MIT license banners. The only change to them is that
   - The defaults are `theme/fonts/secondary-400.woff2/.woff` and `secondary-500.woff2/.woff`.
   - They are Source Serif 4 (SIL Open Font License), built as static 400 and 500 weights from Adobe's variable font.
   - Under the OFL Reserved Font Name rule, the modified files are renamed internally to "Secondary". The copyright and license notices are kept, and `OFL.txt` must stay next to the files.
-- **Client font:** in Typography → Secondary font (custom), set the family name and upload the Regular (400) and Medium (500) woff2/woff files.
-  - When any file for a weight is set, it replaces the default files for that weight.
+- **Client font:** set in the global **Site fonts** module, not in theme settings (HubSpot doesn't allow text or file fields in theme settings).
+  - The module is in `theme/modules/site-fonts.module/`. It's placed once in `templates/layouts/base.html`, so it applies to every template: pages, landing pages, blog listing and post, and system pages. It's hidden from drag-and-drop, so editors can't add it to pages.
+  - **Where editors find it:** open any page built on this theme in the page editor. In the left sidebar, click the **Contents** (site tree) icon, then click **Site fonts** (it has the global content icon) and choose **Open in global content editor**. Make the changes, then click **Publish to [#] assets**. This needs the "Global content and theme settings" permission. Developers can also edit it from Design Manager. Confirm these menu names in the test portal; HubSpot's UI labels change from time to time.
+  - Fill in **Secondary font family name** and upload the files under **Regular (400)** and **Medium (500)**: woff2 first and woff as the fallback. A weight only gets an `@font-face` when it has at least one file.
+  - When any file is set, the client font replaces the default font completely. If the name is empty or "Secondary", it's renamed "Secondary Custom" so it can't clash with the default.
+  - When no files are set, the module loads the default Source Serif 4 files from `theme/fonts/`.
+  - The fallback (serif or sans-serif) is still in Theme settings → Typography → Secondary font. Which elements use the secondary font is still set in Theme settings → Typography → Fonts.
   - Never commit commercial font files to this repo. Upload them to the client's portal only.
+
+## Card shadow
+
+Theme settings → Layout → **Card shadow**: None, Small (default), Medium or Large. `main.css` defines `--shadow-sm`, `--shadow-md` and `--shadow-lg`. Their color is the heading color token mixed with transparency (`color-mix()`), so shadows re-skin with the colors. Cards use `--card-shadow`, which points to the chosen size, or `none`.
 
 ## Color schemes
 
@@ -71,7 +81,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
    - In `module.js`, change the selector `[data-base-module]`, the guard key `dataset.baseModuleInit` (it becomes `dataset.cardsGridInit`) and the function name `initBaseModule`.
    - If the module needs no JS, leave `module.js` as the stub. Slider modules never get module JS: their init lives in `js/main.js`.
 4. **Remove the base fields the module doesn't need** from `fields.json`, together with their `{% set %}` lines, classes and checks in `module.html`. If you remove a content field, also take it out of the "is anything filled in" check on the outer `{% if %}`.
-5. **Add the new fields** inside the existing tabs and groups. Keep to 5 nesting levels at most. Use `visibility` / `advanced_visibility` (with `boolean_operator: "AND"`) instead of extra groups.
+5. **Add the new fields** inside the existing tabs and groups. Keep to 5 nesting levels at most. Text, file and other free-input fields go in the Content tab: HubSpot rejects them in the Style tab. Never name a field `body`. Use `visibility` / `advanced_visibility` (with `boolean_operator: "AND"`) instead of extra groups.
 6. **Put the CSS in `theme/css/main.css`.**
    - Add a section under its own `{# Cards grid #}` label, in page display order, with that section's media queries right after it (desktop first, large to small, theme breakpoints only).
    - Scope every selector under the main class (`.cards-grid .cards-grid-item`). Use kebab-case, and `.is-active` / `.has-bg` for states.
@@ -98,6 +108,7 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
 5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
 7. **Overlay opacity:** the Base Module outputs `--overlay-opacity` as a decimal (for example `0.5` for 50%), not `0`.
+8. **Site fonts module overrides the default font on all templates:** with no files, the default "Secondary" font loads. After you upload client files and publish the Site fonts global module, the client font replaces it on a page, landing page, blog listing, blog post and a system page (404). The `<style>` block appears in `<head>`.
 
 ## Notes
 

@@ -13,6 +13,7 @@
     {{ standard_header_includes }}
   </head>
   <body>
+    {% module "site_fonts" path="../../modules/site-fonts.module", label="Site fonts", no_wrapper=True %}
     <div class="body-wrapper {{ builtin_body_classes }}">
       <a class="skip-link btn btn-primary" href="#mainContent">Skip to content</a>
       {% block header %}

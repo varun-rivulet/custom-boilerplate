@@ -158,6 +158,55 @@
   },
   {
     "type": "group",
+    "name": "advanced",
+    "label": "Advanced",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "section_id",
+        "label": "Section ID (anchor)",
+        "default": "",
+        "help_text": "Without #. Converted to lowercase-with-hyphens."
+      },
+      {
+        "type": "text",
+        "name": "custom_class",
+        "label": "Custom class",
+        "default": ""
+      },
+      {
+        "type": "boolean",
+        "name": "hide_desktop",
+        "label": "Hide on desktop (above 991.98px)",
+        "display": "toggle",
+        "default": false
+      },
+      {
+        "type": "boolean",
+        "name": "hide_tablet",
+        "label": "Hide on tablet (768–991.98px)",
+        "display": "toggle",
+        "default": false
+      },
+      {
+        "type": "boolean",
+        "name": "hide_mobile",
+        "label": "Hide on mobile (≤767.98px)",
+        "display": "toggle",
+        "default": false
+      },
+      {
+        "type": "boolean",
+        "name": "show_section",
+        "label": "Show section",
+        "display": "toggle",
+        "default": true
+      }
+    ]
+  },
+  {
+    "type": "group",
     "name": "style",
     "label": "Style",
     "expanded": false,
@@ -691,55 +740,6 @@
           ]
         ],
         "default": "inherit"
-      },
-      {
-        "type": "group",
-        "name": "advanced",
-        "label": "Advanced",
-        "expanded": false,
-        "children": [
-          {
-            "type": "text",
-            "name": "section_id",
-            "label": "Section ID (anchor)",
-            "default": "",
-            "help_text": "Without #. Converted to lowercase-with-hyphens."
-          },
-          {
-            "type": "text",
-            "name": "custom_class",
-            "label": "Custom class",
-            "default": ""
-          },
-          {
-            "type": "boolean",
-            "name": "hide_desktop",
-            "label": "Hide on desktop (above 991.98px)",
-            "display": "toggle",
-            "default": false
-          },
-          {
-            "type": "boolean",
-            "name": "hide_tablet",
-            "label": "Hide on tablet (768–991.98px)",
-            "display": "toggle",
-            "default": false
-          },
-          {
-            "type": "boolean",
-            "name": "hide_mobile",
-            "label": "Hide on mobile (≤767.98px)",
-            "display": "toggle",
-            "default": false
-          },
-          {
-            "type": "boolean",
-            "name": "show_section",
-            "label": "Show section",
-            "display": "toggle",
-            "default": true
-          }
-        ]
       }
     ],
     "tab": "STYLE"

@@ -17,7 +17,7 @@ LOCKED DECISIONS
 - Every module gets generalized. Nothing stays client-specific.
 - No animations in any module (for now). Hover/focus color transitions (color, background, border) are allowed and do not count as animations.
 - Never mention any agency or company identity anywhere: no "WLIQ", "Rivulet" etc. in class names, labels, comments, file names or meta.json.
-- Fonts: primary = Google font; secondary = custom uploaded font (theme fields: family name + woff2/woff file fields for regular/bold, output as @font-face). Loading the primary Google font via HubSpot's font field is an approved exception to baseline §7 self-hosting; still load only used weights with font-display: swap.
+- Fonts: primary = Google font; secondary = custom uploaded font (global "Site fonts" module: family name + woff2/woff file fields for 400/500, output as @font-face; see PHASE 2 DECISIONS). Loading the primary Google font via HubSpot's font field is an approved exception to baseline §7 self-hosting; still load only used weights with font-display: swap.
 
 CSS RULES
 - module.css stays EMPTY in every module.
@@ -36,14 +36,13 @@ DESIGN TOKENS (theme fields.json → CSS variables in :root)
   Desktop / ≤1366.98 / ≤1200.98 / ≤991.98 / ≤767.98
   H1 85/72/64/56/48 · H2 56/52/48/44/40 · H3 42/40/38/36/36 · H4 34/32/30/28/26 · H5 24/22/22/20/20 · H6 20/20/18/18/18 · Body 18/18/18/16/16
 - Buttons: 4 variants — primary, secondary, primary outline, secondary outline — bg, text, border, hover, radius, padding. Text link is a link style, not a button variant.
-- Layout: container width, gutter (min 20px at every tier), section padding S/M/L, card radius, shadow, heading-to-content spacing, content-to-button spacing
+- Layout: container width, gutter (min 20px at every tier), section padding S/M/L, card radius, card shadow (none/small/medium/large), heading-to-content spacing, content-to-button spacing
   Section padding (Desktop & ≤1366.98 / ≤1200.98 / ≤991.98 / ≤767.98): S 72/65/58/52 · M (default) 100/80/60/50 · L 144/130/116/104
 - Breakpoints (desktop-first, max-width): ≤1366.98 large laptop, ≤1200.98 laptop, ≤991.98 tablet, ≤767.98 mobile, plus ≤575.98 small-mobile fine-tune only (no own token values). Approved deviation from baseline §6 (which has 4 tiers). Minimum supported width 360px. Use no other breakpoints.
 
 BASE MODULE (clone-ready template for every new module)
-Content tab: eyebrow, heading + heading tag selector (H1–H6/p), rich text description, image (alt + lazy/eager), buttons repeater (primary/secondary/primary outline/secondary outline/text link, link, new tab, aria-label)
+Content tab: eyebrow, heading + heading tag selector (H1–H6/p), rich text description, image (alt + lazy/eager), buttons repeater (primary/secondary/primary outline/secondary outline/text link, link, new tab, aria-label), then a collapsed "Advanced" group last: section ID (anchor), custom class, hide on desktop/tablet/mobile, show/hide toggle (it lives in the Content tab because HubSpot rejects text fields in the Style tab)
 Style tab: color scheme (Light/Dark/Brand), background (none/color/image + overlay opacity; a background color is mandatory whenever an image is used), padding top/bottom (S/M/L/custom per breakpoint), content width (container/narrow/full), content alignment, text alignment desktop/mobile
-Advanced tab: section ID (anchor), custom class, hide on desktop/tablet/mobile, show/hide toggle
 Files: module.html (main section class + scope_css for field values), module.css (empty), module.js (stub with instance-scoped data-* init guard, no IIFE, no DOMContentLoaded), meta.json (neutral label), fields.json (max 5 nesting levels; use advanced_visibility)
 README clone checklist: rename folder + label, rename main section class, remove unused fields, add CSS to shared stylesheet, test all 3 color schemes.
 
@@ -76,10 +75,12 @@ CODING CONVENTIONS & HUBSPOT GOTCHAS
 - HubL {% set %} inside {% for %} doesn't persist outside; use selectattr pre-filtering or namespace().
 - dnd_module IDs are unpredictable; use static named {% module %} tags for template-scope field access.
 - outline on full-bleed buttons needs outline-offset: -2px or inset box-shadow.
+- HubSpot field limits (upload validation): no text/file fields in a module's Style tab (put them in the Content tab); no field may be named "body" (use body_text); theme fields.json rejects text and file fields (use choice/number/color/font fields, or a global module for free text and files).
 
 WORKFLOW
 - Tool: VS Code + Claude Code (terminal), working directly in the theme folder.
 - Git repo for custom-boilerplate/; deploy with hs cms upload to the dev/sandbox portal only.
+- Test portal: HubSpot CLI account WLIQ (portal 51597413). Pass --account=WLIQ on every hs command; never rely on the CLI default account. Upload: hs cms upload theme custom-boilerplate --account=WLIQ
 
 PHASES
 1. Audit: inventory every Luma module (keep & generalize / merge / HubDB-template) + extract every hard-coded color, font and spacing value into a token list. I approve before development.
@@ -91,7 +92,7 @@ PHASES
 7. README + Claude skill for the team.
 
 PENDING FROM ME
-- Dev/sandbox HubSpot portal
+- Nothing (test portal provided: see WORKFLOW)
 
 REFERENCE DOCUMENTS
 - docs/html-dev-baseline.docx — our HTML team development baseline (coding standards, CSS rules, checklists). Follow it for all code. Markdown copy with all comments: docs/html-dev-baseline.md.
@@ -102,16 +103,18 @@ REFERENCE DOCUMENTS
 STATUS (resume here in a new session)
 - Phase 1 (Audit): DONE and approved, on main. Full audit (module mapping, token defaults, Luma issues): docs/phase-1-audit.md.
 - All decisions are recorded in this file; this file wins if docs/phase-1-audit.md disagrees.
-- Phase 2 (Foundation): BUILT, committed on branch phase-2-foundation. NOT tested in HubSpot.
-- Phase 3 (Base Module): BUILT, committed on branch phase-3-base-module (branched from phase-2-foundation). NOT tested in HubSpot. Clone checklist is in README.md ("Base Module clone checklist").
-- Blocked: dev/sandbox portal not provided yet. Do not merge any phase branch into main until the README "Sandbox test checklist" passes.
+- Phase 2 (Foundation): BUILT, committed on branch phase-2-foundation.
+- Phase 3 (Base Module): BUILT, committed on branch phase-3-base-module (branched from phase-2-foundation). Clone checklist is in README.md ("Base Module clone checklist").
+- HubSpot validation fixes (Advanced group moved to Content tab, body → body_text, Site fonts global module, card shadow choice) are on phase-3-base-module, and the theme uploads cleanly to the WLIQ test portal. Manual testing in the portal is NOT done yet.
+- Do not merge any phase branch into main until the README "Sandbox test checklist" passes.
 - Next: Phase 4 (core modules), each cloned from the Base Module by following the README clone checklist.
 
 PHASE 2 DECISIONS (approved)
 - Color defaults are a neutral palette, never a client's brand: primary #3B82F6, secondary #334155, accent #F59E0B, heading #0F172A, text #1F2937, muted #64748B, border #CBD5E1, light bg #F8FAFC, dark bg #0B1F3A, white #FFFFFF. (Replaces the Luma hex values in docs/phase-1-audit.md.) All default scheme text pairs pass 4.5:1 and outline borders 3:1; tightest pair heading-on-primary 4.85.
 - Color schemes (Light/Dark/Brand) are choice fields that pick one of the 10 tokens (+ transparent for buttons), incl. per-variant button default/hover colors; max 4 group levels. Button radius/padding/font live in the global Buttons group.
 - Form labels, help and error text use the scheme text color; error text gets an icon + wording. Input boxes keep one global style; input borders use muted (border token is decorative only).
-- Fonts: primary Google = Inter (400/500). Secondary default = Source Serif 4 (OFL) built as static secondary-400/500 woff2+woff in theme/fonts/ with OFL.txt, internal name "Secondary". Override file fields "Regular (400)" / "Medium (500)" replace the defaults per weight. Tobi Pro is commercial: kept outside the repo in ../font-sources/, never committed.
+- Fonts: primary Google = Inter (400/500). Secondary default = Source Serif 4 (OFL) built as static secondary-400/500 woff2+woff in theme/fonts/ with OFL.txt, internal name "Secondary". A client font is set in the global "Site fonts" module (theme/modules/site-fonts.module, hidden from drag-and-drop, placed in layouts/base.html so it applies to every template incl. blog and system pages): family name + Regular (400) / Medium (500) woff2/woff file fields. Output via require_css in <head>. If no file is set, it loads the bundled defaults via get_asset_url. If any file is set, the custom family replaces the default: @font-face only for weights that have files, empty src entries skipped, woff2 first then woff, font-display: swap, true weights 400/500. It overrides --font-secondary with html:root. An empty name or "Secondary" becomes "Secondary Custom". The fallback (serif/sans-serif) stays in theme settings (Typography → Secondary font). Tobi Pro is commercial: kept outside the repo in ../font-sources/, never committed.
+- Card shadow is a theme choice field (Layout → Card shadow): none / small / medium / large, default small. main.css defines --shadow-sm/md/lg with the color from the heading token via color-mix(); --card-shadow points to the chosen one.
 - Display/lead/small are optional type tokens with utility classes .text-display / .text-lead / .text-small.
 - No membership templates for now.
 - Swiper pinned to 14.3.0 (bundle build). Vendor files keep their MIT banners; the no-comments rule applies to our own code.
