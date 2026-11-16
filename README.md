@@ -44,6 +44,7 @@ The vendor files keep their MIT license banners. The only change to them is that
   - The module is in `theme/modules/site-fonts.module/`. It's placed once in `templates/layouts/base.html`, so it applies to every template: pages, landing pages, blog listing and post, and system pages. It's hidden from drag-and-drop, so editors can't add it to pages.
   - **Where editors find it:** open any page built on this theme in the page editor. In the left sidebar, click the **Contents** (site tree) icon, then click **Site fonts** (it has the global content icon) and choose **Open in global content editor**. Make the changes, then click **Publish to [#] assets**. This needs the "Global content and theme settings" permission. Developers can also edit it from Design Manager. Confirm these menu names in the test portal; HubSpot's UI labels change from time to time.
   - Fill in **Secondary font family name** and upload the files under **Regular (400)** and **Medium (500)**: woff2 first and woff as the fallback. A weight only gets an `@font-face` when it has at least one file.
+  - **Always request both the 400 and 500 files (woff2, plus woff if available) from the client.** The theme never mixes font families per weight, and the browser never fakes a missing weight (`font-synthesis: none` on every element set to the secondary font). With only one weight uploaded, text set to the other weight renders in the nearest real weight.
   - When any file is set, the client font replaces the default font completely. If the name is empty or "Secondary", it's renamed "Secondary Custom" so it can't clash with the default.
   - When no files are set, the module loads the default Source Serif 4 files from `theme/fonts/`.
   - The fallback (serif or sans-serif) is still in Theme settings → Typography → Secondary font. Which elements use the secondary font is still set in Theme settings → Typography → Fonts.
@@ -100,6 +101,8 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and later) into `main` until these pass on the dev/sandbox portal:
+
+0. **Delete the old theme folder first:** in the test portal's Design Manager, delete the folder named "Custom Boilerplate" (left over from an earlier upload from another folder). Test only the `custom-boilerplate` theme folder.
 
 1. **Built-in module parameters:** the header and footer `@hubspot/menu` options (`flow`, `flyouts`, `max_levels`) and the `@hubspot/logo` placeholder image (`img.override_inherited_src`, `src`, `alt`, `loading`) behave as expected.
 2. **Google font weight:** check how HubSpot reports the font field's `variant` (for example `"500"` or `"regular"`), so `--fw-heading` outputs a real number, and check that weights 400 and 500 both load.
