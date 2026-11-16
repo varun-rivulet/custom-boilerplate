@@ -7,7 +7,6 @@
 {% set img = module.image %}
 {% set colors = theme.colors %}
 {% set schemes = theme.color_schemes %}
-{% set dark_tokens = ["dark-bg", "secondary", "heading", "text"] %}
 {% set valid_buttons = [] %}
 {% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
 {% set has_eyebrow = module.eyebrow|trim %}
@@ -16,7 +15,7 @@
 {% set has_image = img.src %}
 {% set has_bg_color = bg.type == "color" %}
 {% set has_bg_image = bg.type == "image" and bg.image.src %}
-{% set has_bg_gradient = bg.type == "gradient" and bg.gradient_start and bg.gradient_end %}
+{% set has_bg_gradient = bg.type == "gradient" %}
 {% set container_max = theme.layout.container_width or 1320 %}
 {% set width_value = ca.width or 860 %}
 {% set content_width = (width_value if width_value < container_max else container_max) if ca.custom_width else 0 %}
@@ -30,34 +29,45 @@
   {% set bg_hex = bg.overlay_color.color or colors.dark_bg.color %}
   {% set bg_alpha = (bg.overlay_color.opacity if bg.overlay_color.opacity is number else 50) / 100 %}
 {% endif %}
+{% set tints = [] %}
 {% if bg_hex %}
   {% set bg_rgb = bg_hex|convert_rgb|replace(" ", "")|split(",") %}
   {% set bg_css = bg_hex if bg_alpha >= 1 else "rgba(" ~ (bg_rgb|join(",")) ~ "," ~ bg_alpha ~ ")" %}
+  {% do tints.append([bg_rgb, bg_alpha]) %}
+{% elif has_bg_gradient %}
+  {% set grad_start = bg.gradient_start.color or colors.secondary.color %}
+  {% set grad_end = bg.gradient_end.color or colors.dark_bg.color %}
+  {% do tints.append([grad_start|convert_rgb|replace(" ", "")|split(","), 1]) %}
+  {% do tints.append([grad_end|convert_rgb|replace(" ", "")|split(","), 1]) %}
 {% endif %}
 
 {% set text_color = bg.text_color or "auto" %}
 {% if text_color == "auto" %}
-  {% if bg_hex %}
-    {# Auto from hex (background color, or the overlay color for images): blend the picked color (with opacity) over the page background, then pick the scheme text color with the higher WCAG contrast. The sRGB curve uses a cubic approximation, so no pow is needed. #}
+  {% if tints %}
+    {# Auto from hex: blend each picked color (with opacity) over the page background, then pick the scheme text color with the higher WCAG contrast. Gradient: light text only when both ends want light text. The sRGB curve uses a cubic approximation, so no pow is needed. #}
     {% set page_hex = colors[(schemes.light.background or "white")|replace("-", "_")].color or colors.white.color %}
     {% set dark_hex = colors[(schemes.light.text or "text")|replace("-", "_")].color or colors.text.color %}
     {% set light_hex = colors[(schemes.dark.text or "white")|replace("-", "_")].color or colors.white.color %}
     {% set page_rgb = page_hex|convert_rgb|replace(" ", "")|split(",") %}
-    {% set mixes = [] %}
-    {% for i in [0, 1, 2] %}{% do mixes.append((bg_rgb[i]|int) * bg_alpha + (page_rgb[i]|int) * (1 - bg_alpha)) %}{% endfor %}
+    {% set rgbs = [dark_hex|convert_rgb|replace(" ", "")|split(","), light_hex|convert_rgb|replace(" ", "")|split(",")] %}
+    {% for tint in tints %}
+      {% set mix = [] %}
+      {% for i in [0, 1, 2] %}{% do mix.append((tint[0][i]|int) * tint[1] + (page_rgb[i]|int) * (1 - tint[1])) %}{% endfor %}
+      {% do rgbs.append(mix) %}
+    {% endfor %}
     {% set lums = [] %}
-    {% for rgb in [mixes, dark_hex|convert_rgb|replace(" ", "")|split(","), light_hex|convert_rgb|replace(" ", "")|split(",")] %}
+    {% for rgb in rgbs %}
       {% set lin = [] %}
       {% for i in [0, 1, 2] %}{% set c = (rgb[i]|float) / 255 %}{% do lin.append(c * (c * (c * 0.305306011 + 0.682171111) + 0.012522878)) %}{% endfor %}
-      {% do lums.append(0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2]) %}
+      {% do lums.append(0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2] + 0.05) %}
     {% endfor %}
-    {% set l_bg = lums[0] + 0.05 %}
-    {% set l_dark = lums[1] + 0.05 %}
-    {% set l_light = lums[2] + 0.05 %}
-    {% set contrast_dark = (l_bg / l_dark) if l_bg > l_dark else (l_dark / l_bg) %}
-    {% set contrast_light = (l_bg / l_light) if l_bg > l_light else (l_light / l_bg) %}
-    {% set text_color = "light" if contrast_light > contrast_dark else "dark" %}
-  {% elif has_bg_gradient %}{% set text_color = "light" if bg.gradient_start in dark_tokens and bg.gradient_end in dark_tokens else "dark" %}
+    {% set wants_dark = [] %}
+    {% for l_bg in lums %}{% if loop.index > 2 %}
+      {% set contrast_dark = (l_bg / lums[0]) if l_bg > lums[0] else (lums[0] / l_bg) %}
+      {% set contrast_light = (l_bg / lums[1]) if l_bg > lums[1] else (lums[1] / l_bg) %}
+      {% if contrast_dark >= contrast_light %}{% do wants_dark.append(1) %}{% endif %}
+    {% endif %}{% endfor %}
+    {% set text_color = "dark" if wants_dark else "light" %}
   {% else %}{% set text_color = "dark" %}
   {% endif %}
 {% endif %}
@@ -67,7 +77,6 @@
   {% if ca.text_align_mobile != "inherit" %}{% do classes.append("text-align-mobile-" ~ ca.text_align_mobile) %}{% endif %}
   {% if not sp.change_spacing %}{% do classes.append("section-pt-m") %}{% do classes.append("section-pb-m") %}{% endif %}
   {% if has_bg_image %}{% do classes.append("has-bg-image") %}{% do classes.append("bg-position-" ~ (bg.position or "center")) %}{% endif %}
-  {% if has_bg_gradient %}{% do classes.append("bg-" ~ bg.gradient_end) %}{% endif %}
   {% if adv.hide_desktop %}{% do classes.append("hide-desktop") %}{% endif %}
   {% if adv.hide_tablet %}{% do classes.append("hide-tablet") %}{% endif %}
   {% if adv.hide_mobile %}{% do classes.append("hide-mobile") %}{% endif %}
@@ -86,7 +95,7 @@
       {% endif %}
       {% if tier == "desktop" and has_bg_color %}{% do decl.append("background-color:" ~ bg_css) %}{% endif %}
       {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("background-color:" ~ bg_hex) %}{% do decl.append("--overlay-color:" ~ bg_hex) %}{% do decl.append("--overlay-opacity:" ~ bg_alpha) %}{% endif %}
-      {% if tier == "desktop" and has_bg_gradient %}{% do decl.append("background-image:linear-gradient(to " ~ (bg.gradient_direction or "right")|replace("-", " ") ~ ",var(--color-" ~ bg.gradient_start ~ "),var(--color-" ~ bg.gradient_end ~ "))") %}{% endif %}
+      {% if tier == "desktop" and has_bg_gradient %}{% do decl.append("background-color:" ~ grad_end) %}{% do decl.append("background-image:linear-gradient(to " ~ (bg.gradient_direction or "right")|replace("-", " ") ~ "," ~ grad_start ~ "," ~ grad_end ~ ")") %}{% endif %}
       {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.base-module{ {{- decl|join(";") -}} }}{% else %}.base-module{ {{- decl|join(";") -}} }{% endif %}
       {% endif %}
     {% endfor %}

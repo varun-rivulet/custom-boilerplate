@@ -13,9 +13,8 @@ theme/                 everything that uploads to HubSpot (and nothing else)
   css/swiper.min.css   vendor file
   js/main.js           theme JS: slider init with a data-* init guard
   js/swiper.min.js     vendor file
-  fonts/               default secondary font: Tobi Pro 300/400/500 (woff2 + woff)
   images/              placeholder logo and theme screenshot
-  modules/             base-module (clone template), header and footer (global), site-fonts (global, secondary font)
+  modules/             base-module (clone template), header and footer (global)
   templates/           layouts/base.html, page, landing page, blog listing, blog post, partials, system pages
 docs/                  internal docs (never uploaded)
 ```
@@ -36,20 +35,13 @@ The vendor files keep their MIT license banners. The only change to them is that
 ## Fonts
 
 - **Primary font:** a Google font picked in the theme settings (Typography → Fonts). The default is Inter, using weights 400 and 500. HubSpot loads it through its font field.
-- **Secondary font:** Tobi Pro, provided by us. `main.css` loads it with `@font-face` (woff2 first, then woff, `font-display: swap`) as family "Tobi Pro", weights Light 300, Regular 400 and Medium 500: `theme/fonts/TobiPro-300`, `TobiPro-400` and `TobiPro-500` (.woff2 and .woff).
-  - The files are a format conversion only (OTF to WOFF2/WOFF) of the Light, Regular and Medium OTFs in `../font-sources/Tobi Pro Family/`, with no other changes. The source folder stays untouched.
-  - Tobi Pro is a sans-serif, so `--font-secondary` is `"Tobi Pro", sans-serif` (fallback default: Sans-serif).
-  - **Licence:** Tobi Pro is a commercial font. Every client site built from this boilerplate serves it, so keep our web licence covering that use. If a client site isn't covered, set that client's own font in Site fonts or switch the font roles to Primary.
-- **Client font:** set in the global **Site fonts** module, not in theme settings (HubSpot doesn't allow text or file fields in theme settings).
-  - The module is in `theme/modules/site-fonts.module/`. It's placed once in `templates/layouts/base.html`, so it applies to every template: pages, landing pages, blog listing and post, and system pages. It's hidden from drag-and-drop, so editors can't add it to pages.
-  - **Where editors find it:** open any page built on this theme in the page editor. In the left sidebar, click the **Contents** (site tree) icon, then click **Site fonts** (it has the global content icon) and choose **Open in global content editor**. Make the changes, then click **Publish to [#] assets**. This needs the "Global content and theme settings" permission. Developers can also edit it from Design Manager. Confirm these menu names in the test portal; HubSpot's UI labels change from time to time.
-  - Fill in **Secondary font family name** and upload the files under **Regular (400)** and **Medium (500)**: woff2 first and woff as the fallback. A weight only gets an `@font-face` when it has at least one file.
-  - **Always request both the 400 and 500 files (woff2, plus woff if available) from the client.** The theme never mixes font families per weight, and the browser never fakes a missing weight (`font-synthesis: style` on every element set to the secondary font). With only one weight uploaded, text set to the other weight renders in the nearest real weight.
-  - **Italics:** the secondary font has no italic files, so the browser fakes (slants) italic text. If a client's brand requires a true italic, we can add italic file fields to the Site fonts module later.
-  - The client font needs its real family name (for example "Brand Sans"). With files and a name set, `--font-secondary` becomes `"Brand Sans", <fallback>` and the client font replaces Tobi Pro completely. With no files or an empty name, the module outputs nothing and Tobi Pro stays.
-  - The fallback (serif or sans-serif) is still in Theme settings → Typography → Secondary font. Which elements use the secondary font is still set in Theme settings → Typography → Fonts.
+- **Secondary font:** Peridot PE Variable from Adobe Fonts (Typekit). `layouts/base.html` loads the kit with `<link rel="stylesheet" href="https://use.typekit.net/kwi4rat.css">` in `<head>`, before the theme CSS. The CSS family name is `peridot-pe-variable`, so `--font-secondary` is `"peridot-pe-variable", sans-serif`.
+  - It is one variable font covering weights 100–950, upright only. Italic text is slanted by the browser (`font-synthesis: style`); weights are never faked.
+  - The kit also contains Area Extended, Area Extended Light, Area Normal, Area Normal Light and Neue Kabel. They only download if CSS uses them.
+  - **Adobe kit settings (in Adobe Fonts, not in the theme):** add every domain the site runs on (including the HubSpot preview and `*.hs-sites.com` domains) to the kit, or the font won't load there. The kit currently uses `font-display: auto`; set it to `swap` in the kit settings to match our rule.
+  - **Re-skin:** the link and family name are in code. For a new client, replace the `<link>` in `layouts/base.html` and the family name in `--font-secondary` in `css/main.css`.
+  - The fallback (serif or sans-serif) is in Theme settings → Typography → Secondary font (default Sans-serif). Which elements use the secondary font is set in Theme settings → Typography → Fonts.
   - **Defaults:** headings use the primary font (Inter). Body text, eyebrows, display text and buttons use the secondary font. Forms follow the body font. Buttons have their own choice in Theme settings → Buttons → Font (Secondary, Primary, Same as body text, Same as headings).
-  - Never commit a client's own font files to this repo. Upload them to that client's portal only.
 
 ## Card shadow
 
@@ -89,7 +81,7 @@ The site header is one global module (`modules/header.module`) called with a sta
 
 ## Footer
 
-The site footer is the global **Footer** module, placed in `templates/partials/footer.html`. Edit it once and it changes on every page (global content editor, same route as Site fonts).
+The site footer is the global **Footer** module, placed in `templates/partials/footer.html`. Edit it once and it changes on every page, in the global content editor. **Where editors find it:** open any page built on this theme in the page editor. In the left sidebar, click the **Contents** (site tree) icon, then click the module (it has the global content icon) and choose **Open in global content editor**. Make the changes, then click **Publish to [#] assets**. This needs the "Global content and theme settings" permission. Confirm these menu names in the test portal; HubSpot's UI labels change from time to time.
 
 - **Logo:** image + optional link (usually the home page). Alt text is required when the logo is linked. The partial passes the theme's placeholder logo as the starting value; replace it for each client. Empty image = no logo.
 - **Description:** rich text under the logo.
@@ -157,7 +149,7 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
 5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
 7. **Overlay color:** the Base Module overlay is a color picker with opacity. It starts as the theme's Dark background color at 50%. Check that `--overlay-opacity` is a decimal (for example `0.5`), that the overlay color also shows behind the image while it loads, and that Auto text color follows the picked overlay color and opacity.
-8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), DevTools → Network → Font shows `TobiPro-400.woff2` and `TobiPro-500.woff2` with status 200 (and `TobiPro-300.woff2` wherever 300 is used). DevTools → Elements → Computed on body text shows the rendered font "Tobi Pro"; headings show Inter. With no client font, the Site fonts module outputs no `<style>` block. After you upload client files, set the real family name and publish the Site fonts global module, the client font replaces Tobi Pro on all those templates and its `<style>` block appears in `<head>`. If the font files 404, check that `theme/fonts/` was uploaded.
+8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), the Adobe Fonts kit (`use.typekit.net/kwi4rat.css`) loads with status 200 and DevTools → Network → Font shows the Peridot font file. DevTools → Elements → Computed on body text shows the rendered font "peridot-pe-variable"; headings show Inter. If the font doesn't load, add the portal's domains (including the preview domain) to the kit in Adobe Fonts.
 9. **Spacing field value shape:** turn on "Change spacing" in a Base Module and set all four sides at each breakpoint. Check that the values arrive as `padding.top.value` / `padding.top.units` (and the same for right, bottom and left), and that the scoped CSS outputs each side at the right breakpoint. Also check that a side left empty keeps the value from the larger breakpoint.
 10. **Light text on dark backgrounds:** with a dark picked background color (and Text color Auto or Light), check that the heading, text, eyebrow and links are light. Secondary and secondary outline buttons should use the white variants. A visible keyboard focus outline should show on every link and button.
 11. **Image type with no image:** set Background type to Image without choosing an image. The section should have no background and use dark text (Auto), with no broken `background-image` in the CSS.

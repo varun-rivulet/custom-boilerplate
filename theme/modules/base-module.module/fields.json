@@ -316,54 +316,20 @@
             }
           },
           {
-            "type": "choice",
+            "type": "color",
             "name": "gradient_start",
             "label": "Gradient start color",
-            "display": "select",
-            "choices": [
-              [
-                "primary",
-                "Primary"
-              ],
-              [
-                "secondary",
-                "Secondary"
-              ],
-              [
-                "accent",
-                "Accent"
-              ],
-              [
-                "heading",
-                "Heading"
-              ],
-              [
-                "text",
-                "Text"
-              ],
-              [
-                "muted",
-                "Muted"
-              ],
-              [
-                "border",
-                "Border"
-              ],
-              [
-                "light-bg",
-                "Light background"
-              ],
-              [
-                "dark-bg",
-                "Dark background"
-              ],
-              [
-                "white",
-                "White"
-              ]
-            ],
-            "default": "secondary",
-            "required": true,
+            "show_opacity": false,
+            "inherited_value": {
+              "property_value_paths": {
+                "color": "theme.colors.secondary.color"
+              }
+            },
+            "default": {
+              "color": null,
+              "opacity": 100
+            },
+            "help_text": "Defaults to the theme's Secondary color until you pick another color.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -377,54 +343,20 @@
             }
           },
           {
-            "type": "choice",
+            "type": "color",
             "name": "gradient_end",
             "label": "Gradient end color",
-            "display": "select",
-            "choices": [
-              [
-                "primary",
-                "Primary"
-              ],
-              [
-                "secondary",
-                "Secondary"
-              ],
-              [
-                "accent",
-                "Accent"
-              ],
-              [
-                "heading",
-                "Heading"
-              ],
-              [
-                "text",
-                "Text"
-              ],
-              [
-                "muted",
-                "Muted"
-              ],
-              [
-                "border",
-                "Border"
-              ],
-              [
-                "light-bg",
-                "Light background"
-              ],
-              [
-                "dark-bg",
-                "Dark background"
-              ],
-              [
-                "white",
-                "White"
-              ]
-            ],
-            "default": "dark-bg",
-            "required": true,
+            "show_opacity": false,
+            "inherited_value": {
+              "property_value_paths": {
+                "color": "theme.colors.dark_bg.color"
+              }
+            },
+            "default": {
+              "color": null,
+              "opacity": 100
+            },
+            "help_text": "Defaults to the theme's Dark background color until you pick another color.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -501,7 +433,7 @@
               ]
             ],
             "default": "auto",
-            "help_text": "Auto picks light or dark text from the background: for Color and Image backgrounds it uses the picked color (overlay color for images) and its opacity, and chooses the text color with the higher contrast. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, set Dark or Light manually."
+            "help_text": "Auto picks light or dark text from the picked colors: the background color, the overlay color for images (with their opacity), or both gradient colors. It chooses the text color with the higher contrast. Gradient: light text only when both colors are dark; for a gradient that mixes a light and a dark color, Auto gives dark text, so set Dark or Light manually."
           }
         ]
       },
