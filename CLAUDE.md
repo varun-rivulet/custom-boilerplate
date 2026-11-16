@@ -100,10 +100,12 @@ REFERENCE DOCUMENTS
 - Theme files live only in theme/. Never place docs or internal references inside theme/.
 
 STATUS (resume here in a new session)
-- Phase 1 (Audit) is DONE and approved. Full audit (module mapping, token defaults, Luma issues, Phase 2 checklist): docs/phase-1-audit.md. Read it before starting Phase 2.
+- Phase 1 (Audit): DONE and approved, on main. Full audit (module mapping, token defaults, Luma issues): docs/phase-1-audit.md.
 - All decisions are recorded in this file; this file wins if docs/phase-1-audit.md disagrees.
-- Phase 2 (Foundation) is BUILT on branch phase-2-foundation (not yet tested in a portal; needs the dev/sandbox portal).
-- Next: test Phase 2 in the sandbox portal, then Phase 3 (Base Module).
+- Phase 2 (Foundation): BUILT, committed on branch phase-2-foundation. NOT tested in HubSpot.
+- Phase 3 (Base Module): BUILT, committed on branch phase-3-base-module (branched from phase-2-foundation). NOT tested in HubSpot. Clone checklist is in README.md ("Base Module clone checklist").
+- Blocked: dev/sandbox portal not provided yet. Do not merge any phase branch into main until the README "Sandbox test checklist" passes.
+- Next: Phase 4 (core modules), each cloned from the Base Module by following the README clone checklist.
 
 PHASE 2 DECISIONS (approved)
 - Color defaults are a neutral palette, never a client's brand: primary #3B82F6, secondary #334155, accent #F59E0B, heading #0F172A, text #1F2937, muted #64748B, border #CBD5E1, light bg #F8FAFC, dark bg #0B1F3A, white #FFFFFF. (Replaces the Luma hex values in docs/phase-1-audit.md.) All default scheme text pairs pass 4.5:1 and outline borders 3:1; tightest pair heading-on-primary 4.85.

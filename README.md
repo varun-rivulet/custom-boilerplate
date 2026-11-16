@@ -1,6 +1,6 @@
 # Custom Boilerplate (HubSpot CMS theme)
 
-A reusable HubSpot theme you can clone for each new client. You re-skin it by changing theme settings only (colors, fonts and spacing), with no code edits. The full README and clone checklist come in Phase 7. This file covers the foundation (Phase 2).
+A reusable HubSpot theme you can clone for each new client. You re-skin it by changing theme settings only (colors, fonts and spacing), with no code edits. The full README and the client clone checklist come in Phase 7. This file covers the foundation (Phase 2) and the Base Module clone checklist (Phase 3).
 
 ## Folder layout
 
@@ -60,9 +60,36 @@ The defaults pass WCAG AA: 4.5:1 for every text pair in all three schemes, and 3
 
 If a pair fails, change the scheme's token choice for it in Theme settings → Color schemes. Don't add new hex values.
 
+## Base Module clone checklist
+
+Every new module starts as a copy of `theme/modules/base-module.module/`. The examples below use `cards-grid` as the new module name.
+
+1. **Copy and rename the folder.** For example, copy it to `theme/modules/cards-grid.module/`. In `meta.json`, change `label` to a neutral name (for example "Cards Grid"). Don't add a `module_id`; HubSpot creates one on upload.
+2. **Rename the main section class.** In `module.html`, change `base-module` to `cards-grid` in the `classes` list and in every selector inside `scope_css`. Change the `{# Base module #}` comment to the new module name.
+3. **Rename the init hook.**
+   - In `module.html`, change `data-base-module` to `data-cards-grid`.
+   - In `module.js`, change the selector `[data-base-module]`, the guard key `dataset.baseModuleInit` (it becomes `dataset.cardsGridInit`) and the function name `initBaseModule`.
+   - If the module needs no JS, leave `module.js` as the stub. Slider modules never get module JS: their init lives in `js/main.js`.
+4. **Remove the base fields the module doesn't need** from `fields.json`, together with their `{% set %}` lines, classes and checks in `module.html`. If you remove a content field, also take it out of the "is anything filled in" check on the outer `{% if %}`.
+5. **Add the new fields** inside the existing tabs and groups. Keep to 5 nesting levels at most. Use `visibility` / `advanced_visibility` (with `boolean_operator: "AND"`) instead of extra groups.
+6. **Put the CSS in `theme/css/main.css`.**
+   - Add a section under its own `{# Cards grid #}` label, in page display order, with that section's media queries right after it (desktop first, large to small, theme breakpoints only).
+   - Scope every selector under the main class (`.cards-grid .cards-grid-item`). Use kebab-case, and `.is-active` / `.has-bg` for states.
+   - Use the shared `.section-*` classes (`.section-eyebrow`, `.section-title`, `.section-description`, `.section-buttons`, `.section-media`) first, and only add module classes for what they don't cover.
+   - Single-line rules, no CSS comments, no `!important`, nesting 3 levels at most, z-index in steps of 10 up to 100, and theme CSS variables only (no hard-coded colors, fonts or spacing).
+7. **Keep `module.css` empty.** Use `scope_css` (inside `require_css`) in `module.html` only for values that come from fields.
+8. **Check the output in HubSpot.**
+   - No empty elements render when a field is blank: each wrapper sits inside an `{% if %}`, and the section disappears when nothing is filled in or "Show section" is off.
+   - The editor preview works: placeholder content such as buttons without a link still shows when `is_in_editor` is true, and doesn't show on the live page.
+   - Two instances on one page don't affect each other (scoped CSS, init guard).
+9. **Test**:
+   - all 3 color schemes (Light, Dark, Brand), with and without a background color or image;
+   - every breakpoint: desktop, ≤1366.98, ≤1200.98, ≤991.98, ≤767.98, ≤575.98, down to 360px wide, with no horizontal scroll;
+   - keyboard: every link, button and control can be reached with Tab and shows a visible focus style, in every scheme.
+
 ## Sandbox test checklist
 
-Do not merge `phase-2-foundation` into `main` until these pass on the dev/sandbox portal:
+Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and later) into `main` until these pass on the dev/sandbox portal:
 
 1. **Built-in module parameters:** the header and footer `@hubspot/menu` options (`flow`, `flyouts`, `max_levels`) and the `@hubspot/logo` placeholder image (`img.override_inherited_src`, `src`, `alt`, `loading`) behave as expected.
 2. **Google font weight:** check how HubSpot reports the font field's `variant` (for example `"500"` or `"regular"`), so `--fw-heading` outputs a real number, and check that weights 400 and 500 both load.
