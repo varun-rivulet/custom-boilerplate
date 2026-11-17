@@ -104,7 +104,7 @@
     {% end_require_css %}
   {% endif %}
 
-  <section{% if section_id %} id="{{ section_id }}"{% endif %} class="{{ classes|join(' ') }}" data-base-module>
+  <section{% if section_id %} id="{{ section_id }}"{% endif %} class="{{ classes|join(' ') }}">
     <div class="container">
       <div class="section-content{% if content_width %} content-align-{{ ca.block_position or 'center' }}{% endif %}">
         {% if has_eyebrow %}<div class="section-eyebrow"><p>{{ module.eyebrow|escape_html }}</p></div>{% endif %}

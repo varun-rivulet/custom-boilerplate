@@ -119,10 +119,20 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 
 1. **Copy and rename the folder.** For example, copy it to `theme/modules/cards-grid.module/`. In `meta.json`, change `label` to a neutral name (for example "Cards Grid"). Don't add a `module_id`; HubSpot creates one on upload.
 2. **Rename the main section class.** In `module.html`, change `base-module` to `cards-grid` in the `classes` list and in every selector inside `scope_css`. Change the `{# Base module #}` comment to the new module name.
-3. **Rename the init hook.**
-   - In `module.html`, change `data-base-module` to `data-cards-grid`.
-   - In `module.js`, change the selector `[data-base-module]`, the guard key `dataset.baseModuleInit` (it becomes `dataset.cardsGridInit`) and the function name `initBaseModule`.
-   - If the module needs no JS, leave `module.js` as the stub. Slider modules never get module JS: their init lives in `js/main.js`.
+3. **Module JS (only if the module needs it).** The Base Module's `module.js` is empty, so HubSpot loads no script for it. Leave it empty when the new module has no interactive parts. Slider modules never get module JS: their init lives in `js/main.js`. When the module does need JS:
+   - In `module.html`, add the hook attribute to the main section: `<section ... data-cards-grid>`.
+   - In `module.js`, start from this pattern (one init per instance with a data-* guard; no IIFE, no `DOMContentLoaded`, because HubSpot loads module JS in the footer):
+
+     ```js
+     const initCardsGrid = (root = document) => {
+       root.querySelectorAll('[data-cards-grid]').forEach((section) => {
+         if (section.dataset.cardsGridInit === 'true') return;
+         section.dataset.cardsGridInit = 'true';
+       });
+     };
+
+     initCardsGrid();
+     ```
 4. **Remove the base fields the module doesn't need** from `fields.json`, together with their `{% set %}` lines, classes and checks in `module.html`. If you remove a content field, also take it out of the "is anything filled in" check on the outer `{% if %}`.
    - If the module has no buttons, remove the whole `buttons` repeater and the `valid_buttons` loop.
 5. **Add the new fields** inside the existing tabs and groups. Keep to 5 nesting levels at most. Text, file and other free-input fields go in the Content tab: HubSpot rejects them in the Style tab. Never name a field `body`. Use `visibility` / `advanced_visibility` (with `boolean_operator: "AND"`) instead of extra groups.
