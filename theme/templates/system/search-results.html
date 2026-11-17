@@ -7,7 +7,7 @@
 {% set pageTitle = "Search results" %}
 
 {% block body %}
-<section class="system-page scheme-light section-pt-m section-pb-m">
+<section class="system-page section-pt-m section-pb-m">
   <div class="container container-narrow">
     {% if get_asset_version("@hubspot/search_results") == 0 %}
       {% set search_query = request.query_dict.term or request.query_dict.q %}

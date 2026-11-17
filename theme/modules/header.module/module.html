@@ -16,7 +16,7 @@
 {% set logo_alt = (logo.image.alt|trim if has_logo_image else "") or labels.home|trim or "Home page" %}
 {% set has_link_cta = header_cta.type == "link" and header_cta.text|trim and (header_cta.link.url.href or is_in_editor) %}
 {% set has_panel = nav_items or has_link_cta %}
-{% set classes = ["site-header", "scheme-" ~ (s.color_scheme or "light")] %}
+{% set classes = ["site-header"] %}
 {% if not s.border %}{% do classes.append("is-borderless") %}{% endif %}
 <header class="{{ classes|join(' ') }}" data-site-header>
   <div class="site-header-inner container">

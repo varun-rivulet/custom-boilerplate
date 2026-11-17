@@ -30,7 +30,7 @@
 {% set has_bottom = has_copyright or valid_legal %}
 
 {% if has_top or has_bottom %}
-  <footer class="site-footer scheme-{{ s.color_scheme or 'dark' }} section-pt-{{ pad_class[s.padding_top or 'medium'] }} section-pb-{{ pad_class[s.padding_bottom or 'small'] }}">
+  <footer class="site-footer section-pt-{{ pad_class[s.padding_top or 'medium'] }} section-pb-{{ pad_class[s.padding_bottom or 'small'] }}">
     <div class="container">
       {% if has_top %}
         <div class="site-footer-top">

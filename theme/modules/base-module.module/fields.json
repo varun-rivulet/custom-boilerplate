@@ -63,12 +63,40 @@
             "Secondary"
           ],
           [
+            "dark",
+            "Dark"
+          ],
+          [
+            "white",
+            "White"
+          ],
+          [
+            "heading",
+            "Heading color"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
             "primary-outline",
             "Primary outline"
           ],
           [
             "secondary-outline",
             "Secondary outline"
+          ],
+          [
+            "white-outline",
+            "White outline"
+          ],
+          [
+            "dark-outline",
+            "Dark outline"
+          ],
+          [
+            "heading-outline",
+            "Heading color outline"
           ],
           [
             "text-link",
@@ -213,15 +241,15 @@
             "show_opacity": true,
             "inherited_value": {
               "property_value_paths": {
-                "color": "theme.colors.dark_bg.color",
-                "opacity": "theme.colors.dark_bg.opacity"
+                "color": "theme.global_colors.dark.color",
+                "opacity": "theme.global_colors.dark.opacity"
               }
             },
             "default": {
               "color": null,
               "opacity": null
             },
-            "help_text": "Defaults to the theme's Dark background color (Theme settings > Colors) until you pick another color.",
+            "help_text": "Defaults to the theme's Dark color (Theme settings > Global colors) until you pick another color.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -295,14 +323,14 @@
             "show_opacity": true,
             "inherited_value": {
               "property_value_paths": {
-                "color": "theme.colors.dark_bg.color"
+                "color": "theme.global_colors.dark.color"
               }
             },
             "default": {
               "color": null,
               "opacity": 50
             },
-            "help_text": "Color and opacity of the layer over the image. Defaults to the theme's Dark background color at 50%. The color is also shown behind the image while it loads.",
+            "help_text": "Color and opacity of the layer over the image. Defaults to the theme's Dark color at 50%. The color is also shown behind the image while it loads.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -322,7 +350,7 @@
             "show_opacity": false,
             "inherited_value": {
               "property_value_paths": {
-                "color": "theme.colors.secondary.color"
+                "color": "theme.global_colors.secondary.color"
               }
             },
             "default": {
@@ -349,14 +377,14 @@
             "show_opacity": false,
             "inherited_value": {
               "property_value_paths": {
-                "color": "theme.colors.dark_bg.color"
+                "color": "theme.global_colors.dark.color"
               }
             },
             "default": {
               "color": null,
               "opacity": 100
             },
-            "help_text": "Defaults to the theme's Dark background color until you pick another color.",
+            "help_text": "Defaults to the theme's Dark color until you pick another color.",
             "visibility_rules": "ADVANCED",
             "advanced_visibility": {
               "boolean_operator": "AND",
@@ -449,7 +477,7 @@
             "label": "Change spacing",
             "display": "toggle",
             "default": false,
-            "help_text": "Off: the theme's default section padding (Theme settings > Layout > Section padding, Medium). On: custom padding per breakpoint."
+            "help_text": "Off: the theme's default section padding (Theme settings > Spacing > Section padding, Medium). On: custom padding per breakpoint."
           },
           {
             "type": "spacing",
@@ -798,7 +826,7 @@
                 }
               ]
             },
-            "help_text": "From 320px up to the theme container width (Theme settings → Layout). Larger values are capped at the container width."
+            "help_text": "From 320px up to the theme container width (Theme settings → Spacing → Maximum content width). Larger values are capped at the container width."
           },
           {
             "type": "choice",

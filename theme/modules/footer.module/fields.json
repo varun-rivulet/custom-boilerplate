@@ -664,28 +664,6 @@
     "children": [
       {
         "type": "choice",
-        "name": "color_scheme",
-        "label": "Color scheme",
-        "display": "select",
-        "choices": [
-          [
-            "dark",
-            "Dark"
-          ],
-          [
-            "light",
-            "Light"
-          ],
-          [
-            "brand",
-            "Brand"
-          ]
-        ],
-        "default": "dark",
-        "help_text": "Uses the color schemes from Theme settings → Color schemes."
-      },
-      {
-        "type": "choice",
         "name": "padding_top",
         "label": "Top padding",
         "display": "select",

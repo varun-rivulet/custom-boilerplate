@@ -143,12 +143,40 @@
             "Secondary"
           ],
           [
+            "dark",
+            "Dark"
+          ],
+          [
+            "white",
+            "White"
+          ],
+          [
+            "heading",
+            "Heading color"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
             "primary-outline",
             "Primary outline"
           ],
           [
             "secondary-outline",
             "Secondary outline"
+          ],
+          [
+            "white-outline",
+            "White outline"
+          ],
+          [
+            "dark-outline",
+            "Dark outline"
+          ],
+          [
+            "heading-outline",
+            "Heading color outline"
           ]
         ],
         "default": "primary",
@@ -254,27 +282,6 @@
     "expanded": false,
     "tab": "STYLE",
     "children": [
-      {
-        "type": "choice",
-        "name": "color_scheme",
-        "label": "Color scheme",
-        "display": "select",
-        "choices": [
-          [
-            "light",
-            "Light"
-          ],
-          [
-            "dark",
-            "Dark"
-          ],
-          [
-            "brand",
-            "Brand"
-          ]
-        ],
-        "default": "light"
-      },
       {
         "type": "boolean",
         "name": "border",

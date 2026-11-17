@@ -5,8 +5,7 @@
 {% set ca = s.content_align %}
 {% set adv = module.advanced %}
 {% set img = module.image %}
-{% set colors = theme.colors %}
-{% set schemes = theme.color_schemes %}
+{% set colors = theme.global_colors %}
 {% set valid_buttons = [] %}
 {% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
 {% set has_eyebrow = module.eyebrow|trim %}
@@ -16,17 +15,17 @@
 {% set has_bg_color = bg.type == "color" %}
 {% set has_bg_image = bg.type == "image" and bg.image.src %}
 {% set has_bg_gradient = bg.type == "gradient" %}
-{% set container_max = theme.layout.container_width or 1320 %}
+{% set container_max = theme.spacing.maximum_content_width or 1320 %}
 {% set width_value = ca.width or 860 %}
 {% set content_width = (width_value if width_value < container_max else container_max) if ca.custom_width else 0 %}
 {% set section_id = adv.section_id|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
 
 {% set bg_hex = "" %}
 {% if has_bg_color %}
-  {% set bg_hex = bg.color.color or colors.dark_bg.color %}
+  {% set bg_hex = bg.color.color or colors.dark.color %}
   {% set bg_alpha = (bg.color.opacity if bg.color.color and bg.color.opacity is number else 100) / 100 %}
 {% elif has_bg_image %}
-  {% set bg_hex = bg.overlay_color.color or colors.dark_bg.color %}
+  {% set bg_hex = bg.overlay_color.color or colors.dark.color %}
   {% set bg_alpha = (bg.overlay_color.opacity if bg.overlay_color.opacity is number else 50) / 100 %}
 {% endif %}
 {% set tints = [] %}
@@ -36,7 +35,7 @@
   {% do tints.append([bg_rgb, bg_alpha]) %}
 {% elif has_bg_gradient %}
   {% set grad_start = bg.gradient_start.color or colors.secondary.color %}
-  {% set grad_end = bg.gradient_end.color or colors.dark_bg.color %}
+  {% set grad_end = bg.gradient_end.color or colors.dark.color %}
   {% do tints.append([grad_start|convert_rgb|replace(" ", "")|split(","), 1]) %}
   {% do tints.append([grad_end|convert_rgb|replace(" ", "")|split(","), 1]) %}
 {% endif %}
@@ -44,10 +43,10 @@
 {% set text_color = bg.text_color or "auto" %}
 {% if text_color == "auto" %}
   {% if tints %}
-    {# Auto from hex: blend each picked color (with opacity) over the page background, then pick the scheme text color with the higher WCAG contrast. Gradient: light text only when both ends want light text. The sRGB curve uses a cubic approximation, so no pow is needed. #}
-    {% set page_hex = colors[(schemes.light.background or "white")|replace("-", "_")].color or colors.white.color %}
-    {% set dark_hex = colors[(schemes.light.text or "text")|replace("-", "_")].color or colors.text.color %}
-    {% set light_hex = colors[(schemes.dark.text or "white")|replace("-", "_")].color or colors.white.color %}
+    {# Auto from hex: blend each picked color (with opacity) over the page background, then pick the body text color or the text-on-dark color, whichever has the higher WCAG contrast. Gradient: light text only when both ends want light text. The sRGB curve uses a cubic approximation, so no pow is needed. #}
+    {% set page_hex = colors.page_bg.color or colors.white.color %}
+    {% set dark_hex = theme.text.body_font.font.color or colors.text.color %}
+    {% set light_hex = theme.text_on_dark.text.color or colors.white.color %}
     {% set page_rgb = page_hex|convert_rgb|replace(" ", "")|split(",") %}
     {% set rgbs = [dark_hex|convert_rgb|replace(" ", "")|split(","), light_hex|convert_rgb|replace(" ", "")|split(",")] %}
     {% for tint in tints %}
@@ -129,7 +128,7 @@
         {% endif %}
         {% if has_image %}
           <div class="section-media img-radius">
-            {% set img_max = (theme.layout.container_width or 1320) * 2 %}
+            {% set img_max = container_max * 2 %}
             <img src="{{ resize_image_url(img.src, img_max) if img.width and img.width > img_max else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img.width %} width="{{ img.width }}"{% endif %}{% if img.height %} height="{{ img.height }}"{% endif %} loading="lazy">
           </div>
         {% endif %}

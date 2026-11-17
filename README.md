@@ -7,7 +7,7 @@ A reusable HubSpot theme you can clone for each new client. You re-skin it by ch
 ```
 theme/                 everything that uploads to HubSpot (and nothing else)
   theme.json           theme label, screenshot, editor breakpoint
-  fields.json          theme settings: colors, typography, buttons, layout, color schemes, forms
+  fields.json          theme settings: global colors and fonts, spacing, text, text on dark backgrounds, buttons, forms, website header and footer
   css/main.css         the one shared stylesheet (tokens, sections and their media queries)
   css/generic/         _reset.css and _normalize.css (kept as separate files, included in main.css)
   css/swiper.min.css   vendor file
@@ -34,48 +34,53 @@ The vendor files keep their MIT license banners. The only change to them is that
 
 ## Fonts
 
-- **Primary font:** a Google font picked in the theme settings (Typography → Fonts). The default is Inter, using weights 400 and 500. HubSpot loads it through its font field.
-- **Secondary font:** Peridot PE Variable from Adobe Fonts (Typekit). `layouts/base.html` loads the kit with `<link rel="stylesheet" href="https://use.typekit.net/kwi4rat.css">` in `<head>`, before the theme CSS. The CSS family name is `peridot-pe-variable`, so `--font-secondary` is `"peridot-pe-variable", sans-serif`.
-  - It is one variable font covering weights 100–950, upright only. Italic text is slanted by the browser (`font-synthesis: style`); weights are never faked.
+- **Primary font:** a Google font picked in Theme settings → Global fonts → Primary. The default is Inter. HubSpot loads it through its font field, only in the weights the text styles pick (default: 500 for headings).
+- **Secondary font:** Peridot PE Variable from Adobe Fonts (Typekit). `layouts/base.html` loads the kit with `<link rel="stylesheet" href="https://use.typekit.net/kwi4rat.css">` in `<head>`, before the theme CSS. Theme settings → Global fonts → Secondary holds the CSS family name `peridot-pe-variable` (font set Adobe) and its fallback (default sans-serif).
+  - It is one variable font covering weights 100–950, upright only. Italic text is slanted by the browser (`font-synthesis: style`, set for every text style that uses a non-Google font); weights are never faked.
   - The kit also contains Area Extended, Area Extended Light, Area Normal, Area Normal Light and Neue Kabel. They only download if CSS uses them.
   - **Adobe kit settings (in Adobe Fonts, not in the theme):** add every domain the site runs on (including the HubSpot preview and `*.hs-sites.com` domains) to the kit, or the font won't load there. The kit currently uses `font-display: auto`; set it to `swap` in the kit settings to match our rule.
-  - **Re-skin:** the link and family name are in code. For a new client, replace the `<link>` in `layouts/base.html` and the family name in `--font-secondary` in `css/main.css`.
-  - The fallback (serif or sans-serif) is in Theme settings → Typography → Secondary font (default Sans-serif). Which elements use the secondary font is set in Theme settings → Typography → Fonts.
-  - **Defaults:** headings use the primary font (Inter). Body text, eyebrows, display text and buttons use the secondary font. Forms follow the body font. Buttons have their own choice in Theme settings → Buttons → Font (Secondary, Primary, Same as body text, Same as headings).
+  - **Re-skin:** replace the `<link>` in `layouts/base.html`. If the family name changes, update the default of `global_fonts.secondary` in `theme/fields.json` (HubSpot's font picker can't select Adobe families).
+- **Text styles:** each style in Theme settings → Text (H1–H6, Body, Links, Eyebrow, Display) has its own font field that follows Primary or Secondary until changed, and sets the weight and color. **Defaults:** headings use Primary (Inter 500). Body, links, eyebrow, display and buttons use Secondary. Forms follow the body font; the form title follows H5.
+- **Sizes:** H2–H6, body, display and lead have one size per breakpoint tier (Text → style → Font size). Line heights are per style.
 
-## Card shadow
+## Shadows
 
-Theme settings → Layout → **Card shadow**: None, Small (default), Medium or Large. `main.css` defines `--shadow-sm`, `--shadow-md` and `--shadow-lg`. Their color is the heading color token mixed with transparency (`color-mix()`), so shadows re-skin with the colors. Cards use `--card-shadow`, which points to the chosen size, or `none`.
+The header dropdown uses `--shadow-md`, whose color is the heading color mixed with transparency (`color-mix()`), so it re-skins with the colors. There is no shadow setting (card shadow was removed).
 
 ## H1 size and image radius
 
-- **H1** has one size setting (Theme settings → Typography → Font sizes → H1 (largest size), default 85px). It is full size on screens 1440px wide and up, then scales down with the screen width and stops at 55% of the value (never below 40px). With 85px: 81px at 1366, 71px at 1200, 58px at 991, 47px at 767 and below. H2–H6 and body keep one setting per breakpoint.
-- **Image radius** (Theme settings → Layout & spacing → Image radius, default 4px) rounds images inside any element with the utility class `.img-radius` (the class goes on the image wrapper, for example `<div class="section-media img-radius">`). The Base Module image and the blog post featured image use it. Logos, icons, header and footer images and images inside rich text don't get the class, so they are never rounded. New modules add the class to their content-image wrapper.
+- **H1** has one size setting (Theme settings → Text → Heading one (H1) → Size (largest), default 85px). It is full size on screens 1440px wide and up, then scales down with the screen width and stops at 55% of the value (never below 40px). With 85px: 81px at 1366, 71px at 1200, 58px at 991, 47px at 767 and below. H2–H6 and body keep one setting per breakpoint.
+- **Image radius** (Theme settings → Spacing → Image radius, default 4px) rounds images inside any element with the utility class `.img-radius` (the class goes on the image wrapper, for example `<div class="section-media img-radius">`). The Base Module image and the blog post featured image use it. Logos, icons, header and footer images and images inside rich text don't get the class, so they are never rounded. New modules add the class to their content-image wrapper.
 
-## Color schemes
+## Colors
 
-The 10 color tokens are the only hex values. The Light, Dark and Brand schemes pick tokens from that list, including button colors and hover states. So re-skinning a client normally means changing only the 10 tokens.
+Theme settings → **Global colors** holds the 16 palette colors: Primary, Text, Secondary, White, Page background, Heading, Dark, Secondary tint (light), Secondary tint, Accent tint, Primary tint, Muted, Accent, Primary dark, Highlight and Border. They are the only hex values you normally change. Every other color setting (text styles, buttons, forms, website header and footer, text on dark backgrounds) is a color picker that follows a palette color until someone changes it.
+
+- **When you change Primary, update Primary dark too.** Primary dark is a fixed color, not calculated from Primary.
+- **Page background** is the body background. **Border** is for decorative lines only; form inputs have their own border (Forms → Fields → Border).
+- Narrow pages (blog post, system pages) use `.container-narrow`, which is 65% of the maximum content width (858px at the default 1320px). There is no separate setting.
 
 How modules use them:
-- **Light** is the page default. The Base Module's **Text color: Dark** also uses the Light scheme values.
-- **Dark** supplies the values for the Base Module's **Text color: Light**: light text, links and button variants for dark backgrounds.
-- **Brand** is kept for future modules. The Base Module doesn't use it.
+- Light backgrounds use the text style colors (Text → H1–H6, Body, Links, Eyebrow). The Base Module's **Text color: Dark** uses the same values.
+- **Text on dark backgrounds** (heading, text, eyebrow, link, link hover) supplies the Base Module's **Text color: Light**. Form labels, help and error text switch to its text color. All solid buttons then use the **White** button colors and all outline buttons the **White outline** colors (colors only; font, size, radius and padding stay).
+- **Website header** and **Website footer** set the header and footer colors. The footer uses its text color for headings, links and icons too, and the same color at 25% opacity for dividers. Header menu links underline on hover.
 
 ### Re-skin warning: check contrast
 
-The defaults pass WCAG AA: 4.5:1 for every text pair in all three schemes, and 3:1 for outline button borders. The tightest pair is **heading text on a primary background (4.85:1)**, which the primary buttons use. When you change a client's colors, re-check at least these pairs:
+The defaults pass WCAG AA: 4.5:1 for text and 3:1 for outline button borders. The tightest pair is **heading text on a primary background (4.85:1)**, which the primary button uses. When you change a client's colors, re-check at least these pairs:
 
-- heading on primary (primary button text, and primary outline button hover)
-- white on secondary (secondary button, Brand scheme text)
-- accent on dark-bg (Dark scheme eyebrow and link)
-- heading on accent (Brand scheme primary button)
-- primary on white and on dark-bg (outline borders, 3:1)
+- heading on primary (primary button text, primary outline button hover)
+- white on secondary, dark and heading (secondary, dark and heading color buttons)
+- heading on accent (accent button)
+- accent on dark (eyebrow and link on dark backgrounds)
+- secondary (links) and text on page background
+- primary on page background and white on dark (outline borders, 3:1)
 - muted on white (form input borders and placeholder text)
 
-If a pair fails, change the scheme's token choice for it in Theme settings → Color schemes. Don't add new hex values.
+If a pair fails, change the setting that uses it (for example the button's text color) to another palette color. Don't add new hex values.
 
 ## Header
-The site header is one global module (`modules/header.module`) called with a static `{% module "site_header" %}` tag in `templates/partials/header.html`. Content lives in the global content editor, so every page shares it. Menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (theme button variants). For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
+The site header is one global module (`modules/header.module`) called with a static `{% module "site_header" %}` tag in `templates/partials/header.html`. Content lives in the global content editor, so every page shares it. Menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (any of the 11 theme button styles). Colors come from Theme settings → Website header (menu text, drop-down text, background and border, header background); the module itself only has the bottom border toggle. For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
 
 **Sticky header (not built yet):** HubSpot wraps the header partial in its own `<div>`, so `position: sticky` on `.site-header` only sticks inside that wrapper and scrolls away with it. A sticky header needs a workaround, for example making HubSpot's wrapper div the sticky element, or a small script. Decide and test it in the sandbox before adding it.
 
@@ -90,7 +95,7 @@ The site footer is the global **Footer** module, placed in `templates/partials/f
 - **Social links:** up to 8 (Facebook, Instagram, LinkedIn, X, YouTube, TikTok, Other). A link shows only when it has a URL. Screen readers hear the platform name or the optional accessible label.
 - **Bottom bar:** © + current year (toggle) + copyright text, and up to 5 legal links.
 - **Accessibility labels:** screen-reader names for the menu columns landmark ("Footer"), the legal links landmark ("Legal"), the logo fallback alt text and "Other" social links. Translate them for non-English sites.
-- **Style tab:** color scheme Dark (default) / Light / Brand and top/bottom padding presets.
+- **Style tab:** top/bottom padding presets. Colors come from Theme settings → Website footer (text and background; default white on Dark).
 - Placeholder links without a URL show only in the editor, never on the live page.
 
 ## HubSpot CTA buttons (opt-in add-on)
@@ -134,7 +139,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 9. **Test**:
    - text color Auto / Dark / Light on: a light picked color, a dark picked color, a mid-tone (for example the primary token) and a picked color at 50% opacity; an image with light and dark overlay colors; light, dark and mixed gradients;
    - every breakpoint: desktop, ≤1366.98, ≤1200.98, ≤991.98, ≤767.98, ≤575.98, down to 360px wide, with no horizontal scroll;
-   - keyboard: every link, button and control can be reached with Tab and shows a visible focus style, in every scheme.
+   - keyboard: every link, button and control can be reached with Tab and shows a visible focus style, with Text color Dark and Light.
 
 ## Sandbox test checklist
 
@@ -143,18 +148,18 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
 0. **Delete the old theme folder first:** in the test portal's Design Manager, delete the folder named "Custom Boilerplate" (left over from an earlier upload from another folder). Test only the `custom-boilerplate` theme folder.
 
 1. **Built-in module parameters:** the `@hubspot/logo` placeholder image in header-minimal.html (`img.override_inherited_src`, `src`, `alt`, `loading`) behaves as expected.
-2. **Google font weight:** check how HubSpot reports the font field's `variant` (for example `"500"` or `"regular"`), so `--fw-heading` outputs a real number, and check that weights 400 and 500 both load.
+2. **Font fields:** check how HubSpot reports a font field's `variant` (for example `"500"` or `"regular"`), so `--h1-weight`, `--body-weight` and `--btn-weight` output real numbers, and that only the Inter weights in use load. Check that the upload accepts `font_set: "ADOBE"` on Global fonts → Secondary, that the editor shows it without resetting it, and that text styles following it output `"peridot-pe-variable", sans-serif`.
 3. **Viewport meta:** check that `standard_header_includes` outputs `<meta name="viewport">`. If it doesn't, add it to `layouts/base.html` after the charset.
-4. **New form editor:** check forms built in HubSpot's new form editor, not only legacy `.hs-form` markup, against the global form styling (labels, help and error text in the scheme color, input boxes, focus, error icon).
+4. **New form editor:** check forms built in HubSpot's new form editor, not only legacy `.hs-form` markup, against the global form styling (labels, help and error text in the Forms colors, input boxes, focus, error icon, form title).
 5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
-7. **Overlay color:** the Base Module overlay is a color picker with opacity. It starts as the theme's Dark background color at 50%. Check that `--overlay-opacity` is a decimal (for example `0.5`), that the overlay color also shows behind the image while it loads, and that Auto text color follows the picked overlay color and opacity.
+7. **Overlay color:** the Base Module overlay is a color picker with opacity. It starts as the theme's Dark color at 50%. Check that `--overlay-opacity` is a decimal (for example `0.5`), that the overlay color also shows behind the image while it loads, and that Auto text color follows the picked overlay color and opacity.
 8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), the Adobe Fonts kit (`use.typekit.net/kwi4rat.css`) loads with status 200 and DevTools → Network → Font shows the Peridot font file. DevTools → Elements → Computed on body text shows the rendered font "peridot-pe-variable"; headings show Inter. If the font doesn't load, add the portal's domains (including the preview domain) to the kit in Adobe Fonts.
 9. **Spacing field value shape:** turn on "Change spacing" in a Base Module and set all four sides at each breakpoint. Check that the values arrive as `padding.top.value` / `padding.top.units` (and the same for right, bottom and left), and that the scoped CSS outputs each side at the right breakpoint. Also check that a side left empty keeps the value from the larger breakpoint.
-10. **Light text on dark backgrounds:** with a dark picked background color (and Text color Auto or Light), check that the heading, text, eyebrow and links are light. Secondary and secondary outline buttons should use the white variants. A visible keyboard focus outline should show on every link and button.
+10. **Light text on dark backgrounds:** with a dark picked background color (and Text color Auto or Light), check that the heading, text, eyebrow and links use Text on dark backgrounds. Every solid button should use the White button colors and every outline button the White outline colors, including a form's submit button. A visible keyboard focus outline should show on every link and button.
 11. **Image type with no image:** set Background type to Image without choosing an image. The section should have no background and use dark text (Auto), with no broken `background-image` in the CSS.
 12. **H1 and image radius:** at 1440px an H1 is 85px; at 360px it is 47px and nothing overflows horizontally. A Base Module image and a blog post featured image get the Image radius; the header logo does not.
-13. **Background color picker inheritance:** add a Base Module, set Background type Color and don't touch the picker. It should show the theme's Dark background color. Change Dark background in theme settings: the module follows it. Then pick another color: it keeps that color. If HubSpot rejects `theme.colors.dark_bg.color` in `inherited_value` (or the `{"color": null, "opacity": null}` default) on upload, remove `inherited_value`, set the default to `{"color": "", "opacity": 100}` and rely on the HubL fallback.
+13. **Background color picker inheritance:** add a Base Module, set Background type Color and don't touch the picker. It should show the theme's Dark color. Change Dark in Global colors: the module follows it. Then pick another color: it keeps that color. If HubSpot rejects `theme.global_colors.dark.color` in `inherited_value` (or the `{"color": null, "opacity": null}` default) on upload, remove `inherited_value`, set the default to `{"color": "", "opacity": 100}` and rely on the HubL fallback.
 14. **Auto text color from hex:** check that `convert_rgb` returns three numbers (for example `59,130,246`), and that Auto gives dark text on #3B82F6, light text on #334155 and #64748B, dark text on #F59E0B, and dark text on #0B1F3A at 10% opacity. With opacity below 100, the CSS shows `rgba(r,g,b,0.5)`.
 15. **HubSpot CTA add-on (only in a portal with CTA access):** after adding the add-on ("HubSpot CTA buttons (opt-in add-on)" above), pick a CTA in a button set to HubSpot CTA. It renders on the live page and in the editor; a button with no CTA picked renders nothing (no empty `section-cta` div). Check whether the `cta` field lists new CTAs (Marketing > CTAs) or only legacy ones; if new ones render nothing with `{% cta guid=... %}`, try `{{ cta(item.cta) }}`. The WLIQ test portal has no CTA access, so this can't be tested there.
 16. **Image position:** top, center and bottom each move the background image as expected.
@@ -165,14 +170,17 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
   - Mobile (≤991.98px): the menu button opens/closes the panel; submenus open as accordions in both menu types; Escape closes.
   - Logo: empty image shows the placeholder (theme/images/logo-placeholder.svg via get_asset_url) at 160×40; an uploaded logo outputs its width/height and loading="eager".
   - Header button: the link button is hidden on the live page until a link is set.
-  - All 3 color schemes (Light/Dark/Brand): dropdown backgrounds, text, borders and focus outlines are visible.
+  - Website header colors: change menu text, drop-down text/background/border and header background in Theme settings; the header follows, menu links underline on hover, and focus outlines are visible. On mobile the submenus use the header colors.
 18. **Footer module:**
    - The placeholder logo passed from the partial (`logo={"image": {...}}` with `get_asset_url`) appears on first upload. If global module tag parameters are ignored, the logo is simply hidden until an image is chosen.
    - `local_dt|format_datetime("yyyy")` prints the four-digit year (fallback: `local_dt|datetimeformat('%Y')`). Check that a cached live page shows the new year after 1 January (republish if needed).
    - Nested repeaters (columns → links) save and reorder correctly; `sorting_label_field` paths (`columns.links.text`, `contact.items.text`, `social.items.platform`) show useful labels.
    - Email/phone items output `mailto:` / `tel:` once (never doubled), with and without the optional link field.
-   - Dark, Light and Brand schemes: text, headings, links, social icon borders and the bottom-bar border are visible; focus outline shows on every link.
+   - Website footer colors: with the default (white on Dark) and with dark text on a light background, text, headings, links, social icon borders and the bottom-bar border are visible; focus outline shows on every link.
    - Layout at every breakpoint down to 360px: three areas side by side on desktop, logo row on top at ≤991.98, one column with 2-column menus at ≤767.98, no horizontal scroll.
+
+19. **Theme settings inheritance:** change Primary in Global colors. The primary button, primary outline button and every other setting that still follows Primary change with it, in the editor preview and on the live page. Change a button's background directly: it keeps that color. Check that inherited values reach `main.css` (for example `--btn-bg` is a hex, not empty).
+20. **Button styles:** all 11 styles plus Text link render in the Base Module and as the header button, with hover colors and hover radius; the form submit button follows Forms → Submit button → Style. At ≤767.98px buttons use All buttons → Mobile padding.
 
 ## Notes
 
