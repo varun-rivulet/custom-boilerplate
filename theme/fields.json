@@ -605,6 +605,18 @@
       },
       {
         "type": "number",
+        "name": "button_gap",
+        "label": "Button gap",
+        "display": "text",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "suffix": "px",
+        "default": 16,
+        "help_text": "Space between buttons in a button row."
+      },
+      {
+        "type": "number",
         "name": "card_radius",
         "label": "Card radius",
         "display": "text",
@@ -1595,206 +1607,6 @@
             "default": 1.6
           }
         ]
-      },
-      {
-        "type": "group",
-        "name": "display",
-        "label": "Display (.text-display)",
-        "children": [
-          {
-            "type": "font",
-            "name": "font",
-            "label": "Font",
-            "load_external_fonts": true,
-            "inherited_value": {
-              "property_value_paths": {
-                "font": "theme.global_fonts.secondary.font",
-                "font_set": "theme.global_fonts.secondary.font_set",
-                "fallback": "theme.global_fonts.secondary.fallback"
-              }
-            },
-            "default": {
-              "variant": "500"
-            },
-            "visibility": {
-              "hidden_subfields": {
-                "styles": true,
-                "size": true,
-                "color": true
-              }
-            },
-            "help_text": "Family and weight. Color follows the surrounding text."
-          },
-          {
-            "type": "group",
-            "name": "sizes",
-            "label": "Font size",
-            "children": [
-              {
-                "type": "number",
-                "name": "desktop",
-                "label": "Desktop",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 140
-              },
-              {
-                "type": "number",
-                "name": "large_laptop",
-                "label": "≤1366.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 120
-              },
-              {
-                "type": "number",
-                "name": "laptop",
-                "label": "≤1200.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 100
-              },
-              {
-                "type": "number",
-                "name": "tablet",
-                "label": "≤991.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 80
-              },
-              {
-                "type": "number",
-                "name": "mobile",
-                "label": "≤767.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 60
-              }
-            ]
-          },
-          {
-            "type": "number",
-            "name": "line_height",
-            "label": "Line height",
-            "display": "text",
-            "min": 0.8,
-            "max": 2.5,
-            "step": 0.001,
-            "default": 1
-          }
-        ]
-      },
-      {
-        "type": "group",
-        "name": "lead",
-        "label": "Lead (.text-lead)",
-        "children": [
-          {
-            "type": "group",
-            "name": "sizes",
-            "label": "Font size",
-            "children": [
-              {
-                "type": "number",
-                "name": "desktop",
-                "label": "Desktop",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 32
-              },
-              {
-                "type": "number",
-                "name": "large_laptop",
-                "label": "≤1366.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 30
-              },
-              {
-                "type": "number",
-                "name": "laptop",
-                "label": "≤1200.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 28
-              },
-              {
-                "type": "number",
-                "name": "tablet",
-                "label": "≤991.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 26
-              },
-              {
-                "type": "number",
-                "name": "mobile",
-                "label": "≤767.98px",
-                "display": "text",
-                "min": 0,
-                "max": 400,
-                "step": 1,
-                "suffix": "px",
-                "default": 24
-              }
-            ]
-          },
-          {
-            "type": "number",
-            "name": "line_height",
-            "label": "Line height",
-            "display": "text",
-            "min": 0.8,
-            "max": 2.5,
-            "step": 0.001,
-            "default": 1.3
-          }
-        ]
-      },
-      {
-        "type": "group",
-        "name": "small",
-        "label": "Small (.text-small)",
-        "children": [
-          {
-            "type": "number",
-            "name": "size",
-            "label": "Size",
-            "display": "text",
-            "min": 12,
-            "max": 24,
-            "step": 1,
-            "suffix": "px",
-            "default": 16
-          }
-        ]
       }
     ]
   },
@@ -1961,6 +1773,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -2069,7 +1902,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -2095,7 +1928,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -2285,6 +2149,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -2393,7 +2278,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -2419,7 +2304,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -2609,6 +2525,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -2717,7 +2654,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -2743,7 +2680,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -2933,6 +2901,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -3041,7 +3030,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -3067,7 +3056,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -3200,330 +3220,6 @@
       },
       {
         "type": "group",
-        "name": "heading",
-        "label": "Heading color button",
-        "children": [
-          {
-            "type": "group",
-            "name": "text",
-            "label": "Text",
-            "children": [
-              {
-                "type": "font",
-                "name": "font",
-                "label": "Font",
-                "load_external_fonts": true,
-                "inherited_value": {
-                  "property_value_paths": {
-                    "font": "theme.global_fonts.secondary.font",
-                    "font_set": "theme.global_fonts.secondary.font_set",
-                    "fallback": "theme.global_fonts.secondary.fallback",
-                    "color": "theme.global_colors.white.color"
-                  }
-                },
-                "default": {
-                  "variant": "500",
-                  "size": 16,
-                  "size_unit": "px"
-                },
-                "visibility": {
-                  "hidden_subfields": {
-                    "styles": true
-                  }
-                },
-                "help_text": "Family, weight, size and text color."
-              },
-              {
-                "type": "choice",
-                "name": "transform",
-                "label": "Transform",
-                "display": "select",
-                "choices": [
-                  [
-                    "none",
-                    "None"
-                  ],
-                  [
-                    "capitalize",
-                    "Capitalize"
-                  ],
-                  [
-                    "uppercase",
-                    "Uppercase"
-                  ],
-                  [
-                    "lowercase",
-                    "Lowercase"
-                  ]
-                ],
-                "default": "none"
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "background",
-            "label": "Background",
-            "children": [
-              {
-                "type": "color",
-                "name": "color",
-                "label": "Color",
-                "inherited_value": {
-                  "property_value_paths": {
-                    "color": "theme.global_colors.heading.color"
-                  }
-                },
-                "default": {
-                  "opacity": 100
-                },
-                "help_text": "Set the opacity to 0 for a transparent background."
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "border",
-            "label": "Border",
-            "children": [
-              {
-                "type": "border",
-                "name": "border",
-                "label": "Border",
-                "inherited_value": {
-                  "property_value_paths": {
-                    "top.color": "theme.global_colors.heading.color",
-                    "right.color": "theme.global_colors.heading.color",
-                    "bottom.color": "theme.global_colors.heading.color",
-                    "left.color": "theme.global_colors.heading.color"
-                  }
-                },
-                "default": {
-                  "top": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  },
-                  "right": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  },
-                  "bottom": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  },
-                  "left": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "corner",
-            "label": "Corner",
-            "children": [
-              {
-                "type": "number",
-                "name": "radius",
-                "label": "Radius",
-                "display": "text",
-                "min": 0,
-                "max": 100,
-                "step": 1,
-                "suffix": "px",
-                "default": 24
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "spacing",
-            "label": "Spacing",
-            "children": [
-              {
-                "type": "spacing",
-                "name": "spacing",
-                "label": "Spacing",
-                "visibility": {
-                  "hidden_subfields": {
-                    "margin": true
-                  }
-                },
-                "default": {
-                  "padding": {
-                    "top": {
-                      "value": 12,
-                      "units": "px"
-                    },
-                    "right": {
-                      "value": 32,
-                      "units": "px"
-                    },
-                    "bottom": {
-                      "value": 12,
-                      "units": "px"
-                    },
-                    "left": {
-                      "value": 32,
-                      "units": "px"
-                    }
-                  }
-                },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "hover",
-            "label": "Hover",
-            "children": [
-              {
-                "type": "group",
-                "name": "text",
-                "label": "Text",
-                "children": [
-                  {
-                    "type": "color",
-                    "name": "color",
-                    "label": "Color",
-                    "inherited_value": {
-                      "property_value_paths": {
-                        "color": "theme.global_colors.heading.color"
-                      }
-                    },
-                    "default": {
-                      "opacity": 100
-                    }
-                  }
-                ]
-              },
-              {
-                "type": "group",
-                "name": "background",
-                "label": "Background",
-                "children": [
-                  {
-                    "type": "color",
-                    "name": "color",
-                    "label": "Color",
-                    "inherited_value": {
-                      "property_value_paths": {
-                        "color": "theme.global_colors.heading.color"
-                      }
-                    },
-                    "default": {
-                      "opacity": 0
-                    },
-                    "help_text": "Set the opacity to 0 for a transparent background."
-                  }
-                ]
-              },
-              {
-                "type": "group",
-                "name": "border",
-                "label": "Border",
-                "children": [
-                  {
-                    "type": "border",
-                    "name": "border",
-                    "label": "Border",
-                    "inherited_value": {
-                      "property_value_paths": {
-                        "top.color": "theme.global_colors.heading.color",
-                        "right.color": "theme.global_colors.heading.color",
-                        "bottom.color": "theme.global_colors.heading.color",
-                        "left.color": "theme.global_colors.heading.color"
-                      }
-                    },
-                    "default": {
-                      "top": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      },
-                      "right": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      },
-                      "bottom": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      },
-                      "left": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      }
-                    },
-                    "help_text": "Only the color changes on hover; the width and style stay as in the default state."
-                  }
-                ]
-              },
-              {
-                "type": "group",
-                "name": "corner",
-                "label": "Corner",
-                "children": [
-                  {
-                    "type": "number",
-                    "name": "radius",
-                    "label": "Radius",
-                    "display": "text",
-                    "min": 0,
-                    "max": 100,
-                    "step": 1,
-                    "suffix": "px",
-                    "default": 24
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "group",
         "name": "accent",
         "label": "Accent button",
         "children": [
@@ -3581,6 +3277,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -3689,7 +3406,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -3715,7 +3432,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -3905,6 +3653,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -4013,7 +3782,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -4039,7 +3808,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -4229,6 +4029,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -4337,7 +4158,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -4363,7 +4184,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -4553,6 +4405,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -4661,7 +4534,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -4687,7 +4560,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -4877,6 +4781,27 @@
                   ]
                 ],
                 "default": "none"
+              },
+              {
+                "type": "number",
+                "name": "line_height",
+                "label": "Line height",
+                "display": "text",
+                "min": 1,
+                "max": 2,
+                "step": 0.05,
+                "default": 1.25
+              },
+              {
+                "type": "number",
+                "name": "letter_spacing",
+                "label": "Letter spacing",
+                "display": "text",
+                "min": 0,
+                "max": 10,
+                "step": 0.1,
+                "suffix": "px",
+                "default": 0
               }
             ]
           },
@@ -4985,7 +4910,7 @@
               {
                 "type": "spacing",
                 "name": "spacing",
-                "label": "Spacing",
+                "label": "Padding (desktop)",
                 "visibility": {
                   "hidden_subfields": {
                     "margin": true
@@ -5011,7 +4936,38 @@
                     }
                   }
                 },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
+                "help_text": "Inner padding above 767.98px."
+              },
+              {
+                "type": "spacing",
+                "name": "mobile_spacing",
+                "label": "Padding (mobile ≤767.98px)",
+                "visibility": {
+                  "hidden_subfields": {
+                    "margin": true
+                  }
+                },
+                "default": {
+                  "padding": {
+                    "top": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "right": {
+                      "value": 24,
+                      "units": "px"
+                    },
+                    "bottom": {
+                      "value": 10,
+                      "units": "px"
+                    },
+                    "left": {
+                      "value": 24,
+                      "units": "px"
+                    }
+                  }
+                },
+                "help_text": "Inner padding at 767.98px and below."
               }
             ]
           },
@@ -5139,398 +5095,6 @@
                 ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "type": "group",
-        "name": "heading_outline",
-        "label": "Heading color outline button",
-        "children": [
-          {
-            "type": "group",
-            "name": "text",
-            "label": "Text",
-            "children": [
-              {
-                "type": "font",
-                "name": "font",
-                "label": "Font",
-                "load_external_fonts": true,
-                "inherited_value": {
-                  "property_value_paths": {
-                    "font": "theme.global_fonts.secondary.font",
-                    "font_set": "theme.global_fonts.secondary.font_set",
-                    "fallback": "theme.global_fonts.secondary.fallback",
-                    "color": "theme.global_colors.heading.color"
-                  }
-                },
-                "default": {
-                  "variant": "500",
-                  "size": 16,
-                  "size_unit": "px"
-                },
-                "visibility": {
-                  "hidden_subfields": {
-                    "styles": true
-                  }
-                },
-                "help_text": "Family, weight, size and text color."
-              },
-              {
-                "type": "choice",
-                "name": "transform",
-                "label": "Transform",
-                "display": "select",
-                "choices": [
-                  [
-                    "none",
-                    "None"
-                  ],
-                  [
-                    "capitalize",
-                    "Capitalize"
-                  ],
-                  [
-                    "uppercase",
-                    "Uppercase"
-                  ],
-                  [
-                    "lowercase",
-                    "Lowercase"
-                  ]
-                ],
-                "default": "none"
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "background",
-            "label": "Background",
-            "children": [
-              {
-                "type": "color",
-                "name": "color",
-                "label": "Color",
-                "inherited_value": {
-                  "property_value_paths": {
-                    "color": "theme.global_colors.heading.color"
-                  }
-                },
-                "default": {
-                  "opacity": 0
-                },
-                "help_text": "Set the opacity to 0 for a transparent background."
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "border",
-            "label": "Border",
-            "children": [
-              {
-                "type": "border",
-                "name": "border",
-                "label": "Border",
-                "inherited_value": {
-                  "property_value_paths": {
-                    "top.color": "theme.global_colors.heading.color",
-                    "right.color": "theme.global_colors.heading.color",
-                    "bottom.color": "theme.global_colors.heading.color",
-                    "left.color": "theme.global_colors.heading.color"
-                  }
-                },
-                "default": {
-                  "top": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  },
-                  "right": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  },
-                  "bottom": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  },
-                  "left": {
-                    "width": {
-                      "value": 2,
-                      "units": "px"
-                    },
-                    "opacity": 100,
-                    "style": "solid",
-                    "color": "#0F172A"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "corner",
-            "label": "Corner",
-            "children": [
-              {
-                "type": "number",
-                "name": "radius",
-                "label": "Radius",
-                "display": "text",
-                "min": 0,
-                "max": 100,
-                "step": 1,
-                "suffix": "px",
-                "default": 24
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "spacing",
-            "label": "Spacing",
-            "children": [
-              {
-                "type": "spacing",
-                "name": "spacing",
-                "label": "Spacing",
-                "visibility": {
-                  "hidden_subfields": {
-                    "margin": true
-                  }
-                },
-                "default": {
-                  "padding": {
-                    "top": {
-                      "value": 12,
-                      "units": "px"
-                    },
-                    "right": {
-                      "value": 32,
-                      "units": "px"
-                    },
-                    "bottom": {
-                      "value": 12,
-                      "units": "px"
-                    },
-                    "left": {
-                      "value": 32,
-                      "units": "px"
-                    }
-                  }
-                },
-                "help_text": "Inner padding. Mobile (≤767.98px) uses All buttons → Mobile padding."
-              }
-            ]
-          },
-          {
-            "type": "group",
-            "name": "hover",
-            "label": "Hover",
-            "children": [
-              {
-                "type": "group",
-                "name": "text",
-                "label": "Text",
-                "children": [
-                  {
-                    "type": "color",
-                    "name": "color",
-                    "label": "Color",
-                    "inherited_value": {
-                      "property_value_paths": {
-                        "color": "theme.global_colors.white.color"
-                      }
-                    },
-                    "default": {
-                      "opacity": 100
-                    }
-                  }
-                ]
-              },
-              {
-                "type": "group",
-                "name": "background",
-                "label": "Background",
-                "children": [
-                  {
-                    "type": "color",
-                    "name": "color",
-                    "label": "Color",
-                    "inherited_value": {
-                      "property_value_paths": {
-                        "color": "theme.global_colors.heading.color"
-                      }
-                    },
-                    "default": {
-                      "opacity": 100
-                    },
-                    "help_text": "Set the opacity to 0 for a transparent background."
-                  }
-                ]
-              },
-              {
-                "type": "group",
-                "name": "border",
-                "label": "Border",
-                "children": [
-                  {
-                    "type": "border",
-                    "name": "border",
-                    "label": "Border",
-                    "inherited_value": {
-                      "property_value_paths": {
-                        "top.color": "theme.global_colors.heading.color",
-                        "right.color": "theme.global_colors.heading.color",
-                        "bottom.color": "theme.global_colors.heading.color",
-                        "left.color": "theme.global_colors.heading.color"
-                      }
-                    },
-                    "default": {
-                      "top": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      },
-                      "right": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      },
-                      "bottom": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      },
-                      "left": {
-                        "width": {
-                          "value": 2,
-                          "units": "px"
-                        },
-                        "opacity": 100,
-                        "style": "solid",
-                        "color": "#0F172A"
-                      }
-                    },
-                    "help_text": "Only the color changes on hover; the width and style stay as in the default state."
-                  }
-                ]
-              },
-              {
-                "type": "group",
-                "name": "corner",
-                "label": "Corner",
-                "children": [
-                  {
-                    "type": "number",
-                    "name": "radius",
-                    "label": "Radius",
-                    "display": "text",
-                    "min": 0,
-                    "max": 100,
-                    "step": 1,
-                    "suffix": "px",
-                    "default": 24
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "group",
-        "name": "all_buttons",
-        "label": "All buttons",
-        "children": [
-          {
-            "type": "number",
-            "name": "line_height",
-            "label": "Line height",
-            "display": "text",
-            "min": 1,
-            "max": 2,
-            "step": 0.05,
-            "default": 1.25
-          },
-          {
-            "type": "number",
-            "name": "letter_spacing",
-            "label": "Letter spacing",
-            "display": "text",
-            "min": 0,
-            "max": 10,
-            "step": 0.1,
-            "suffix": "px",
-            "default": 0
-          },
-          {
-            "type": "group",
-            "name": "mobile_padding",
-            "label": "Mobile padding (≤767.98px)",
-            "children": [
-              {
-                "type": "number",
-                "name": "vertical",
-                "label": "Top/bottom",
-                "display": "text",
-                "min": 0,
-                "max": 40,
-                "step": 1,
-                "suffix": "px",
-                "default": 10
-              },
-              {
-                "type": "number",
-                "name": "horizontal",
-                "label": "Left/right",
-                "display": "text",
-                "min": 0,
-                "max": 80,
-                "step": 1,
-                "suffix": "px",
-                "default": 24
-              }
-            ]
-          },
-          {
-            "type": "number",
-            "name": "gap",
-            "label": "Gap between buttons",
-            "display": "text",
-            "min": 0,
-            "max": 60,
-            "step": 1,
-            "suffix": "px",
-            "default": 16
           }
         ]
       }
@@ -5882,10 +5446,6 @@
                 "White"
               ],
               [
-                "heading",
-                "Heading color"
-              ],
-              [
                 "accent",
                 "Accent"
               ],
@@ -5904,10 +5464,6 @@
               [
                 "dark-outline",
                 "Dark outline"
-              ],
-              [
-                "heading-outline",
-                "Heading color outline"
               ]
             ],
             "default": "primary"

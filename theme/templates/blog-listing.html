@@ -28,7 +28,7 @@
             {% endif %}
             <div class="blog-card-body">
               <h2 class="blog-card-title h5"><a href="{{ content.absolute_url }}">{{ content.name }}</a></h2>
-              <p class="blog-card-meta text-small"><time datetime="{{ content.publish_date|format_datetime('yyyy-MM-dd') }}">{{ content.publish_date|format_date('long') }}</time></p>
+              <p class="blog-card-meta"><time datetime="{{ content.publish_date|format_datetime('yyyy-MM-dd') }}">{{ content.publish_date|format_date('long') }}</time></p>
               {% if content.post_list_content %}
                 <p>{{ content.post_list_content|striptags|truncate(160) }}</p>
               {% endif %}

@@ -40,8 +40,8 @@ The vendor files keep their MIT license banners. The only change to them is that
   - The kit also contains Area Extended, Area Extended Light, Area Normal, Area Normal Light and Neue Kabel. They only download if CSS uses them.
   - **Adobe kit settings (in Adobe Fonts, not in the theme):** add every domain the site runs on (including the HubSpot preview and `*.hs-sites.com` domains) to the kit, or the font won't load there. The kit currently uses `font-display: auto`; set it to `swap` in the kit settings to match our rule.
   - **Re-skin:** replace the `<link>` in `layouts/base.html`. If the family name changes, update the default of `global_fonts.secondary` in `theme/fields.json` (HubSpot's font picker can't select Adobe families).
-- **Text styles:** each style in Theme settings → Text (H1–H6, Body, Links, Eyebrow, Display) has its own font field that follows Primary or Secondary until changed, and sets the weight and color. **Defaults:** headings use Primary (Inter 500). Body, links, eyebrow, display and buttons use Secondary. Forms follow the body font; the form title follows H5.
-- **Sizes:** H2–H6, body, display and lead have one size per breakpoint tier (Text → style → Font size). Line heights are per style.
+- **Text styles:** each style in Theme settings → Text (H1–H6, Body, Links, Eyebrow) has its own font field that follows Primary or Secondary until changed, and sets the weight and color. **Defaults:** headings use Primary (Inter 500). Body, links, eyebrow and buttons use Secondary. Forms follow the body font; the form title follows H5.
+- **Sizes:** H2–H6 and body have one size per breakpoint tier (Text → style → Font size). Line heights are per style. There are no Display, Lead or Small styles: small text (form help text, blog dates and meta, footer bottom bar) uses the eyebrow size.
 
 ## Shadows
 
@@ -70,7 +70,7 @@ How modules use them:
 The defaults pass WCAG AA: 4.5:1 for text and 3:1 for outline button borders. The tightest pair is **heading text on a primary background (4.85:1)**, which the primary button uses. When you change a client's colors, re-check at least these pairs:
 
 - heading on primary (primary button text, primary outline button hover)
-- white on secondary, dark and heading (secondary, dark and heading color buttons)
+- white on secondary and dark (secondary and dark buttons)
 - heading on accent (accent button)
 - accent on dark (eyebrow and link on dark backgrounds)
 - secondary (links) and text on page background
@@ -80,7 +80,7 @@ The defaults pass WCAG AA: 4.5:1 for text and 3:1 for outline button borders. Th
 If a pair fails, change the setting that uses it (for example the button's text color) to another palette color. Don't add new hex values.
 
 ## Header
-The site header is one global module (`modules/header.module`) called with a static `{% module "site_header" %}` tag in `templates/partials/header.html`. Content lives in the global content editor, so every page shares it. Menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (any of the 11 theme button styles). Colors come from Theme settings → Website header (menu text, drop-down text, background and border, header background); the module itself only has the bottom border toggle. For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
+The site header is one global module (`modules/header.module`) called with a static `{% module "site_header" %}` tag in `templates/partials/header.html`. Content lives in the global content editor, so every page shares it. Menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (any of the 9 theme button styles). Colors come from Theme settings → Website header (menu text, drop-down text, background and border, header background); the module itself only has the bottom border toggle. For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
 
 **Sticky header (not built yet):** HubSpot wraps the header partial in its own `<div>`, so `position: sticky` on `.site-header` only sticks inside that wrapper and scrolls away with it. A sticky header needs a workaround, for example making HubSpot's wrapper div the sticky element, or a small script. Decide and test it in the sandbox before adding it.
 
@@ -180,7 +180,7 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
    - Layout at every breakpoint down to 360px: three areas side by side on desktop, logo row on top at ≤991.98, one column with 2-column menus at ≤767.98, no horizontal scroll.
 
 19. **Theme settings inheritance:** change Primary in Global colors. The primary button, primary outline button and every other setting that still follows Primary change with it, in the editor preview and on the live page. Change a button's background directly: it keeps that color. Check that inherited values reach `main.css` (for example `--btn-bg` is a hex, not empty).
-20. **Button styles:** all 11 styles plus Text link render in the Base Module and as the header button, with hover colors and hover radius; the form submit button follows Forms → Submit button → Style. At ≤767.98px buttons use All buttons → Mobile padding.
+20. **Button styles:** all 9 styles plus Text link render in the Base Module and as the header button, with hover colors and hover radius; the form submit button follows Forms → Submit button → Style. Each variant's line height, letter spacing and desktop/mobile padding apply (mobile padding at ≤767.98px); the space between buttons follows Spacing → Button gap.
 
 ## Notes
 

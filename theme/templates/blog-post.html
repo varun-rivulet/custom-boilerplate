@@ -10,7 +10,7 @@
   <div class="container container-narrow">
     <header class="blog-post-header">
       <h1><span id="hs_cos_wrapper_name" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="text">{{ content.name }}</span></h1>
-      <p class="blog-post-meta text-small">
+      <p class="blog-post-meta">
         {% if content.blog_post_author %}<a href="{{ blog_author_url(group.id, content.blog_post_author.slug) }}">{{ content.blog_post_author.display_name }}</a> &middot; {% endif %}
         <time datetime="{{ content.publish_date|format_datetime('yyyy-MM-dd') }}">{{ content.publish_date|format_date('long') }}</time>
       </p>

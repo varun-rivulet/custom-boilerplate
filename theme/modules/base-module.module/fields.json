@@ -71,10 +71,6 @@
             "White"
           ],
           [
-            "heading",
-            "Heading color"
-          ],
-          [
             "accent",
             "Accent"
           ],
@@ -93,10 +89,6 @@
           [
             "dark-outline",
             "Dark outline"
-          ],
-          [
-            "heading-outline",
-            "Heading color outline"
           ],
           [
             "text-link",
