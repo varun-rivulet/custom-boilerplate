@@ -1,6 +1,6 @@
 # Theme settings rebuild to Luma's structure (IN PROGRESS, resume here)
 
-Status on 2026-11-17: steps 1–4 done (fields.json, main.css, templates, Base/Header/Footer modules, README, CLAUDE.md); local checks pass. Step 5 (user OK, upload, commit) pending.
+Status on 2026-11-17: DONE. Approved, uploaded to WLIQ and committed (9492816).
 
 ## Goal
 

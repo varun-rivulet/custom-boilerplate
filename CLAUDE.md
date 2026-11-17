@@ -113,7 +113,7 @@ STATUS (resume here in a new session)
 - Footer module built (theme/modules/footer.module, global), see FOOTER DECISIONS. Not yet tested in a portal.
 - Minimal header (header-minimal.html) still uses @hubspot/logo, so the logo is set in two places; skipped for now (decision deferred).
 - Do not merge any phase branch into main until the README "Sandbox test checklist" passes.
-- Theme settings rebuild (Luma's structure, our values; docs/theme-settings-rebuild.md): BUILT on phase-3-base-module, local checks pass. NOT uploaded or committed yet: waiting for the user's OK on the settings tree and the flagged choices (button names, "All buttons" group, extra Text on dark fields, body = Page background, header hover underline, container-narrow 65%).
+- Theme settings rebuild (Luma's structure, our values; docs/theme-settings-rebuild.md): DONE, approved, uploaded cleanly to WLIQ (font_set ADOBE accepted) and committed (9492816) on phase-3-base-module. Inherited colours in the rendered main.css still need checking on a live page (sandbox check 19).
 - Next after that: Part 3 portal testing with Playwright (needs the user's test page URL), then Phase 4 (core modules), each cloned from the Base Module by following the README clone checklist.
 
 PHASE 2 DECISIONS (approved)
