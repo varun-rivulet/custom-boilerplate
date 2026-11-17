@@ -122,7 +122,6 @@
     ],
     "occurrence": {
       "min": 0,
-      "max": 4,
       "default": 1,
       "sorting_label_field": "buttons.text"
     },
