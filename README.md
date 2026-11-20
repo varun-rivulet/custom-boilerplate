@@ -162,18 +162,18 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-20, branch `phase-3-base-module`, commit `0b2cf4d` (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-20, branch `phase-3-base-module`, commit `2ea9c40` (uncommitted theme changes) (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
 | 0. Old theme folder deleted | MANUAL | Design Manager folder outside the QA scope; delete by hand. |
 | 2. Font fields | PASS (auto part) | Editor part (font picker shows Adobe font) needs the editor. |
 | 3. Viewport meta | PASS |  |
-| 4. Forms | PASS |  |
+| 4. Forms | PASS (auto part) | MANUAL: Form on a dark background (Waits for the Form Section module (Phase 4)) |
 | 5. Link field | PASS |  |
 | 6. scope_css per instance | PASS |  |
 | 7. Overlay color | PASS |  |
-| 8. Secondary font on all template types | PARTIAL | BLOCKED: 404 page uses the theme 404 template and the Adobe kit |
+| 8. Secondary font on all template types | PASS (auto part) | MANUAL: 404 page uses the theme 404 template and the Adobe kit (needs a Starter+ portal (plan limitation): system page templates can't be set in this portal.) |
 | 9. Spacing field value shape | PASS |  |
 | 10. Light text on dark backgrounds | PASS |  |
 | 11. Image type with no image | PASS |  |
@@ -184,7 +184,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 | 16. Image position | PASS |  |
 | 17. Header module | PASS (auto part) | Theme settings colour changes and Simple/Mega switching need the editor. |
 | 17b. Header – Simple | PASS |  |
-| 18. Footer module | FAIL | FAIL: Header/footer print no literal "null" for empty fields |
+| 18. Footer module | PASS |  |
 | 19. Theme settings inheritance | PASS (auto part) | Changing Primary in Theme settings needs the editor; served values are tested. |
 | 20. Button styles | PASS |  |
 <!-- qa-status:end -->
@@ -201,7 +201,7 @@ Most checks run automatically: `cd qa && npm run qa` uploads the theme, seeds "Q
 5. **Link field:** check the `url.type` values HubSpot returns for phone links (`PHONE` or `PHONE_NUMBER`) and whether `url.href` already includes `mailto:` / `tel:`. The Base Module only adds the prefix when it is missing, so `mailto:mailto:` should never appear.
 6. **scope_css:** custom padding (and its media queries) and the background image apply only to that module instance, not to other Base Modules on the page.
 7. **Overlay color:** the Base Module overlay is a color picker with opacity. It starts as the theme's Dark color at 50%. Check that `--overlay-opacity` is a decimal (for example `0.5`), that the overlay color also shows behind the image while it loads, and that Auto text color follows the picked overlay color and opacity.
-8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), the Adobe Fonts kit (`use.typekit.net/kwi4rat.css`) loads with status 200 and DevTools → Network → Font shows the Peridot font file. DevTools → Elements → Computed on body text shows the rendered font "peridot-pe-variable"; headings show Inter. If the font doesn't load, add the portal's domains (including the preview domain) to the kit in Adobe Fonts.
+8. **Secondary font loads and is used:** on a page, landing page, blog listing, blog post and a system page (404), the Adobe Fonts kit (`use.typekit.net/kwi4rat.css`) loads with status 200 and DevTools → Network → Font shows the Peridot font file. DevTools → Elements → Computed on body text shows the rendered font "peridot-pe-variable"; headings show Inter. If the font doesn't load, add the portal's domains (including the preview domain) to the kit in Adobe Fonts. **404 part: MANUAL – needs a Starter+ portal (plan limitation).** System page templates can't be set in the free test portal (Settings has no System pages option), so the theme's 404 template is checked by hand in a Starter+ portal: Settings → Content → Pages → System pages → 404 = `custom-boilerplate/templates/system/404.html`.
 9. **Spacing field value shape:** turn on "Change spacing" in a Base Module and set all four sides at each breakpoint. Check that the values arrive as `padding.top.value` / `padding.top.units` (and the same for right, bottom and left), and that the scoped CSS outputs each side at the right breakpoint. Also check that a side left empty keeps the value from the larger breakpoint.
 10. **Light text on dark backgrounds:** with a dark picked background color (and Text color Auto or Light), check that the heading, text, eyebrow and links use Text on dark backgrounds. Every button (including a form's submit button) keeps the variant selected in its style field; nothing switches to White. A visible keyboard focus outline should show on every link and button.
 11. **Image type with no image:** set Background type to Image without choosing an image. The section should have no background and use dark text (Auto), with no broken `background-image` in the CSS.

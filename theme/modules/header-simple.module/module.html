@@ -8,8 +8,8 @@
 {% set logo_src = logo.image.src if has_logo_image else get_asset_url("../../images/logo-placeholder.svg") %}
 {% set logo_width = logo.image.width if has_logo_image else 160 %}
 {% set logo_height = logo.image.height if has_logo_image else 40 %}
-{% set logo_alt = (logo.image.alt|trim if has_logo_image else "") or labels.home|trim or "Home page" %}
-{% set has_link_cta = header_cta.type == "link" and header_cta.text|trim and (header_cta.link.url.href or is_in_editor) %}
+{% set logo_alt = ((logo.image.alt or "")|trim if has_logo_image else "") or (labels.home or "")|trim or "Home page" %}
+{% set has_link_cta = header_cta.type == "link" and (header_cta.text or "")|trim and (header_cta.link.url.href or is_in_editor) %}
 {% set classes = ["site-header"] %}
 {% if not s.border %}{% do classes.append("is-borderless") %}{% endif %}
 <header class="{{ classes|join(' ') }}">
@@ -21,7 +21,7 @@
     </div>
     {% if has_link_cta %}
       <div class="site-header-cta">
-        <a class="btn btn-{{ header_cta.style or 'primary' }}"{{ link_attrs(header_cta.link, "") }}{% if header_cta.aria_label|trim %} aria-label="{{ header_cta.aria_label|escape_attr }}"{% endif %}>{{ header_cta.text|escape_html }}</a>
+        <a class="btn btn-{{ header_cta.style or 'primary' }}"{{ link_attrs(header_cta.link, "") }}{% if (header_cta.aria_label or "")|trim %} aria-label="{{ header_cta.aria_label|escape_attr }}"{% endif %}>{{ header_cta.text|escape_html }}</a>
       </div>
     {% endif %}
   </div>

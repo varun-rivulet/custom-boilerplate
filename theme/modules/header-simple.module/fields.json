@@ -23,11 +23,11 @@
         "name": "link",
         "label": "Logo link",
         "show_advanced_rel_options": true,
-        "help_text": "Defaults to the home page (/).",
+        "help_text": "Leave empty to link to the home page (/).",
         "default": {
           "url": {
             "type": "EXTERNAL",
-            "href": "/",
+            "href": "",
             "content_id": null
           },
           "open_in_new_tab": false,

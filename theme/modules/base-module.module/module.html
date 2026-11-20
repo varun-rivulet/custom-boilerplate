@@ -7,10 +7,10 @@
 {% set img = module.image %}
 {% set colors = theme.global_colors %}
 {% set valid_buttons = [] %}
-{% for item in module.buttons %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
-{% set has_eyebrow = module.eyebrow|trim %}
-{% set has_heading = module.heading and module.heading|striptags|trim %}
-{% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description or "<iframe" in module.description) %}
+{% for item in module.buttons %}{% if (item.text or "")|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}{% endfor %}
+{% set has_eyebrow = (module.eyebrow or "")|trim %}
+{% set has_heading = module.heading and (module.heading or "")|striptags|trim %}
+{% set has_description = module.description and ((module.description or "")|striptags|trim or "<img" in module.description or "<iframe" in module.description) %}
 {% set has_image = img.src %}
 {% set has_bg_color = bg.type == "color" %}
 {% set has_bg_image = bg.type == "image" and bg.image.src %}
@@ -18,7 +18,7 @@
 {% set container_max = theme.spacing.maximum_content_width or 1320 %}
 {% set width_value = ca.width or 860 %}
 {% set content_width = (width_value if width_value < container_max else container_max) if ca.custom_width else 0 %}
-{% set section_id = adv.section_id|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
+{% set section_id = (adv.section_id or "")|trim|lower|regex_replace("[^a-z0-9 -]", "")|regex_replace("[ -]+", "-")|regex_replace("^-+|-+$", "") %}
 
 {% set bg_hex = "" %}
 {% if has_bg_color %}
@@ -79,7 +79,7 @@
   {% if adv.hide_desktop %}{% do classes.append("hide-desktop") %}{% endif %}
   {% if adv.hide_tablet %}{% do classes.append("hide-tablet") %}{% endif %}
   {% if adv.hide_mobile %}{% do classes.append("hide-mobile") %}{% endif %}
-  {% if adv.custom_class|trim %}{% do classes.append(adv.custom_class|trim|escape_attr) %}{% endif %}
+  {% if (adv.custom_class or "")|trim %}{% do classes.append((adv.custom_class or "")|trim|escape_attr) %}{% endif %}
 
   {% if sp.change_spacing or has_bg_color or has_bg_image or has_bg_gradient or content_width %}
     {% require_css %}
@@ -122,7 +122,7 @@
                 {% if item.link.no_follow %}{% do rel.append("nofollow") %}{% endif %}
                 {% if item.link.sponsored %}{% do rel.append("sponsored") %}{% endif %}
                 {% if item.link.user_generated_content %}{% do rel.append("ugc") %}{% endif %}
-                <a class="{{ 'text-link' if item.style == 'text-link' else 'btn btn-' ~ item.style }}"{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if item.link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% if item.aria_label|trim %} aria-label="{{ item.aria_label|escape_attr }}"{% endif %}>{{ item.text|escape_html }}</a>
+                <a class="{{ 'text-link' if item.style == 'text-link' else 'btn btn-' ~ item.style }}"{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if item.link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% if (item.aria_label or "")|trim %} aria-label="{{ item.aria_label|escape_attr }}"{% endif %}>{{ item.text|escape_html }}</a>
             {% endfor %}
           </div>
         {% endif %}

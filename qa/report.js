@@ -39,6 +39,7 @@ const statusOf = (rows) => {
   if (!rows.length) return null;
   if (rows.some((r) => r.status === 'FAIL')) return 'FAIL';
   if (rows.some((r) => r.status === 'BLOCKED')) return 'PARTIAL';
+  if (rows.some((r) => r.status === 'MANUAL')) return rows.some((r) => r.status === 'PASS') ? 'PASS (auto part)' : 'MANUAL';
   return 'PASS';
 };
 
@@ -46,7 +47,7 @@ const summarize = (results) => README_CHECKS.map(([id, title]) => {
   const rows = results.filter((r) => r.check === id && r.status !== 'INFO');
   let status = statusOf(rows) || (MANUAL[id] ? 'MANUAL' : 'NOT RUN');
   if (status === 'PASS' && MANUAL[id]) status = 'PASS (auto part)';
-  const failed = rows.filter((r) => r.status === 'FAIL' || r.status === 'BLOCKED').map((r) => `${r.status}: ${r.title}`);
+  const failed = rows.filter((r) => ['FAIL', 'BLOCKED', 'MANUAL'].includes(r.status)).map((r) => `${r.status}: ${r.title}${r.status === 'MANUAL' && r.detail ? ` (${r.detail.replace(/^.*?MANUAL – /, '')})` : ''}`);
   const note = [failed.join('; '), MANUAL[id] || ''].filter(Boolean).join(' / ');
   return { id, title, status, note };
 });

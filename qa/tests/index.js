@@ -483,7 +483,7 @@ const runTests = async ({ seeded, build, outDir, log }) => {
     const url = `${SITE_URL}/qa-auto-missing-${Date.now()}`;
     const { page, status, fontResponses } = await open(url, 1440, { expectStatus: 404 });
     const theme = await page.evaluate(() => !!document.querySelector('.system-page'));
-    add(8, '404 page uses the theme 404 template and the Adobe kit', status === 404 && theme && fontResponses.some((r) => /use\.typekit\.net/.test(r.url)) ? 'PASS' : theme ? 'FAIL' : 'BLOCKED', theme ? `status ${status}` : `status ${status}; theme 404 template not in use (manual: Settings → Website → Pages → System pages)`, url);
+    add(8, '404 page uses the theme 404 template and the Adobe kit', status === 404 && theme && fontResponses.some((r) => /use\.typekit\.net/.test(r.url)) ? 'PASS' : theme ? 'FAIL' : 'MANUAL', theme ? `status ${status}` : `status ${status}; theme 404 template not in use. MANUAL – needs a Starter+ portal (plan limitation): system page templates can't be set in this portal.`, url);
     await page.screenshot({ path: path.join(shots, '404-1440.png'), fullPage: true });
     await page.close();
   }

@@ -13,8 +13,8 @@
 {% set logo_src = logo.image.src if has_logo_image else get_asset_url("../../images/logo-placeholder.svg") %}
 {% set logo_width = logo.image.width if has_logo_image else 160 %}
 {% set logo_height = logo.image.height if has_logo_image else 40 %}
-{% set logo_alt = (logo.image.alt|trim if has_logo_image else "") or labels.home|trim or "Home page" %}
-{% set has_link_cta = header_cta.type == "link" and header_cta.text|trim and (header_cta.link.url.href or is_in_editor) %}
+{% set logo_alt = ((logo.image.alt or "")|trim if has_logo_image else "") or (labels.home or "")|trim or "Home page" %}
+{% set has_link_cta = header_cta.type == "link" and (header_cta.text or "")|trim and (header_cta.link.url.href or is_in_editor) %}
 {% set has_panel = nav_items or has_link_cta %}
 {% set classes = ["site-header"] %}
 {% if not s.border %}{% do classes.append("is-borderless") %}{% endif %}
@@ -29,11 +29,11 @@
       <button class="site-header-toggle" type="button" aria-expanded="false" aria-controls="siteHeaderPanel" data-header-toggle>
         <svg class="site-header-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <svg class="site-header-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <span class="visually-hidden">{{ labels.menu_button|trim|escape_html or "Menu" }}</span>
+        <span class="visually-hidden">{{ (labels.menu_button or "")|trim|escape_html or "Menu" }}</span>
       </button>
       <div id="siteHeaderPanel" class="site-header-panel">
         {% if nav_items %}
-          <nav class="site-header-nav site-header-nav-{{ 'mega site-header-mega-cols-' ~ (module.mega_columns or '4') if is_mega else 'simple' }}" aria-label="{{ labels.nav_label|trim|escape_attr or 'Main navigation' }}">
+          <nav class="site-header-nav site-header-nav-{{ 'mega site-header-mega-cols-' ~ (module.mega_columns or '4') if is_mega else 'simple' }}" aria-label="{{ (labels.nav_label or "")|trim|escape_attr or 'Main navigation' }}">
             <ul class="site-header-menu">
               {% for item in nav_items %}
                 {% set sub_id = "siteHeaderSub" ~ loop.index %}
@@ -44,7 +44,7 @@
                     {% else %}
                       {{ node_link(item, "site-header-link") }}
                       {% if item.children %}
-                        <button class="site-header-sub-toggle" type="button" aria-expanded="false" aria-controls="{{ sub_id }}" data-header-sub-toggle>{{ chevron() }}<span class="visually-hidden">{{ item.label|escape_html }} {{ labels.submenu|trim|escape_html or "submenu" }}</span></button>
+                        <button class="site-header-sub-toggle" type="button" aria-expanded="false" aria-controls="{{ sub_id }}" data-header-sub-toggle>{{ chevron() }}<span class="visually-hidden">{{ item.label|escape_html }} {{ (labels.submenu or "")|trim|escape_html or "submenu" }}</span></button>
                       {% endif %}
                     {% endif %}
                   </div>
@@ -83,7 +83,7 @@
         {% endif %}
         {% if has_link_cta %}
           <div class="site-header-cta">
-            <a class="btn btn-{{ header_cta.style or 'primary' }}"{{ link_attrs(header_cta.link, "") }}{% if header_cta.aria_label|trim %} aria-label="{{ header_cta.aria_label|escape_attr }}"{% endif %}>{{ header_cta.text|escape_html }}</a>
+            <a class="btn btn-{{ header_cta.style or 'primary' }}"{{ link_attrs(header_cta.link, "") }}{% if (header_cta.aria_label or "")|trim %} aria-label="{{ header_cta.aria_label|escape_attr }}"{% endif %}>{{ header_cta.text|escape_html }}</a>
           </div>
         {% endif %}
       </div>

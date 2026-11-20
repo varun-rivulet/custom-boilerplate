@@ -6,27 +6,27 @@
 {% set bottom = module.bottom %}
 {% set tag = module.heading_tag or "h2" %}
 {% set pad_class = {"small": "s", "medium": "m", "large": "l"} %}
-{% set platform_names = {"facebook": "Facebook", "instagram": "Instagram", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube", "tiktok": "TikTok", "other": module.labels.other_social|trim or "Website"} %}
+{% set platform_names = {"facebook": "Facebook", "instagram": "Instagram", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube", "tiktok": "TikTok", "other": (module.labels.other_social or "")|trim or "Website"} %}
 
 {% set valid_columns = [] %}
 {% for col in module.columns %}
   {% set links = [] %}
-  {% for item in col.links %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do links.append(item) %}{% endif %}{% endfor %}
+  {% for item in col.links %}{% if (item.text or "")|trim and (item.link.url.href or is_in_editor) %}{% do links.append(item) %}{% endif %}{% endfor %}
   {% if links %}{% do valid_columns.append({"heading": col.heading, "links": links}) %}{% endif %}
 {% endfor %}
 {% set valid_contact = [] %}
-{% for item in module.contact.items %}{% if item.text|trim %}{% do valid_contact.append(item) %}{% endif %}{% endfor %}
+{% for item in module.contact.items %}{% if (item.text or "")|trim %}{% do valid_contact.append(item) %}{% endif %}{% endfor %}
 {% set valid_social = [] %}
 {% for item in module.social.items %}{% if item.link.url.href or is_in_editor %}{% do valid_social.append(item) %}{% endif %}{% endfor %}
 {% set valid_legal = [] %}
-{% for item in bottom.legal_links %}{% if item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_legal.append(item) %}{% endif %}{% endfor %}
+{% for item in bottom.legal_links %}{% if (item.text or "")|trim and (item.link.url.href or is_in_editor) %}{% do valid_legal.append(item) %}{% endif %}{% endfor %}
 
 {% set has_logo = logo.image.src %}
-{% set has_description = module.description and (module.description|striptags|trim or "<img" in module.description) %}
+{% set has_description = module.description and ((module.description or "")|striptags|trim or "<img" in module.description) %}
 {% set has_brand = has_logo or has_description %}
 {% set has_aside = valid_contact or valid_social %}
 {% set has_top = has_brand or valid_columns or has_aside %}
-{% set has_copyright = bottom.copyright|trim %}
+{% set has_copyright = (bottom.copyright or "")|trim %}
 {% set has_bottom = has_copyright or valid_legal %}
 
 {% if has_top or has_bottom %}
@@ -39,17 +39,17 @@
               {% if has_logo %}
                 {% set logo_href = logo.link.url.href %}
                 <div class="site-footer-logo">
-                  {% if logo_href %}<a{{ link_attrs(logo.link) }}>{% endif %}<img src="{{ logo.image.src }}" alt="{{ (logo.image.alt or ((module.labels.logo_alt|trim or 'Logo') if logo_href else ''))|escape_attr }}"{% if logo.image.width %} width="{{ logo.image.width }}"{% endif %}{% if logo.image.height %} height="{{ logo.image.height }}"{% endif %} loading="lazy">{% if logo_href %}</a>{% endif %}
+                  {% if logo_href %}<a{{ link_attrs(logo.link) }}>{% endif %}<img src="{{ logo.image.src }}" alt="{{ (logo.image.alt or (((module.labels.logo_alt or "")|trim or 'Logo') if logo_href else ''))|escape_attr }}"{% if logo.image.width %} width="{{ logo.image.width }}"{% endif %}{% if logo.image.height %} height="{{ logo.image.height }}"{% endif %} loading="lazy">{% if logo_href %}</a>{% endif %}
                 </div>
               {% endif %}
               {% if has_description %}<div class="site-footer-description">{{ module.description }}</div>{% endif %}
             </div>
           {% endif %}
           {% if valid_columns %}
-            <nav class="site-footer-nav" aria-label="{{ module.labels.nav_label|trim|escape_attr or 'Footer' }}">
+            <nav class="site-footer-nav" aria-label="{{ (module.labels.nav_label or "")|trim|escape_attr or 'Footer' }}">
               {% for col in valid_columns %}
                 <div class="site-footer-column">
-                  {% if col.heading|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ col.heading|escape_html }}</{{ tag }}></div>{% endif %}
+                  {% if (col.heading or "")|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ col.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <ul class="site-footer-list">
                     {% for item in col.links %}<li><a{{ link_attrs(item.link) }}>{{ item.text|escape_html }}</a></li>{% endfor %}
                   </ul>
@@ -61,11 +61,11 @@
             <div class="site-footer-aside">
               {% if valid_contact %}
                 <div class="site-footer-group">
-                  {% if module.contact.heading|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.contact.heading|escape_html }}</{{ tag }}></div>{% endif %}
+                  {% if (module.contact.heading or "")|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.contact.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <address class="site-footer-address">
                     <ul class="site-footer-list">
                       {% for item in valid_contact %}
-                        {% set label = item.text|trim %}
+                        {% set label = (item.text or "")|trim %}
                         {% set auto_href = "" %}
                         {% if item.type == "email" %}{% set auto_href = "mailto:" ~ label|replace(" ", "") %}{% elif item.type == "phone" %}{% set auto_href = "tel:" ~ label|regex_replace("[^0-9+]", "") %}{% endif %}
                         {% if item.link.url.href or auto_href %}
@@ -80,10 +80,10 @@
               {% endif %}
               {% if valid_social %}
                 <div class="site-footer-group">
-                  {% if module.social.heading|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.social.heading|escape_html }}</{{ tag }}></div>{% endif %}
+                  {% if (module.social.heading or "")|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.social.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <ul class="site-footer-social">
                     {% for item in valid_social %}
-                      <li><a{{ link_attrs(item.link) }}>{{ icon(item.platform) }}<span class="visually-hidden">{{ (item.accessible_label|trim or platform_names[item.platform] or module.labels.other_social|trim or "Website")|escape_html }}</span></a></li>
+                      <li><a{{ link_attrs(item.link) }}>{{ icon(item.platform) }}<span class="visually-hidden">{{ ((item.accessible_label or "")|trim or platform_names[item.platform] or (module.labels.other_social or "")|trim or "Website")|escape_html }}</span></a></li>
                     {% endfor %}
                   </ul>
                 </div>
@@ -94,9 +94,9 @@
       {% endif %}
       {% if has_bottom %}
         <div class="site-footer-bottom">
-          {% if has_copyright %}<p class="site-footer-copyright">&copy; {% if bottom.show_year %}{{ local_dt|format_datetime("yyyy") }} {% endif %}{{ bottom.copyright|trim|escape_html }}</p>{% endif %}
+          {% if has_copyright %}<p class="site-footer-copyright">&copy; {% if bottom.show_year %}{{ local_dt|format_datetime("yyyy") }} {% endif %}{{ (bottom.copyright or "")|trim|escape_html }}</p>{% endif %}
           {% if valid_legal %}
-            <nav class="site-footer-legal" aria-label="{{ module.labels.legal_label|trim|escape_attr or 'Legal' }}">
+            <nav class="site-footer-legal" aria-label="{{ (module.labels.legal_label or "")|trim|escape_attr or 'Legal' }}">
               <ul class="site-footer-legal-list">
                 {% for item in valid_legal %}<li><a{{ link_attrs(item.link) }}>{{ item.text|escape_html }}</a></li>{% endfor %}
               </ul>
