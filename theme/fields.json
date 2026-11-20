@@ -5466,6 +5466,7 @@
                 "Dark outline"
               ]
             ],
+            "help_text": "On dark backgrounds, choose a suitable variant (e.g. White or White outline).",
             "default": "primary"
           }
         ]

@@ -144,8 +144,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabin
 .btn:focus-visible,.hs-button:focus-visible{outline:var(--focus-width) solid var(--scheme-link);outline-offset:var(--focus-offset)}
 {% for key in btn_keys %}{% if not loop.first %}.btn-{{ key|replace("_", "-") }}{ {{- btn_props(bgp[key]) -}};{{- btn_colors(bgp[key]) -}} }
 {% endif %}{% endfor %}.hs-form .hs-button{ {{- btn_props(bgp[submit_key]) -}};{{- btn_colors(bgp[submit_key]) -}} }
-.text-color-light .btn,.text-color-light .hs-button{ {{- btn_colors(bgp.white) -}} }
-{% set outline_sel = [] %}{% for key in btn_keys %}{% if "outline" in key %}{% do outline_sel.append(".text-color-light .btn-" ~ key|replace("_", "-")) %}{% endif %}{% endfor %}{% if "outline" in submit_key %}{% do outline_sel.append(".text-color-light .hs-form .hs-button") %}{% endif %}{{ outline_sel|join(",") }}{ {{- btn_colors(bgp.white_outline) -}} }
 .btn-full{width:100%}
 .btn-full:focus-visible{outline-offset:calc(var(--focus-width) * -1)}
 @media (max-width:767.98px){.btn,.hs-button{padding:var(--btn-pad-mobile)}}
