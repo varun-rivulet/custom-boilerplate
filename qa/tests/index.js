@@ -301,6 +301,22 @@ const runTests = async ({ seeded, build, outDir, log }) => {
     if (!h.withChildren) {
       add(17, `Dropdown behaviour (${h.mode})`, 'BLOCKED', 'Menu has no sub-items (manual: select QA – Menu in the global Header)', baseUrl);
     } else {
+      await page.evaluate(() => { document.activeElement && document.activeElement.blur(); window.scrollTo(0, 0); });
+      await page.mouse.move(5, 600);
+      const tabbed = [];
+      let arrow = null;
+      for (let i = 0; i < 25 && !arrow; i++) {
+        await page.keyboard.press('Tab');
+        const info = await page.evaluate(() => {
+          const a = document.activeElement;
+          const c = getComputedStyle(a);
+          return { isToggle: a.hasAttribute('data-header-sub-toggle'), label: (a.getAttribute('aria-label') || a.textContent || '').trim().slice(0, 24), focusVisible: a.matches(':focus-visible'), outline: `${c.outlineStyle} ${c.outlineWidth} ${c.outlineColor}` };
+        });
+        tabbed.push(info.label);
+        if (info.isToggle) arrow = info;
+      }
+      add(17, `Submenu arrow focus outline with real Tab presses (${h.mode})`, arrow && arrow.focusVisible && arrow.outline.split(' ')[0] !== 'none' ? 'PASS' : 'FAIL', arrow ? `after ${tabbed.length} Tabs: :focus-visible ${arrow.focusVisible}, outline ${arrow.outline}` : `no submenu arrow reached in 25 Tabs (${tabbed.join(' > ')})`, baseUrl);
+      if (arrow) await page.screenshot({ path: path.join(shots, `header-${h.mode}-arrow-focus.png`), clip: { x: 0, y: 0, width: 1440, height: 120 } });
       const item = page.locator('.site-header-menu > li.has-children').first();
       const toggle = item.locator('[data-header-sub-toggle]');
       const dd = item.locator('.site-header-dropdown');

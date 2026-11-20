@@ -403,7 +403,51 @@
           }
         ]
       }
-    ]
+    ],
+    "default": {
+      "heading": "Contact",
+      "items": [
+        {
+          "type": "email",
+          "text": "hello@example.com",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          }
+        },
+        {
+          "type": "phone",
+          "text": "+1 555 010 0100",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          }
+        },
+        {
+          "type": "address",
+          "text": "123 Example Street, City",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          }
+        }
+      ]
+    }
   },
   {
     "type": "group",
@@ -533,7 +577,51 @@
           }
         ]
       }
-    ]
+    ],
+    "default": {
+      "heading": "Follow us",
+      "items": [
+        {
+          "platform": "linkedin",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          },
+          "accessible_label": ""
+        },
+        {
+          "platform": "facebook",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          },
+          "accessible_label": ""
+        },
+        {
+          "platform": "instagram",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          },
+          "accessible_label": ""
+        }
+      ]
+    }
   },
   {
     "type": "group",
@@ -617,7 +705,37 @@
           }
         ]
       }
-    ]
+    ],
+    "default": {
+      "copyright": "Company name. All rights reserved.",
+      "show_year": true,
+      "legal_links": [
+        {
+          "text": "Privacy policy",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          }
+        },
+        {
+          "text": "Terms of use",
+          "link": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          }
+        }
+      ]
+    }
   },
   {
     "type": "group",

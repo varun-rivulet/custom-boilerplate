@@ -162,7 +162,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-20, branch `phase-3-base-module`, commit `2ea9c40` (uncommitted theme changes) (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-20, branch `phase-3-base-module`, commit `d1258e7` (uncommitted theme changes) (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
