@@ -163,6 +163,8 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 
 Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and later) into `main` until these pass on the dev/sandbox portal:
 
+Most checks run automatically: `cd qa && npm run qa` uploads the theme, seeds "QA –" content in the test portal, republishes it, runs Playwright and rewrites the status table below. Setup, safety rules and the manual portal steps are in `qa/README.md`.
+
 0. **Delete the old theme folder first:** in the test portal's Design Manager, delete the folder named "Custom Boilerplate" (left over from an earlier upload from another folder). Test only the `custom-boilerplate` theme folder.
 
 2. **Font fields:** check how HubSpot reports a font field's `variant` (for example `"500"` or `"regular"`), so `--h1-weight`, `--body-weight` and `--btn-weight` output real numbers, and that only the Inter weights in use load. Check that the upload accepts `font_set: "ADOBE"` on Global fonts → Secondary, that the editor shows it without resetting it, and that text styles following it output `"peridot-pe-variable", sans-serif`.

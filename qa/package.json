@@ -1,0 +1,13 @@
+{
+  "name": "theme-qa-harness",
+  "private": true,
+  "description": "Seeds QA content in the test portal, republishes it and runs Playwright checks against the theme.",
+  "scripts": {
+    "qa": "node run.js",
+    "qa:no-upload": "node run.js --skip-upload",
+    "qa:no-readme": "node run.js --no-readme"
+  },
+  "dependencies": {
+    "playwright": "1.57.0"
+  }
+}

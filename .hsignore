@@ -4,3 +4,5 @@ README.md
 .git/
 .gitignore
 .hsignore
+.env
+qa/

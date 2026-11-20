@@ -3,3 +3,6 @@ hubspot.config.yml
 node_modules/
 .DS_Store
 Thumbs.db
+.env
+qa/reports/
+qa/.cache/
