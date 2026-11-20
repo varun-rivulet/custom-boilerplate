@@ -372,10 +372,12 @@ const runTests = async ({ seeded, build, outDir, log }) => {
         text: root.textContent.replace(/\s+/g, ' '),
         focusOutline,
         bg: getComputedStyle(root).backgroundColor, color: getComputedStyle(root).color,
+        nullText: [...document.querySelectorAll('.site-footer *, .site-header *')].filter((e) => e.children.length === 0 && /^(null|None|undefined)$/.test(e.textContent.trim())).map((e) => `${e.tagName.toLowerCase()}.${[...e.classList].join('.')}`),
       };
     });
     if (!f) add(18, 'Footer renders', 'FAIL', 'no .site-footer', baseUrl);
     else {
+      add(18, 'Header/footer print no literal "null" for empty fields', f.nullText.length ? 'FAIL' : 'PASS', f.nullText.join(', ') || '', baseUrl);
       add(18, 'Footer year and mailto:/tel: prefixes', f.text.includes(year) && !f.doubled ? 'PASS' : 'FAIL', `year ${f.text.includes(year)}; hrefs ${f.hrefs.join(', ')}`, baseUrl);
       add(18, 'Footer colours (default white on Dark) and focus outline', f.bg === hexToRgb('#0B1F3A') && f.color === hexToRgb('#FFFFFF') && /solid/.test(f.focusOutline || '') ? 'PASS' : 'FAIL', `${f.bg} / ${f.color}; focus ${f.focusOutline}`, baseUrl);
       add(18, 'Footer menu columns, social links and legal links present', f.columns && f.social && f.legal ? 'PASS' : 'BLOCKED', `columns ${f.columns} (no heading ${f.columnsNoHeading}); social ${f.social} (${f.socialNames.join(', ')}); legal ${f.legal}${f.columns && f.social && f.legal ? '' : ' (manual: global Footer content)'}`, baseUrl);

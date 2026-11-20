@@ -125,6 +125,18 @@ const createWriter = (hs, { dryRun = false, log = () => {} } = {}) => {
     return hs.request('PATCH', `/marketing/v3/forms/${id}`, patch);
   };
 
+  const upsertAuthor = async (body) => {
+    assertAutoName(body.fullName, 'blog author');
+    const key = `author:${body.fullName}`;
+    const id = idFor(key);
+    if (id) { record('REUSE blog author', key, `id ${id}`); return { id }; }
+    record('CREATE blog author', key);
+    if (dryRun) return fake({ name: body.fullName });
+    const created = await hs.request('POST', '/cms/v3/blogs/authors', body);
+    remember(key, 'author', { id: created.id, name: body.fullName });
+    return created;
+  };
+
   const uploadFile = async (localPath, name, folderPath) => {
     assertAutoName(name, 'file');
     assertQaFolder(folderPath);
@@ -146,7 +158,7 @@ const createWriter = (hs, { dryRun = false, log = () => {} } = {}) => {
 
   const confirmPortal = () => { if (!dryRun) { state.confirmed = true; saveState(all); } };
 
-  return { dryRun, plan, idFor, upsertPage, publishPage, upsertPost, publishPost, upsertForm, uploadFile, confirmPortal };
+  return { dryRun, plan, idFor, upsertPage, publishPage, upsertPost, publishPost, upsertForm, upsertAuthor, uploadFile, confirmPortal };
 };
 
 module.exports = { createWriter, hasPortalState };

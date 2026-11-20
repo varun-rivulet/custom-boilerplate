@@ -161,6 +161,34 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 
 ## Sandbox test checklist
 
+<!-- qa-status:start -->
+**Last automated run:** 2026-11-20, branch `phase-3-base-module`, commit `0b2cf4d` (`npm run qa` in `qa/`).
+
+| Check | Status | Notes |
+|---|---|---|
+| 0. Old theme folder deleted | MANUAL | Design Manager folder outside the QA scope; delete by hand. |
+| 2. Font fields | PASS (auto part) | Editor part (font picker shows Adobe font) needs the editor. |
+| 3. Viewport meta | PASS |  |
+| 4. Forms | PASS |  |
+| 5. Link field | PASS |  |
+| 6. scope_css per instance | PASS |  |
+| 7. Overlay color | PASS |  |
+| 8. Secondary font on all template types | PARTIAL | BLOCKED: 404 page uses the theme 404 template and the Adobe kit |
+| 9. Spacing field value shape | PASS |  |
+| 10. Light text on dark backgrounds | PASS |  |
+| 11. Image type with no image | PASS |  |
+| 12. H1 and image radius | PASS |  |
+| 13. Background color picker inheritance | PASS (auto part) | Editor part (picker shows Dark, follows Global colors) needs the editor. |
+| 14. Auto text color from hex | PASS |  |
+| 15. HubSpot CTA add-on | MANUAL | Portal has no CTA access. |
+| 16. Image position | PASS |  |
+| 17. Header module | PASS (auto part) | Theme settings colour changes and Simple/Mega switching need the editor. |
+| 17b. Header – Simple | PASS |  |
+| 18. Footer module | FAIL | FAIL: Header/footer print no literal "null" for empty fields |
+| 19. Theme settings inheritance | PASS (auto part) | Changing Primary in Theme settings needs the editor; served values are tested. |
+| 20. Button styles | PASS |  |
+<!-- qa-status:end -->
+
 Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and later) into `main` until these pass on the dev/sandbox portal:
 
 Most checks run automatically: `cd qa && npm run qa` uploads the theme, seeds "QA –" content in the test portal, republishes it, runs Playwright and rewrites the status table below. Setup, safety rules and the manual portal steps are in `qa/README.md`.

@@ -42,7 +42,7 @@ const FORM_SPEC = (name) => ({
 const formWidget = (formId) => ({
   kind: 'form',
   label: 'Form',
-  params: { path: '@hubspot/form', module_id: 1155639, form: { form_id: formId, response_type: 'inline', message: 'QA form submitted.' }, title: 'QA form title' },
+  params: { path: '@hubspot/form', type: 'module', schema_version: 2, form: { form_id: formId, response_type: 'inline', message: 'QA form submitted.' }, title: 'QA form title' },
 });
 
 const loadSample = async (hs, log) => {
@@ -120,11 +120,13 @@ const seed = async (hs, writer, { build, log }) => {
     result.blocked.push({ what: 'blog posts', reason: `No blog named "${qaName('Blog')}" (setup step: create it with the custom-boilerplate templates).` });
   } else {
     result.blog = { id: blog.id, name: blog.name, slug: blog.slug, absoluteUrl: blog.absoluteUrl };
+    const author = await writer.upsertAuthor({ fullName: autoName('Author'), displayName: autoName('Author'), slug: 'qa-auto-author', bio: 'QA test author.', language: 'en' });
     for (const [i, name] of POST_NAMES.entries()) {
       const body = {
         name,
         htmlTitle: name,
         contentGroupId: String(blog.id),
+        blogAuthorId: String(author.id),
         slug: `${blog.slug ? `${blog.slug}/` : ''}${SLUG_PREFIX}post-${i + 1}`,
         headHtml: headHtml(build),
         metaDescription: 'QA test post. Not for visitors.',
