@@ -5,7 +5,8 @@
   "scripts": {
     "qa": "node run.js",
     "qa:no-upload": "node run.js --skip-upload",
-    "qa:no-readme": "node run.js --no-readme"
+    "qa:no-readme": "node run.js --no-readme",
+    "qa:dry-run": "node run.js --dry-run"
   },
   "dependencies": {
     "playwright": "1.57.0"

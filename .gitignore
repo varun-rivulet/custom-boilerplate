@@ -6,3 +6,5 @@ Thumbs.db
 .env
 qa/reports/
 qa/.cache/
+qa/.state/
+qa/.auth/

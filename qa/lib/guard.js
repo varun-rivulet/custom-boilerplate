@@ -1,19 +1,20 @@
-const { QA_PREFIX, FILE_FOLDER } = require('../config');
+const { AUTO_PREFIX, SLUG_PREFIX, FILE_FOLDER } = require('../config');
 
 class GuardError extends Error {}
 
-const isQaName = (name) => typeof name === 'string' && name.startsWith(`${QA_PREFIX} `);
+const fail = (msg) => { throw new GuardError(`Write guard: ${msg}`); };
 
-const assertQaName = (name, what) => {
-  if (!isQaName(name)) {
-    throw new GuardError(`Write guard: refusing to touch ${what} "${name}" (name must start with "${QA_PREFIX} ").`);
-  }
+const assertAutoName = (name, what) => {
+  if (typeof name !== 'string' || !name.startsWith(`${AUTO_PREFIX} `)) fail(`refusing ${what} "${name}" (name must start with "${AUTO_PREFIX} ").`);
+};
+
+const assertAutoSlug = (slug, what) => {
+  const last = String(slug || '').split('/').pop();
+  if (!last.startsWith(SLUG_PREFIX)) fail(`refusing ${what} with slug "${slug}" (slug must start with "${SLUG_PREFIX}").`);
 };
 
 const assertQaFolder = (folderPath) => {
-  if (folderPath !== FILE_FOLDER) {
-    throw new GuardError(`Write guard: files may only be written to ${FILE_FOLDER}, not "${folderPath}".`);
-  }
+  if (folderPath !== FILE_FOLDER) fail(`files may only be written to ${FILE_FOLDER}, not "${folderPath}".`);
 };
 
-module.exports = { GuardError, isQaName, assertQaName, assertQaFolder };
+module.exports = { GuardError, assertAutoName, assertAutoSlug, assertQaFolder };

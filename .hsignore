@@ -6,3 +6,5 @@ README.md
 .hsignore
 .env
 qa/
+qa/.state/
+qa/.auth/

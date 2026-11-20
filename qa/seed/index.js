@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { qaName, THEME_FOLDER, FILE_FOLDER, SLUG_PREFIX, USER_TEST_PAGE_SLUG, CACHE_DIR } = require('../config');
+const { autoName, qaName, THEME_FOLDER, FILE_FOLDER, SLUG_PREFIX, REFERENCE_PAGE_SLUG, CACHE_DIR } = require('../config');
 const { generateImages } = require('../lib/images');
-const { buildSections } = require('./sections');
+const { buildSections, LIST_UL, LIST_OL } = require('./sections');
 const { extractSample, buildLayout } = require('./layout');
 
 const headHtml = (build) => `<meta name="robots" content="noindex, nofollow">\n<meta name="qa-build" content="${build}">`;
@@ -10,6 +10,7 @@ const headHtml = (build) => `<meta name="robots" content="noindex, nofollow">\n<
 const FORM_SPEC = (name) => ({
   name,
   formType: 'hubspot',
+  createdAt: new Date().toISOString(),
   archived: false,
   fieldGroups: [
     { groupType: 'default_group', richTextType: 'text', fields: [
@@ -44,98 +45,110 @@ const formWidget = (formId) => ({
   params: { path: '@hubspot/form', module_id: 1155639, form: { form_id: formId, response_type: 'inline', message: 'QA form submitted.' }, title: 'QA form title' },
 });
 
-const seed = async (hs, { build, log }) => {
+const loadSample = async (hs, log) => {
+  const cacheFile = path.join(CACHE_DIR, 'layout-sample.json');
+  try {
+    const reference = await hs.findPageBySlug('site-pages', REFERENCE_PAGE_SLUG);
+    if (reference) {
+      const sample = extractSample(await hs.getPage('site-pages', reference.id));
+      fs.mkdirSync(CACHE_DIR, { recursive: true });
+      fs.writeFileSync(cacheFile, JSON.stringify(sample, null, 2));
+      return sample;
+    }
+  } catch (err) {
+    log(`reference page not usable (${err.message}); using cached layout sample`);
+  }
+  if (fs.existsSync(cacheFile)) return JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+  throw new Error(`No layout sample: /${REFERENCE_PAGE_SLUG} (read-only reference) not found and no cache.`);
+};
+
+const PAGE_DEFS = [
+  { kind: 'site-pages', name: autoName('Base Module'), slug: `${SLUG_PREFIX}base-module`, template: 'page.html' },
+  { kind: 'site-pages', name: autoName('Form'), slug: `${SLUG_PREFIX}form`, template: 'page.html' },
+  { kind: 'landing-pages', name: autoName('Landing'), slug: `${SLUG_PREFIX}landing-page`, template: 'landing-page.html' },
+];
+const POST_NAMES = [1, 2, 3].map((i) => autoName(`Post ${i}`));
+
+const seed = async (hs, writer, { build, log }) => {
   const result = { pages: [], posts: [], blocked: [], images: {} };
 
   const images = await generateImages(path.join(CACHE_DIR, 'images'));
   for (const img of images) {
-    const up = await hs.uploadFile(img.localPath, qaName(img.label), FILE_FOLDER);
-    result.images[img.key] = { url: up.url, width: up.width || img.width, height: up.height || img.height };
+    result.images[img.key] = await writer.uploadFile(img.localPath, autoName(img.label), FILE_FOLDER);
+    if (!result.images[img.key].width) result.images[img.key] = { ...result.images[img.key], width: img.width, height: img.height };
   }
-  log(`images uploaded to ${FILE_FOLDER}: ${images.length}`);
 
-  const reference = await hs.findPageBySlug('site-pages', USER_TEST_PAGE_SLUG);
-  if (!reference) throw new Error(`Reference page /${USER_TEST_PAGE_SLUG} not found; it is read (never changed) to copy HubSpot's Base Module layout format.`);
-  const sample = extractSample(await hs.getPage('site-pages', reference.id));
-  fs.mkdirSync(CACHE_DIR, { recursive: true });
-  fs.writeFileSync(path.join(CACHE_DIR, 'layout-sample.json'), JSON.stringify(sample, null, 2));
-
+  const sample = await loadSample(hs, log);
   const sections = buildSections(result.images);
   result.sections = sections.map(({ key, title, expect }) => ({ key, title, expect }));
-  const pageSpecs = [
-    { kind: 'site-pages', name: qaName('Base Module'), slug: `${SLUG_PREFIX}base-module`, template: 'page.html', widgets: sections.map((s) => ({ kind: 'base', params: s.params })) },
-  ];
+  const widgets = {
+    [PAGE_DEFS[0].name]: sections.map((s) => ({ kind: 'base', params: s.params })),
+    [PAGE_DEFS[2].name]: [{ kind: 'base', params: sections[1].params }],
+  };
 
   try {
-    const form = await hs.upsertForm(FORM_SPEC(qaName('Form')));
+    const form = await writer.upsertForm(FORM_SPEC(autoName('Form')));
     result.formId = form.id;
-    pageSpecs.push({ kind: 'site-pages', name: qaName('Form'), slug: `${SLUG_PREFIX}form`, template: 'page.html', widgets: [formWidget(form.id)] });
+    widgets[PAGE_DEFS[1].name] = [formWidget(form.id)];
   } catch (err) {
     result.blocked.push({ what: 'form', reason: err.message });
   }
 
-  pageSpecs.push({ kind: 'landing-pages', name: qaName('Landing'), slug: `${SLUG_PREFIX}landing`, template: 'landing-page.html', widgets: [{ kind: 'base', params: sections[1].params }] });
-
-  for (const spec of pageSpecs) {
+  for (const def of PAGE_DEFS) {
+    if (!widgets[def.name]) continue;
     const body = {
-      name: spec.name,
-      htmlTitle: spec.name,
-      slug: spec.slug,
-      templatePath: `${THEME_FOLDER}/templates/${spec.template}`,
+      name: def.name,
+      htmlTitle: def.name,
+      slug: def.slug,
+      templatePath: `${THEME_FOLDER}/templates/${def.template}`,
       headHtml: headHtml(build),
       metaDescription: 'QA test page. Not for visitors.',
-      layoutSections: buildLayout(sample, spec.widgets),
+      layoutSections: buildLayout(sample, widgets[def.name]),
     };
     try {
-      const page = await hs.upsertPage(spec.kind, body);
-      result.pages.push({ kind: spec.kind, id: page.id, name: spec.name, slug: spec.slug });
-      log(`page upserted: ${spec.name}`);
+      const page = await writer.upsertPage(def.kind, body);
+      result.pages.push({ kind: def.kind, key: `${def.kind}:${def.name}`, id: page.id, name: def.name, slug: def.slug });
     } catch (err) {
-      result.blocked.push({ what: spec.name, reason: err.message });
+      if (err.name === 'GuardError' || /Write guard/.test(err.message)) throw err;
+      result.blocked.push({ what: def.name, reason: err.message });
     }
   }
 
   const blogs = await hs.listBlogs();
   const blog = blogs.find((b) => b.name === qaName('Blog'));
   if (!blog) {
-    result.blocked.push({ what: 'blog posts', reason: `No blog named "${qaName('Blog')}" (manual step: create it with the custom-boilerplate templates).` });
+    result.blocked.push({ what: 'blog posts', reason: `No blog named "${qaName('Blog')}" (setup step: create it with the custom-boilerplate templates).` });
   } else {
     result.blog = { id: blog.id, name: blog.name, slug: blog.slug, absoluteUrl: blog.absoluteUrl };
-    for (let i = 1; i <= 3; i++) {
-      const name = qaName(`Post ${i}`);
+    for (const [i, name] of POST_NAMES.entries()) {
       const body = {
         name,
         htmlTitle: name,
         contentGroupId: String(blog.id),
-        slug: `${blog.slug ? `${blog.slug}/` : ''}${SLUG_PREFIX}post-${i}`,
+        slug: `${blog.slug ? `${blog.slug}/` : ''}${SLUG_PREFIX}post-${i + 1}`,
         headHtml: headHtml(build),
         metaDescription: 'QA test post. Not for visitors.',
         useFeaturedImage: true,
         featuredImage: result.images.featured.url,
-        featuredImageAltText: `QA featured image ${i}`,
-        postBody: `<p>QA post ${i} body with a <a href="https://example.com/">link</a>.</p><h2>Lists</h2>${require('./sections').LIST_UL}${require('./sections').LIST_OL}`,
+        featuredImageAltText: `QA featured image ${i + 1}`,
+        postBody: `<p>QA post ${i + 1} body with a <a href="https://example.com/">link</a>.</p><h2>Lists</h2>${LIST_UL}${LIST_OL}`,
       };
       try {
-        const post = await hs.upsertPost(body);
-        result.posts.push({ id: post.id, name });
+        const post = await writer.upsertPost(body);
+        result.posts.push({ key: `post:${name}`, id: post.id, name });
       } catch (err) {
+        if (/Write guard/.test(err.message)) throw err;
         result.blocked.push({ what: name, reason: err.message });
       }
     }
-    log(`blog posts upserted: ${result.posts.length}`);
   }
   return result;
 };
 
-const republish = async (hs, seeded, { log }) => {
-  for (const p of seeded.pages) {
-    await hs.publishPage(p.kind, p.id);
-    log(`published: ${p.name}`);
-  }
-  for (const p of seeded.posts) {
-    await hs.publishPost(p.id);
-    log(`published: ${p.name}`);
-  }
+const republish = async (hs, writer, seeded, { log }) => {
+  for (const p of seeded.pages) await writer.publishPage(p.kind, p.key);
+  for (const p of seeded.posts) await writer.publishPost(p.key);
+  if (writer.dryRun) return;
   await new Promise((r) => setTimeout(r, 5000));
   for (const p of seeded.pages) {
     const fresh = await hs.getPage(p.kind, p.id);
@@ -147,6 +160,7 @@ const republish = async (hs, seeded, { log }) => {
     p.url = fresh.url || null;
     p.state = fresh.currentState;
   }
+  log(`published ${seeded.pages.length} pages, ${seeded.posts.length} posts`);
 };
 
 module.exports = { seed, republish };

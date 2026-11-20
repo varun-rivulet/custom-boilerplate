@@ -24,7 +24,7 @@ const parseButtonVars = (css) => {
   };
   const base = css.match(/\.btn,\.hs-button\{([^}]*)\}/);
   if (base) out.primary = grab(base[1]);
-  css.replace(/(?:^|\})\s*\.btn-([a-z-]+)\{([^}]*)\}/g, (_, name, block) => { if (!out[name]) out[name] = grab(block); });
+  css.replace(/(?<=^|\})\s*\.btn-([a-z-]+)\{([^}]*)\}/g, (_, name, block) => { if (!out[name]) out[name] = grab(block); });
   return out;
 };
 

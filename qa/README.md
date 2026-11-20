@@ -27,9 +27,11 @@ The report is written to `qa/reports/<timestamp>/report.md` with screenshots (gi
 ## Safety
 
 - The token must belong to portal 51597413 (checked before any call); `hs` always runs with `--account=51597413`.
-- Every create, update, publish or upload goes through the write guard in `lib/guard.js`: the object's name must start with the `QA_PREFIX` constant from `config.js` ("QA –", en dash, plus a space). Files go only to the `/QA` folder. Nothing is ever deleted.
-- QA pages are noindex (`<meta name="robots">` in the page head HTML), use `qa-auto-*` slugs and are never added to menus.
-- The page `/qa-base-module` is only read, to copy HubSpot's Base Module layout format; it is never changed.
+- **Ownership by ID:** all writes go through `lib/writer.js`. The harness only updates or publishes objects it created itself, tracked by ID in `qa/.state/created.json` (gitignored, per portal). Everything else is read-only, whatever its name. There is no lookup by name.
+- **Extra layers:** harness names start with `AUTO_PREFIX` ("QA – Auto", built from the `QA_PREFIX` constant in `config.js`, en dash) and pages/posts use `qa-auto-` slugs; existing objects are re-checked before every update and publish. Files go only to `/QA`, are never overwritten and are reused by ID. Nothing is ever deleted.
+- **Dry run:** `npm run qa:dry-run` lists every write without making it (`reports/<time>/write-plan.md`). The first run in a portal (no state yet) automatically does a dry run and stops; review the plan, then run `npm run qa -- --confirm-first-run`. Every real run also saves its write plan.
+- QA pages are noindex (`<meta name="robots">` in the page head HTML) and never added to menus.
+- The page `/qa-base-module` is only read, to copy HubSpot's Base Module layout format (cached in `.cache/`); it is never changed.
 
 ## How republishing works
 

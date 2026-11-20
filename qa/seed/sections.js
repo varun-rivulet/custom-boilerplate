@@ -8,9 +8,8 @@ const link = (href, type = 'EXTERNAL', extra = {}) => ({ url: { type, href, cont
 const allButtons = () => BUTTON_STYLES.map((style) => ({ text: style, style, link: link('https://example.com/'), aria_label: '' }));
 const color = (hex, opacity = 100) => ({ color: hex, opacity });
 const spacing = (top, right, bottom, left) => {
-  const side = (v) => (v === null ? undefined : { value: v, units: 'px' });
   const padding = {};
-  [['top', top], ['right', right], ['bottom', bottom], ['left', left]].forEach(([k, v]) => { if (v !== null && v !== undefined) padding[k] = side(v); });
+  [['top', top], ['right', right], ['bottom', bottom], ['left', left]].forEach(([k, v]) => { padding[k] = { value: v === undefined ? null : v, units: 'px' }; });
   return { padding };
 };
 
