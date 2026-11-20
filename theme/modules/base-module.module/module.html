@@ -129,7 +129,10 @@
         {% if has_image %}
           <div class="section-media img-radius">
             {% set img_max = container_max * 2 %}
-            <img src="{{ resize_image_url(img.src, img_max) if img.width and img.width > img_max else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img.width %} width="{{ img.width }}"{% endif %}{% if img.height %} height="{{ img.height }}"{% endif %} loading="lazy">
+            {% set img_big = img.width and img.width > img_max %}
+            {% set img_w = img_max if img_big else img.width %}
+            {% set img_h = (img.height * img_max / img.width)|round|int if img_big and img.height else img.height %}
+            <img src="{{ resize_image_url(img.src, img_max) if img_big else img.src }}" alt="{{ img.alt|escape_attr }}"{% if img_w %} width="{{ img_w }}"{% endif %}{% if img_h %} height="{{ img_h }}"{% endif %} loading="lazy">
           </div>
         {% endif %}
       </div>
