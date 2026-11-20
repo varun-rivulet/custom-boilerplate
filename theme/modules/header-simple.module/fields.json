@@ -1,0 +1,212 @@
+[
+  {
+    "type": "group",
+    "name": "logo",
+    "label": "Logo",
+    "expanded": true,
+    "children": [
+      {
+        "type": "image",
+        "name": "image",
+        "label": "Logo image",
+        "responsive": true,
+        "resizable": true,
+        "show_loading": false,
+        "help_text": "Leave empty to show the theme placeholder logo. Set the width and height here; the logo is always loaded eagerly. Alt text: the company name.",
+        "default": {
+          "src": "",
+          "alt": ""
+        }
+      },
+      {
+        "type": "link",
+        "name": "link",
+        "label": "Logo link",
+        "show_advanced_rel_options": true,
+        "help_text": "Defaults to the home page (/).",
+        "default": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "/",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "cta",
+    "label": "Header button",
+    "expanded": false,
+    "children": [
+      {
+        "type": "choice",
+        "name": "type",
+        "label": "Button type",
+        "display": "select",
+        "placeholder": "No button",
+        "choices": [
+          [
+            "link",
+            "Link button"
+          ]
+        ],
+        "default": "link",
+        "help_text": "Leave empty for no button."
+      },
+      {
+        "type": "text",
+        "name": "text",
+        "label": "Button text",
+        "default": "Get started",
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      },
+      {
+        "type": "choice",
+        "name": "style",
+        "label": "Style",
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "dark",
+            "Dark"
+          ],
+          [
+            "white",
+            "White"
+          ],
+          [
+            "accent",
+            "Accent"
+          ],
+          [
+            "primary-outline",
+            "Primary outline"
+          ],
+          [
+            "secondary-outline",
+            "Secondary outline"
+          ],
+          [
+            "white-outline",
+            "White outline"
+          ],
+          [
+            "dark-outline",
+            "Dark outline"
+          ]
+        ],
+        "help_text": "On dark backgrounds, choose a suitable variant (e.g. White or White outline).",
+        "default": "primary",
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      },
+      {
+        "type": "link",
+        "name": "link",
+        "label": "Link",
+        "show_advanced_rel_options": true,
+        "help_text": "The button only shows on the live page once a link is set.",
+        "default": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "name": "aria_label",
+        "label": "Accessible label (optional)",
+        "default": "",
+        "help_text": "Use when the button text alone doesn't describe the destination.",
+        "visibility_rules": "ADVANCED",
+        "advanced_visibility": {
+          "boolean_operator": "AND",
+          "criteria": [
+            {
+              "controlling_field_path": "cta.type",
+              "operator": "MATCHES_REGEX",
+              "controlling_value_regex": "^link$"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "labels",
+    "label": "Accessibility labels",
+    "expanded": false,
+    "children": [
+      {
+        "type": "text",
+        "name": "home",
+        "label": "Logo fallback alt text",
+        "default": "Home page",
+        "help_text": "Used when the logo image has no alt text."
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "name": "style",
+    "label": "Style",
+    "expanded": false,
+    "tab": "STYLE",
+    "children": [
+      {
+        "type": "boolean",
+        "name": "border",
+        "label": "Bottom border",
+        "display": "toggle",
+        "default": true
+      }
+    ]
+  }
+]

@@ -121,8 +121,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabin
 .section-eyebrow p{margin:0}
 .section-title{margin:0 0 var(--space-heading-content)}
 .section-title:last-child{margin-bottom:0}
-.section-description ul,.section-description ol{padding-left:0;list-style-position:inside}
-.section-description li ul,.section-description li ol{padding-left:1em}
 .section-buttons,.section-media{margin-top:var(--space-content-button)}
 .section-buttons:first-child,.section-media:first-child,.section-title + .section-buttons,.section-title + .section-media{margin-top:0}
 .section-media img{display:block}
@@ -134,6 +132,20 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:not([tabin
 .text-align-center .section-media img{margin-inline:auto}
 .text-align-right .section-media img{margin-left:auto}
 @media (max-width:767.98px){.text-align-mobile-left{text-align:left}.text-align-mobile-center{text-align:center}.text-align-mobile-right{text-align:right}.text-align-mobile-left .section-buttons{justify-content:flex-start}.text-align-mobile-center .section-buttons{justify-content:center}.text-align-mobile-right .section-buttons{justify-content:flex-end}.text-align-mobile-left .section-media img{margin-inline:0 auto}.text-align-mobile-center .section-media img{margin-inline:auto}.text-align-mobile-right .section-media img{margin-inline:auto 0}}
+
+{# Rich text #}
+:is(.section-description,.blog-post-body) :is(ul,ol){padding-left:1.25em;list-style-position:outside}
+:is(.section-description,.blog-post-body) ul{list-style-type:var(--ul-type, disc)}
+:is(.section-description,.blog-post-body) ol{padding-left:1.5em;list-style-type:var(--ol-type, decimal)}
+:is(.section-description,.blog-post-body) li{--ul-type:circle;--ol-type:lower-alpha}
+:is(.section-description,.blog-post-body) li li{--ul-type:square;--ol-type:lower-roman}
+:is(.section-description,.blog-post-body) li + li{margin-top:calc(var(--space-paragraph) / 2)}
+:is(.section-description,.blog-post-body) li > p{margin:0}
+:is(.section-description,.blog-post-body) li > :is(ul,ol){margin:calc(var(--space-paragraph) / 2) 0}
+:is(.section-description,.blog-post-body) li[data-list-only]{list-style-type:none}
+:is(.section-description,.blog-post-body) li[data-list-only] > :first-child{margin-top:0}
+.text-align-center :is(.section-description,.blog-post-body) :is(ul,ol),.text-align-right :is(.section-description,.blog-post-body) :is(ul,ol){padding-left:0;list-style-position:inside}
+@media (max-width:767.98px){.text-align-mobile-left :is(.section-description,.blog-post-body) :is(ul,ol){padding-left:1.25em;list-style-position:outside}.text-align-mobile-left :is(.section-description,.blog-post-body) ol{padding-left:1.5em}.text-align-mobile-center :is(.section-description,.blog-post-body) :is(ul,ol),.text-align-mobile-right :is(.section-description,.blog-post-body) :is(ul,ol){padding-left:0;list-style-position:inside}}
 
 {# Base module #}
 

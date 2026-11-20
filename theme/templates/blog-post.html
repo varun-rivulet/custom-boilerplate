@@ -21,7 +21,7 @@
       </figure>
     {% endif %}
     <div class="blog-post-body">
-      {{ content.post_body }}
+      {{ content.post_body|regex_replace("<li((?: [^>]*)?)>([[:space:]]*)<(ul|ol)", "<li$1 data-list-only>$2<$3") }}
     </div>
     {% if content.tag_list %}
       <ul class="blog-post-tags" role="list" aria-label="Tags">

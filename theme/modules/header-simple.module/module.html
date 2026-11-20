@@ -1,0 +1,28 @@
+{# Header – Simple #}
+{% macro link_attrs(link, fallback) %}{% set url = link.url %}{% set href = url.href or fallback or "" %}{% if href and url.type == "EMAIL_ADDRESS" and "mailto:" not in href %}{% set href = "mailto:" ~ href %}{% endif %}{% if href and url.type in ["PHONE", "PHONE_NUMBER"] and "tel:" not in href %}{% set href = "tel:" ~ href %}{% endif %}{% set rel = [] %}{% if link.open_in_new_tab %}{% do rel.append("noopener") %}{% do rel.append("noreferrer") %}{% endif %}{% if link.no_follow %}{% do rel.append("nofollow") %}{% endif %}{% if link.sponsored %}{% do rel.append("sponsored") %}{% endif %}{% if link.user_generated_content %}{% do rel.append("ugc") %}{% endif %}{% if href %} href="{{ href|escape_attr }}"{% endif %}{% if link.open_in_new_tab %} target="_blank"{% endif %}{% if rel %} rel="{{ rel|join(' ') }}"{% endif %}{% endmacro %}
+{% set s = module.style %}
+{% set logo = module.logo %}
+{% set labels = module.labels %}
+{% set header_cta = module.cta %}
+{% set has_logo_image = logo.image.src %}
+{% set logo_src = logo.image.src if has_logo_image else get_asset_url("../../images/logo-placeholder.svg") %}
+{% set logo_width = logo.image.width if has_logo_image else 160 %}
+{% set logo_height = logo.image.height if has_logo_image else 40 %}
+{% set logo_alt = (logo.image.alt|trim if has_logo_image else "") or labels.home|trim or "Home page" %}
+{% set has_link_cta = header_cta.type == "link" and header_cta.text|trim and (header_cta.link.url.href or is_in_editor) %}
+{% set classes = ["site-header"] %}
+{% if not s.border %}{% do classes.append("is-borderless") %}{% endif %}
+<header class="{{ classes|join(' ') }}">
+  <div class="site-header-inner container">
+    <div class="site-header-logo">
+      <a{{ link_attrs(logo.link, "/") }}>
+        <img src="{{ logo_src }}" alt="{{ logo_alt|escape_attr }}"{% if logo_width %} width="{{ logo_width }}"{% endif %}{% if logo_height %} height="{{ logo_height }}"{% endif %} loading="eager">
+      </a>
+    </div>
+    {% if has_link_cta %}
+      <div class="site-header-cta">
+        <a class="btn btn-{{ header_cta.style or 'primary' }}"{{ link_attrs(header_cta.link, "") }}{% if header_cta.aria_label|trim %} aria-label="{{ header_cta.aria_label|escape_attr }}"{% endif %}>{{ header_cta.text|escape_html }}</a>
+      </div>
+    {% endif %}
+  </div>
+</header>

@@ -80,7 +80,14 @@ The defaults pass WCAG AA: 4.5:1 for text and 3:1 for outline button borders. Th
 If a pair fails, change the setting that uses it (for example the button's text color) to another palette color. Don't add new hex values.
 
 ## Header
-The site header is one global module (`modules/header.module`) called with a static `{% module "site_header" %}` tag in `templates/partials/header.html`. Content lives in the global content editor, so every page shares it. There is one header for all templates, the landing page included (no minimal or logo-only variant). Menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (any of the 9 theme button styles). Colors come from Theme settings → Website header (menu text, drop-down text, background and border, header background); the module itself only has the bottom border toggle. For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
+There are two global header modules. Content lives in the global content editor, so every page using a header shares it.
+
+- **Header** (`modules/header.module`, static `{% module "site_header" %}` tag in `templates/partials/header.html`): logo, menu and header button. Used by the page, blog and system templates.
+- **Header – Simple** (`modules/header-simple.module`, static `{% module "site_header_simple" %}` tag in `templates/partials/header-simple.html`): logo and header button only, no navigation. Used by the landing page template. It reuses the Header's classes and CSS (`.site-header`, `.site-header-inner`, `.site-header-logo`, `.site-header-cta`) and follows the same Website header theme settings and bottom border toggle.
+
+**The logo is set in both global modules (Header and Header – Simple).** When you re-skin for a client, update the logo, logo link and alt text in each.
+
+Header menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (any of the 9 theme button styles). Colors come from Theme settings → Website header (menu text, drop-down text, background and border, header background); the module itself only has the bottom border toggle. For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
 
 **Sticky header (not built yet):** HubSpot wraps the header partial in its own `<div>`, so `position: sticky` on `.site-header` only sticks inside that wrapper and scrolls away with it. A sticky header needs a workaround, for example making HubSpot's wrapper div the sticky element, or a small script. Decide and test it in the sandbox before adding it.
 
@@ -107,7 +114,8 @@ The boilerplate has link buttons only. HubSpot's `cta` field type needs CTA acce
 2. In `module.html`, count a CTA item as valid only when one is picked: `{% if item.button_type == "cta" %}{% if item.cta %}{% do valid_buttons.append(item) %}{% endif %}{% elif item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}`.
 3. In the buttons loop, render it before the link button: `{% if item.button_type == "cta" %}<div class="section-cta">{% cta guid="{{ item.cta }}" %}</div>{% else %}` … link button … `{% endif %}`. The CTA's look and link come from HubSpot's CTA tool, not the theme button styles.
 
-**Header button**
+**Header button (Header and Header – Simple)**
+Do these steps in both `header.module` and `header-simple.module`. Header – Simple has no `has_panel`; skip that part there.
 1. In `fields.json`, in the `cta` group, add the choice `["hubspot", "HubSpot CTA"]` to `type`, and add `{"type": "cta", "name": "hubspot_cta", "label": "HubSpot CTA"}` shown when `cta.type` matches `^hubspot$`.
 2. In `module.html`, add `{% set has_hubspot_cta = header_cta.type == "hubspot" and header_cta.hubspot_cta %}`, include it in `has_panel`, and after the link button block add `{% elif has_hubspot_cta %}<div class="site-header-cta">{% cta guid="{{ header_cta.hubspot_cta }}" %}</div>`.
 
@@ -180,6 +188,11 @@ Do not merge any phase branch (`phase-2-foundation`, `phase-3-base-module` and l
   - Logo: empty image shows the placeholder (theme/images/logo-placeholder.svg via get_asset_url) at 160×40; an uploaded logo outputs its width/height and loading="eager".
   - Header button: the link button is hidden on the live page until a link is set.
   - Website header colors: change menu text, drop-down text/background/border and header background in Theme settings; the header follows, menu links underline on hover, and focus outlines are visible. On mobile the submenus use the header colors.
+17b. **Header – Simple (on a landing page):** create a page from the Landing page template and open Header – Simple in the global content editor.
+  - It shows the logo (placeholder at 160×40 when empty; an uploaded logo outputs its width/height and loading="eager") and the header button, and no menu or menu button at any width.
+  - The header button is hidden on the live page until it has text and a link; all 9 styles render.
+  - Website header colors and the bottom border toggle apply, same as the main Header.
+  - No console errors and no horizontal scroll from 1440 down to 360px; logo and button stay usable at 360px.
 18. **Footer module:**
    - The placeholder logo passed from the partial (`logo={"image": {...}}` with `get_asset_url`) appears on first upload. If global module tag parameters are ignored, the logo is simply hidden until an image is chosen.
    - `local_dt|format_datetime("yyyy")` prints the four-digit year (fallback: `local_dt|datetimeformat('%Y')`). Check that a cached live page shows the new year after 1 January (republish if needed).

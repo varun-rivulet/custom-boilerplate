@@ -5,6 +5,10 @@
 -->
 {% extends "./layouts/base.html" %}
 
+{% block header %}
+  {% global_partial path="./partials/header-simple.html" %}
+{% endblock header %}
+
 {% block body %}
   {% dnd_area "main_content" label="Main content" %}
     {% dnd_section full_width=true, padding={"top": "0px", "bottom": "0px", "left": "0px", "right": "0px"} %}

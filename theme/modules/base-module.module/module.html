@@ -109,7 +109,7 @@
       <div class="section-content{% if content_width %} content-align-{{ ca.block_position or 'center' }}{% endif %}">
         {% if has_eyebrow %}<div class="section-eyebrow"><p>{{ module.eyebrow|escape_html }}</p></div>{% endif %}
         {% if has_heading %}<div class="section-title">{{ module.heading }}</div>{% endif %}
-        {% if has_description %}<div class="section-description">{{ module.description }}</div>{% endif %}
+        {% if has_description %}<div class="section-description">{{ module.description|regex_replace("<li((?: [^>]*)?)>([[:space:]]*)<(ul|ol)", "<li$1 data-list-only>$2<$3") }}</div>{% endif %}
         {% if valid_buttons %}
           <div class="section-buttons btn-group">
             {% for item in valid_buttons %}
