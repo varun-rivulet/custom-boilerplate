@@ -9,6 +9,7 @@
     "qa:dry-run": "node run.js --dry-run"
   },
   "dependencies": {
+    "axe-core": "^4.10.2",
     "playwright": "1.57.0"
   }
 }

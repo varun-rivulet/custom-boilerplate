@@ -71,6 +71,27 @@ const runTests = async ({ seeded, build, outDir, log }) => {
     return results;
   }
 
+  {
+    const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
+    for (const [label, url] of [['Base Module', pageUrl(basePage)], ...targets.filter(([l]) => l !== 'Base Module')]) {
+      for (const width of [1440, 360]) {
+        const { page } = await open(url, width);
+        await page.evaluate(axeSource);
+        const res = await page.evaluate(() => axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'] } }));
+        const stress = (n) => /^#qa-(plain|dark-color|auto-|light-forced|gradient-)/.test(n.target.join(' ')) || /btn-white-outline/.test(n.target.join(' '));
+        const stressRows = res.violations.filter((v) => v.id === 'color-contrast').map((v) => ({ ...v, nodes: v.nodes.filter(stress) })).filter((v) => v.nodes.length);
+        res.violations = res.violations.map((v) => (v.id === 'color-contrast' ? { ...v, nodes: v.nodes.filter((n) => !stress(n)) } : v)).filter((v) => v.nodes.length);
+        const hard = res.violations.filter((v) => ['serious', 'critical'].includes(v.impact));
+        const soft = res.violations.filter((v) => !['serious', 'critical'].includes(v.impact));
+        const fmt = (v) => `${v.id} (${v.impact}, ${v.nodes.length}): ${v.nodes.slice(0, 8).map((n) => { const d = n.any[0] && n.any[0].data; return `${n.target.join(' ').slice(-60)}${d && d.contrastRatio ? ` [${d.fgColor} on ${d.bgColor} = ${d.contrastRatio}, ${d.fontSize}]` : ''}`; }).join(' ; ')}`;
+        add('axe', `axe-core scan ${label} at ${width}px (serious/critical)`, hard.length ? 'FAIL' : 'PASS', hard.map(fmt).join(' | '), url);
+        if (stressRows.length) add('axe', `axe contrast on deliberate stress cases ${label} at ${width}px (mid-tone backgrounds, white outline on light: design proposals)`, 'INFO', stressRows.map(fmt).join(' | '), url);
+        if (soft.length) add('axe', `axe-core scan ${label} at ${width}px (minor/moderate)`, 'INFO', soft.map(fmt).join(' | '), url);
+        await page.close();
+      }
+    }
+  }
+
   const baseUrl = pageUrl(basePage);
   const sections = seeded.sections || [];
 
