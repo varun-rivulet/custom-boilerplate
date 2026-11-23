@@ -122,6 +122,23 @@ const runTests = async ({ seeded, build, outDir, log }) => {
         && A['picker-default'].eb === rgb('#F59E0B') && A['picker-default'].lk === rgb('#F59E0B');
       add('variants', `Auto text: eyebrow/link fall back only when below 4.5:1 ${at}`, ok(fixOk), JSON.stringify(A), baseUrl);
       add('variants', `No horizontal scroll ${at}`, ok(r.overflow <= 0), `overflow ${r.overflow}px`, baseUrl);
+      const cs = (sel, pseudo) => page.locator(sel).first().evaluate((el, ps) => { const c = getComputedStyle(el, ps || null); return { deco: c.textDecorationLine, color: c.color, td: c.transitionDuration, tp: c.transitionProperty, te: c.transitionTimingFunction }; }, pseudo);
+      const hoverOf = async (sel) => { const before = await cs(sel); await page.locator(sel).first().scrollIntoViewIfNeeded(); await page.locator(sel).first().hover(); await page.waitForTimeout(450); const after = await cs(sel); await page.mouse.move(0, 0); return { before, after }; };
+      const rt = await cs('#qa-plain .section-description a');
+      const rtHover = await hoverOf('#qa-plain .section-description a');
+      const tl = await hoverOf('#qa-plain a.text-link');
+      const fl = await hoverOf('.site-footer-list a');
+      const sub = await cs('.site-header-sublink, .site-header-mega-link');
+      const fadeOk = (x) => x.before.td.startsWith('0.3s') && /color/.test(x.before.tp) && x.before.te === 'ease';
+      const linkOk = rt.deco === 'underline' && rtHover.after.deco === 'underline' && fadeOk(rtHover) && rtHover.after.color !== rtHover.before.color
+        && tl.before.deco === 'none' && tl.after.deco === 'none' && fadeOk(tl) && tl.after.color !== tl.before.color
+        && fl.before.deco === 'none' && fl.after.deco === 'none' && fadeOk(fl) && fl.after.color !== fl.before.color
+        && sub.deco === 'none' && sub.td.startsWith('0.3s');
+      add('links', `Links: rich text always underlined, standalone/footer/submenu no underline, .3s color fade ${at}`, ok(linkOk), JSON.stringify({ rt, rtHover, tl, fl, sub }), baseUrl);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      const rm = { rt: await cs('#qa-plain .section-description a'), fl: await cs('.site-footer-list a'), sub: await cs('.site-header-sublink, .site-header-mega-link') };
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      add('links', `Links: reduced motion turns the color fade off ${at}`, ok(rm.rt.td === '0s' && rm.fl.td === '0s' && rm.sub.td === '0s'), JSON.stringify(rm), baseUrl);
       await page.close();
     }
   }

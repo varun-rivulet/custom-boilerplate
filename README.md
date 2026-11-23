@@ -64,7 +64,7 @@ How modules use them:
 - Light backgrounds use the text style colors (Text → H1–H6, Body, Links, Eyebrow). The Base Module's **Text color: Dark** uses the same values.
 - **Auto text fallback and brand colors:** with Text color Auto the Base Module also checks the eyebrow and link color of the chosen mode against the background (blended with the page background; both ends of a gradient). If either is below 4.5:1 it uses that mode's heading color (eyebrow) or body text color (link) for that section only. Re-check the eyebrow and link colors (Text, Text on dark backgrounds) for every new brand: a color that passes on the default Dark can fail on a client's mid-tone backgrounds, and Dark / Light set by hand are never adjusted.
 - **Text on dark backgrounds** (heading, text, eyebrow, link, link hover) supplies the Base Module's **Text color: Light**. Form labels, help and error text switch to its text color. Text color (Auto / Dark / Light) only affects text, never buttons: every button keeps the variant the editor selected, on any background. On dark backgrounds, choose a suitable variant (e.g. White or White outline).
-- **Website header** and **Website footer** set the header and footer colors. The footer uses its text color for headings, links and icons too, and the same color at 25% opacity for dividers. Header menu links underline on hover.
+- **Website header** and **Website footer** set the header and footer colors. The footer uses its text color for headings, links and icons too, and the same color at 25% opacity for dividers. Header menu links grow a bar from the left on hover.
 
 ### Re-skin warning: check contrast
 
@@ -165,7 +165,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-23, branch `main`, commit `430053e` (uncommitted theme changes) (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-23, branch `main`, commit `f5b0bac` (uncommitted theme changes) (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
@@ -220,7 +220,7 @@ Most checks run automatically: `cd qa && npm run qa` uploads the theme, seeds "Q
   - Mobile (≤991.98px): the menu button opens/closes the panel; submenus open as accordions in both menu types; Escape closes.
   - Logo: empty image shows the placeholder (theme/images/logo-placeholder.svg via get_asset_url) at 160×40; an uploaded logo outputs its width/height and loading="eager".
   - Header button: the link button is hidden on the live page until a link is set.
-  - Website header colors: change menu text, drop-down text/background/border and header background in Theme settings; the header follows, menu links underline on hover, and focus outlines are visible. On mobile the submenus use the header colors.
+  - Website header colors: change menu text, drop-down text/background/border and header background in Theme settings; the header follows, menu links grow a bar from the left on hover, and focus outlines are visible. On mobile the submenus use the header colors.
 17b. **Header – Simple (on a landing page):** create a page from the Landing page template and click Header – Simple in the page editor.
   - It shows the logo (placeholder at 160×40 when empty; an uploaded logo outputs its width/height and loading="eager") and the header button, and no menu or menu button at any width.
   - The header button is hidden on the live page until it has text and a link; all 9 styles render.

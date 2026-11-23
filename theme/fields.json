@@ -1514,28 +1514,6 @@
             }
           },
           {
-            "type": "choice",
-            "name": "underline",
-            "label": "Underline (text link style)",
-            "display": "select",
-            "choices": [
-              [
-                "none",
-                "None"
-              ],
-              [
-                "hover",
-                "On hover"
-              ],
-              [
-                "always",
-                "Always"
-              ]
-            ],
-            "default": "hover",
-            "help_text": "Links inside text are always underlined."
-          },
-          {
             "type": "number",
             "name": "underline_offset",
             "label": "Underline offset",
@@ -1544,7 +1522,8 @@
             "max": 12,
             "step": 1,
             "suffix": "px",
-            "default": 4
+            "default": 4,
+            "help_text": "Distance of the underline from links inside text. Those links are always underlined."
           }
         ]
       },
