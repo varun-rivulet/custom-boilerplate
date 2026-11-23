@@ -73,6 +73,7 @@ const initSiteHeader = (root = document) => {
     const navToggle = header.querySelector('[data-header-toggle]');
     const items = Array.from(header.querySelectorAll('[data-header-item]'));
     let closeTimer = null;
+    let animTimer = null;
 
     const getSubToggle = (item) => item.querySelector('[data-header-sub-toggle]');
     const isMega = header.hasAttribute('data-mega');
@@ -99,9 +100,12 @@ const initSiteHeader = (root = document) => {
       header.style.setProperty('--site-header-bottom', `${Math.max(0, Math.round(header.getBoundingClientRect().bottom))}px`);
     };
 
-    const setNavOpen = (open) => {
+    const setNavOpen = (open, animate = true) => {
       if (!navToggle) return;
       navToggle.setAttribute('aria-expanded', String(open));
+      clearTimeout(animTimer);
+      header.classList.toggle('is-nav-animating', animate);
+      if (animate) animTimer = setTimeout(() => header.classList.remove('is-nav-animating'), 450);
       header.classList.toggle('is-nav-open', open);
       document.documentElement.classList.toggle('is-scroll-locked', open);
       if (open) setPanelTop();
@@ -171,7 +175,7 @@ const initSiteHeader = (root = document) => {
     });
 
     mobileQuery.addEventListener('change', () => {
-      setNavOpen(false);
+      setNavOpen(false, false);
       syncMega();
     });
     window.addEventListener('resize', () => {

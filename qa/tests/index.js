@@ -367,14 +367,34 @@ const runTests = async ({ seeded, build, outDir, log }) => {
         add(17, 'Reduced motion: header transitions are off', rm.link === '0s' && rm.dd === '0s' ? 'PASS' : 'FAIL', JSON.stringify(rm), baseUrl);
       }
     }
+    if (await page.locator('[data-header-toggle]').count()) {
+      const runs = async (open) => {
+        await page.setViewportSize({ width: 1200, height: 900 }); await page.waitForTimeout(700);
+        await page.evaluate(() => { window.__tr = []; document.addEventListener('transitionrun', (e) => { if (e.target.closest && e.target.closest('.site-header, .site-header-overlay')) window.__tr.push(e.propertyName + '@' + e.target.className); }, true); });
+        await page.setViewportSize({ width: 900, height: 900 }); await page.waitForTimeout(60);
+        if (open) { await page.evaluate(() => document.querySelector('[data-header-toggle]').click()); await page.waitForTimeout(700); await page.evaluate(() => { window.__tr = []; }); }
+                await page.setViewportSize({ width: 1200, height: 900 }); await page.waitForTimeout(60);
+        await page.setViewportSize({ width: 900, height: 900 }); await page.waitForTimeout(60);
+        await page.setViewportSize({ width: 1200, height: 900 }); await page.waitForTimeout(60);
+        const trList = await page.evaluate(() => window.__tr); const during = trList.length;
+        await page.waitForTimeout(400);
+        const cleared = await page.evaluate(() => !document.documentElement.classList.contains('is-resizing'));
+        return { open, during, trList, cleared };
+      };
+      const closedRun = await runs(false);
+      const openRun = await runs(true);
+      add(17, 'Resize across 991.98px: no header transition plays (menu closed and open)', closedRun.during === 0 && openRun.during === 0 && closedRun.cleared && openRun.cleared ? 'PASS' : 'FAIL', JSON.stringify({ closedRun, openRun }), baseUrl);
+      await page.setViewportSize({ width: 1440, height: 900 }); await page.waitForTimeout(400);
+    }
     await page.setViewportSize({ width: 767, height: 900 }); await page.waitForTimeout(300);
     const navToggle = page.locator('[data-header-toggle]');
     if (await navToggle.count()) {
       await page.waitForTimeout(600);
       const panelClosed = await page.locator('#siteHeaderPanel').evaluate((el) => { const c = getComputedStyle(el); return { tf: c.transform, vis: c.visibility, dur: c.transitionDuration }; });
-      await navToggle.focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(500);
+      await navToggle.focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(100);
+      const animDur = await page.locator('#siteHeaderPanel').evaluate((el) => getComputedStyle(el).transitionDuration); await page.waitForTimeout(400);
       const panelOpen = await page.locator('#siteHeaderPanel').evaluate((el) => { const c = getComputedStyle(el); const b = el.getBoundingClientRect(); return { tf: c.transform, vis: c.visibility, left: Math.round(b.left), w: Math.round(b.width), locked: document.documentElement.classList.contains('is-scroll-locked'), closeIcon: getComputedStyle(document.querySelector('.site-header-icon-close')).opacity }; });
-      add(17, 'Mobile panel slides in from the left (.35s), page scroll locked, icon crossfade', /matrix\(1, 0, 0, 1, -/.test(panelClosed.tf) && panelClosed.vis === 'hidden' && panelClosed.dur.startsWith('0.35s') && panelOpen.vis === 'visible' && panelOpen.left === 0 && panelOpen.w >= 767 && panelOpen.locked && panelOpen.closeIcon === '1' ? 'PASS' : 'FAIL', JSON.stringify({ panelClosed, panelOpen }), baseUrl);
+      add(17, 'Mobile panel slides in from the left (.35s), page scroll locked, icon crossfade', /matrix\(1, 0, 0, 1, -/.test(panelClosed.tf) && panelClosed.vis === 'hidden' && animDur.startsWith('0.35s') && panelOpen.vis === 'visible' && panelOpen.left === 0 && panelOpen.w >= 767 && panelOpen.locked && panelOpen.closeIcon === '1' ? 'PASS' : 'FAIL', JSON.stringify({ panelClosed, animDur, panelOpen }), baseUrl);
       const opened = (await navToggle.getAttribute('aria-expanded')) === 'true' && await page.locator('#siteHeaderPanel').isVisible();
       let accordion = 'no sub-items';
       if (h.withChildren) {
