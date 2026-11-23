@@ -62,6 +62,7 @@ Theme settings → **Global colors** holds the 16 palette colors: Primary, Text,
 
 How modules use them:
 - Light backgrounds use the text style colors (Text → H1–H6, Body, Links, Eyebrow). The Base Module's **Text color: Dark** uses the same values.
+- **Auto text fallback and brand colors:** with Text color Auto the Base Module also checks the eyebrow and link color of the chosen mode against the background (blended with the page background; both ends of a gradient). If either is below 4.5:1 it uses that mode's heading color (eyebrow) or body text color (link) for that section only. Re-check the eyebrow and link colors (Text, Text on dark backgrounds) for every new brand: a color that passes on the default Dark can fail on a client's mid-tone backgrounds, and Dark / Light set by hand are never adjusted.
 - **Text on dark backgrounds** (heading, text, eyebrow, link, link hover) supplies the Base Module's **Text color: Light**. Form labels, help and error text switch to its text color. Text color (Auto / Dark / Light) only affects text, never buttons: every button keeps the variant the editor selected, on any background. On dark backgrounds, choose a suitable variant (e.g. White or White outline).
 - **Website header** and **Website footer** set the header and footer colors. The footer uses its text color for headings, links and icons too, and the same color at 25% opacity for dividers. Header menu links underline on hover.
 
@@ -164,12 +165,12 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-23, branch `main`, commit `fd333a3` (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-23, branch `main`, commit `430053e` (uncommitted theme changes) (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
 | 0. Old theme folder deleted | PASS | Old theme folder deleted by hand (2026-11-23). |
-| 2. Font fields | PASS | Editor part verified 2026-11-23 (font picker shows the Adobe secondary font) |
+| 2. Font fields | EDITOR CHECK DUE | Files changed since the last editor run (font picker shows the Adobe secondary font). Re-run once with changed content, then: node run.js --mark-editor-done |
 | 3. Viewport meta | PASS |  |
 | 4. Forms | PASS (auto part) | MANUAL: Form on a dark background (Waits for the Form Section module (Phase 4)) |
 | 5. Link field | PASS |  |
@@ -180,14 +181,14 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 | 10. Light text on dark backgrounds | PASS |  |
 | 11. Image type with no image | PASS |  |
 | 12. H1 and image radius | PASS |  |
-| 13. Background color picker inheritance | PASS | Editor part verified 2026-11-23 (color pickers show the inherited palette color) |
+| 13. Background color picker inheritance | EDITOR CHECK DUE | Files changed since the last editor run (color pickers show the inherited palette color). Re-run once with changed content, then: node run.js --mark-editor-done |
 | 14. Auto text color from hex | PASS |  |
 | 15. HubSpot CTA add-on | VERIFY ON FIRST CLIENT PORTAL | The HubSpot CTA add-on needs CTA access (Content Hub Pro/Enterprise). Verify on the first client portal; does not block the merge. |
 | 16. Image position | PASS |  |
-| 17. Header module | PASS | Editor part verified 2026-11-23 (Simple/Mega switching, sticky toggle) |
-| 17b. Header – Simple | PASS | Editor part verified 2026-11-23 (Header – Simple editor fields) |
+| 17. Header module | EDITOR CHECK DUE | Files changed since the last editor run (Simple/Mega switching, sticky toggle). Re-run once with changed content, then: node run.js --mark-editor-done |
+| 17b. Header – Simple | EDITOR CHECK DUE | Files changed since the last editor run (Header – Simple editor fields). Re-run once with changed content, then: node run.js --mark-editor-done |
 | 18. Footer module | PASS |  |
-| 19. Theme settings inheritance | PASS | Editor part verified 2026-11-23 (palette change reaches the served main.css) |
+| 19. Theme settings inheritance | EDITOR CHECK DUE | Files changed since the last editor run (palette change reaches the served main.css). Re-run once with changed content, then: node run.js --mark-editor-done |
 | 20. Button styles | PASS |  |
 <!-- qa-status:end -->
 

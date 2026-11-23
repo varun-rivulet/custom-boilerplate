@@ -126,7 +126,8 @@
               "controlling_value_regex": "^link$"
             }
           ]
-        }
+        },
+        "help_text": "The button needs text and a URL to show."
       },
       {
         "type": "choice",
@@ -226,7 +227,8 @@
         "name": "border",
         "label": "Bottom border",
         "display": "toggle",
-        "default": true
+        "default": true,
+        "help_text": "Adds a thin line under the header."
       },
       {
         "type": "boolean",

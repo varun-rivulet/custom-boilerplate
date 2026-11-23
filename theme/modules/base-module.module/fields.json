@@ -111,7 +111,8 @@
           },
           "open_in_new_tab": false,
           "no_follow": false
-        }
+        },
+        "help_text": "The button only shows with button text and a URL."
       }
     ],
     "occurrence": {
@@ -152,35 +153,40 @@
         "type": "text",
         "name": "custom_class",
         "label": "Custom class",
-        "default": ""
+        "default": "",
+        "help_text": "Extra CSS classes, separated by spaces, without a dot."
       },
       {
         "type": "boolean",
         "name": "hide_desktop",
         "label": "Hide on desktop (above 991.98px)",
         "display": "toggle",
-        "default": false
+        "default": false,
+        "help_text": "Hides the section above 991.98px."
       },
       {
         "type": "boolean",
         "name": "hide_tablet",
         "label": "Hide on tablet (768–991.98px)",
         "display": "toggle",
-        "default": false
+        "default": false,
+        "help_text": "Hides the section from 768px to 991.98px."
       },
       {
         "type": "boolean",
         "name": "hide_mobile",
         "label": "Hide on mobile (≤767.98px)",
         "display": "toggle",
-        "default": false
+        "default": false,
+        "help_text": "Hides the section at 767.98px and below."
       },
       {
         "type": "boolean",
         "name": "show_section",
         "label": "Show section",
         "display": "toggle",
-        "default": true
+        "default": true,
+        "help_text": "Off hides the section without deleting its content."
       }
     ]
   },
@@ -298,7 +304,8 @@
                   "controlling_value_regex": "^image$"
                 }
               ]
-            }
+            },
+            "help_text": "Which part of the image stays visible when it is cropped."
           },
           {
             "type": "color",
@@ -423,7 +430,8 @@
                   "controlling_value_regex": "^gradient$"
                 }
               ]
-            }
+            },
+            "help_text": "The direction the gradient runs from the start color to the end color."
           },
           {
             "type": "choice",
@@ -779,7 +787,8 @@
                 "Right"
               ]
             ],
-            "default": "inherit"
+            "default": "inherit",
+            "help_text": "Inherit uses the desktop alignment."
           },
           {
             "type": "boolean",

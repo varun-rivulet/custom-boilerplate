@@ -67,6 +67,25 @@
       {% if contrast_dark >= contrast_light %}{% do wants_dark.append(1) %}{% endif %}
     {% endif %}{% endfor %}
     {% set text_color = "dark" if wants_dark else "light" %}
+    {% set is_dark = text_color == "dark" %}
+    {% set fix_pairs = [
+      [(theme.text.eyebrow.font.color or colors.secondary.color) if is_dark else (theme.text_on_dark.eyebrow.color or colors.accent.color), colors.heading.color if is_dark else (theme.text_on_dark.heading.color or colors.white.color)],
+      [(theme.text.links.font.color or colors.secondary.color) if is_dark else (theme.text_on_dark.link.color or colors.accent.color), dark_hex if is_dark else light_hex]
+    ] %}
+    {% set fixes = [] %}
+    {% for pair in fix_pairs %}
+      {% set lin = [] %}
+      {% for ch in pair[0]|convert_rgb|replace(" ", "")|split(",") %}{% set c = (ch|float) / 255 %}{% do lin.append(c * (c * (c * 0.305306011 + 0.682171111) + 0.012522878)) %}{% endfor %}
+      {% set l_txt = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2] + 0.05 %}
+      {% set fails = [] %}
+      {% for l_bg in lums %}{% if loop.index > 2 %}
+        {% set ratio = (l_bg / l_txt) if l_bg > l_txt else (l_txt / l_bg) %}
+        {% if ratio < 4.5 %}{% do fails.append(1) %}{% endif %}
+      {% endif %}{% endfor %}
+      {% do fixes.append(pair[1] if fails else "") %}
+    {% endfor %}
+    {% set fix_eyebrow = fixes[0] %}
+    {% set fix_link = fixes[1] %}
   {% else %}{% set text_color = "dark" %}
   {% endif %}
 {% endif %}
@@ -81,7 +100,7 @@
   {% if adv.hide_mobile %}{% do classes.append("hide-mobile") %}{% endif %}
   {% if (adv.custom_class or "")|trim %}{% do classes.append((adv.custom_class or "")|trim|escape_attr) %}{% endif %}
 
-  {% if sp.change_spacing or has_bg_color or has_bg_image or has_bg_gradient or content_width %}
+  {% if sp.change_spacing or has_bg_color or has_bg_image or has_bg_gradient or content_width or fix_eyebrow or fix_link %}
     {% require_css %}
     <style>
     {% scope_css %}
@@ -95,6 +114,8 @@
       {% if tier == "desktop" and has_bg_color %}{% do decl.append("background-color:" ~ bg_css) %}{% endif %}
       {% if tier == "desktop" and has_bg_image %}{% do decl.append('background-image:url("' ~ resize_image_url(bg.image.src, 1920) ~ '")') %}{% do decl.append("background-color:" ~ bg_hex) %}{% do decl.append("--overlay-color:" ~ bg_hex) %}{% do decl.append("--overlay-opacity:" ~ bg_alpha) %}{% endif %}
       {% if tier == "desktop" and has_bg_gradient %}{% do decl.append("background-color:" ~ grad_end) %}{% do decl.append("background-image:linear-gradient(to " ~ (bg.gradient_direction or "right")|replace("-", " ") ~ "," ~ grad_start ~ "," ~ grad_end ~ ")") %}{% endif %}
+      {% if tier == "desktop" and fix_eyebrow %}{% do decl.append("--scheme-eyebrow:" ~ fix_eyebrow) %}{% endif %}
+      {% if tier == "desktop" and fix_link %}{% do decl.append("--scheme-link:" ~ fix_link) %}{% do decl.append("--scheme-link-hover:" ~ fix_link) %}{% endif %}
       {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.base-module{ {{- decl|join(";") -}} }}{% else %}.base-module{ {{- decl|join(";") -}} }{% endif %}
       {% endif %}
     {% endfor %}

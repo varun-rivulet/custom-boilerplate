@@ -106,7 +106,8 @@
             "type": "text",
             "name": "text",
             "label": "Link text",
-            "default": "Link text"
+            "default": "Link text",
+            "help_text": "A link needs both text and a URL to show."
           },
           {
             "type": "link",
@@ -510,7 +511,8 @@
                 "Other (globe icon)"
               ]
             ],
-            "default": "linkedin"
+            "default": "linkedin",
+            "help_text": "Sets the icon and the accessible name."
           },
           {
             "type": "link",
@@ -647,7 +649,8 @@
             "type": "text",
             "name": "text",
             "label": "Link text",
-            "default": "Link text"
+            "default": "Link text",
+            "help_text": "A link needs both text and a URL to show."
           },
           {
             "type": "link",

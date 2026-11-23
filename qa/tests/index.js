@@ -95,6 +95,7 @@ const runTests = async ({ seeded, build, outDir, log }) => {
           emptyBits: empty ? { eyebrow: !!empty.querySelector('.section-eyebrow'), desc: !!empty.querySelector('.section-description'), btns: empty.querySelectorAll('.section-buttons a').length, emptyBox: [...empty.querySelectorAll('.section-content *')].filter((e) => !e.children.length && !(e.textContent || '').trim() && !['IMG', 'BR', 'SVG', 'PATH', 'USE'].includes(e.tagName.toUpperCase())).map((e) => e.className || e.tagName) } : null,
           onlyButtons: onlyBtn ? { heads: onlyBtn.querySelectorAll('h1,h2,h3,h4,h5,h6').length, eyebrow: !!onlyBtn.querySelector('.section-eyebrow'), btns: onlyBtn.querySelectorAll('.section-buttons a').length } : null,
           image: img ? { alt: img.getAttribute('alt'), loading: img.getAttribute('loading'), w: Math.round(img.getBoundingClientRect().width), cw: Math.round(cont.getBoundingClientRect().width), natural: img.naturalWidth } : null,
+          autoFix: Object.fromEntries(['plain', 'auto-primary', 'dark-color', 'auto-secondary', 'picker-default', 'gradient-dark', 'auto-accent'].map((k) => [k, { eb: getComputedStyle(q('qa-' + k).querySelector('.section-eyebrow p')).color, lk: getComputedStyle(q('qa-' + k).querySelector('.section-description a')).color }])),
           overflow: document.documentElement.scrollWidth - window.innerWidth,
         };
       });
@@ -113,6 +114,13 @@ const runTests = async ({ seeded, build, outDir, log }) => {
       add('variants', `Empty parts and invalid buttons render nothing ${at}`, ok(r.emptyBits && !r.emptyBits.eyebrow && !r.emptyBits.desc && r.emptyBits.btns === 0 && !r.emptyBits.emptyBox.length), JSON.stringify(r.emptyBits), baseUrl);
       add('variants', `Only buttons: no heading or eyebrow ${at}`, ok(r.onlyButtons && r.onlyButtons.heads === 0 && !r.onlyButtons.eyebrow && r.onlyButtons.btns === 2), JSON.stringify(r.onlyButtons), baseUrl);
       add('variants', `Image: alt, lazy, resized ≤2× container ${at}`, ok(r.image && r.image.alt === 'QA wide image' && r.image.loading === 'lazy' && r.image.natural <= r.image.cw * 2 + 2), JSON.stringify(r.image), baseUrl);
+      const A = r.autoFix; const rgb = (h) => hexToRgb(h);
+      const fixOk = A.plain.eb === rgb('#334155') && A.plain.lk === rgb('#334155')
+        && A['auto-primary'].eb === rgb('#0F172A') && A['auto-primary'].lk === rgb('#1F2937')
+        && A['dark-color'].eb === rgb('#FFFFFF') && A['dark-color'].lk === rgb('#FFFFFF')
+        && A['auto-secondary'].eb === rgb('#F59E0B') && A['gradient-dark'].eb === rgb('#F59E0B')
+        && A['picker-default'].eb === rgb('#F59E0B') && A['picker-default'].lk === rgb('#F59E0B');
+      add('variants', `Auto text: eyebrow/link fall back only when below 4.5:1 ${at}`, ok(fixOk), JSON.stringify(A), baseUrl);
       add('variants', `No horizontal scroll ${at}`, ok(r.overflow <= 0), `overflow ${r.overflow}px`, baseUrl);
       await page.close();
     }
@@ -220,7 +228,7 @@ const runTests = async ({ seeded, build, outDir, log }) => {
       const problems = [];
       for (const b of btns) {
         const variant = (b.cls.match(/btn-([a-z-]+)/) || [])[1];
-        if (!variant) { const want = b.light ? lightLink : darkLink; if (b.color !== want) problems.push(`text-link ${b.color} want ${want}`); continue; }
+        if (!variant) { const want = key === 'dark-color' ? hexToRgb('#FFFFFF') : b.light ? lightLink : darkLink; if (b.color !== want) problems.push(`text-link ${b.color} want ${want}`); continue; }
         const v = btnVars[variant];
         if (!v) { problems.push(`no CSS vars for ${variant}`); continue; }
         const wantText = v.text === 'inherit' ? null : hexToRgb(v.text);
