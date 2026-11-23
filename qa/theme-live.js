@@ -37,8 +37,14 @@ const mutate = (f, p) => {
   if (f.type === 'number') {
     const min = f.min === undefined ? 0 : f.min;
     const max = f.max === undefined ? 9999 : f.max;
+    const step = f.step || 1;
     const d = f.default === undefined ? min : f.default;
-    const val = d + 3 <= max ? d + 3 : d - 3 >= min ? d - 3 : d;
+    const round = (v) => Math.round(v / step) * step;
+    let val = round(d + 3 * step);
+    if (val > max) val = round(d - 3 * step);
+    if (val < min) val = round((min + max) / 2);
+    if (val === d) val = d + step <= max ? d + step : d - step;
+    val = Number(val.toFixed(4));
     f.default = val;
     return { kind: 'number', want: val, was: d };
   }

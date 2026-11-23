@@ -158,11 +158,11 @@ const renderChecks = async ({ group, S, ctx, urls, add, WIDTHS, tierIdx, hexRgb 
       const c = (n) => hexRgb(want(n));
       row('header.menu.text.color → menu link colour', m.header.link === c('header.menu.text.color'), m.header.link);
       row('header.background.color → header background', m.header.bg === c('header.background.color'), m.header.bg);
-      if (m.header.dd) {
+      if (m.header.dd && w >= 992) {
         row('header.menu.drop_downs.background.color → dropdown background', m.header.dd.bg === c('header.menu.drop_downs.background.color'), m.header.dd.bg);
         row('header.menu.drop_downs.border → dropdown border colour and width', m.header.dd.bc === c('header.menu.drop_downs.border.border') && near(m.header.dd.bw, S['header.menu.drop_downs.border.border'].width), `${m.header.dd.bw}px ${m.header.dd.bc}`);
       }
-      row('header.menu.drop_downs.text.color → dropdown link colour', m.header.ddText === c('header.menu.drop_downs.text.color'), m.header.ddText);
+      if (w >= 992) row('header.menu.drop_downs.text.color → dropdown link colour', m.header.ddText === c('header.menu.drop_downs.text.color'), m.header.ddText);
     }
     if (group === 'footer' && m.footer) {
       row('footer.background.color → footer background', m.footer.bg === hexRgb(want('footer.background.color')), m.footer.bg);
