@@ -163,6 +163,13 @@ const runTests = async ({ seeded, build, outDir, log }) => {
     }
   }
 
+  {
+    const sf = require('../static-fields');
+    const by = {};
+    sf.rows.forEach((r) => { by[r.how || 'UNMAPPED'] = (by[r.how || 'UNMAPPED'] || 0) + 1; });
+    add('theme-static', `Every theme field is read by the templates/CSS (${sf.rows.length} fields)`, sf.missing.length ? 'FAIL' : 'PASS', sf.missing.length ? sf.missing.map((m) => m.path).join(', ') : JSON.stringify(by));
+  }
+
   const hfPage = pageOf('Header Footer');
   if (!hfPage) add('hf', 'Header/footer variants page', 'BLOCKED', 'QA – Auto Header Footer page was not created');
   else await runHeaderFooter({ open, hfUrl: pageUrl(hfPage), add });
