@@ -65,8 +65,10 @@ const loadSample = async (hs, log) => {
 const PAGE_DEFS = [
   { kind: 'site-pages', name: autoName('Base Module'), slug: `${SLUG_PREFIX}base-module`, template: 'page.html' },
   { kind: 'site-pages', name: autoName('Form'), slug: `${SLUG_PREFIX}form`, template: 'page.html' },
+  { kind: 'site-pages', name: autoName('Header Footer'), slug: `${SLUG_PREFIX}header-footer`, template: 'page.html' },
   { kind: 'landing-pages', name: autoName('Landing'), slug: `${SLUG_PREFIX}landing-page`, template: 'landing-page.html' },
 ];
+const { buildHeaderFooter } = require('./header-footer');
 const POST_NAMES = [1, 2, 3].map((i) => autoName(`Post ${i}`));
 
 const seed = async (hs, writer, { build, log }) => {
@@ -83,7 +85,8 @@ const seed = async (hs, writer, { build, log }) => {
   result.sections = sections.map(({ key, title, expect }) => ({ key, title, expect }));
   const widgets = {
     [PAGE_DEFS[0].name]: sections.map((s) => ({ kind: 'base', params: s.params })),
-    [PAGE_DEFS[2].name]: [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, { kind: 'base', params: sections[1].params }],
+    [PAGE_DEFS[2].name]: [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, ...buildHeaderFooter(result.images)],
+    [PAGE_DEFS[3].name]: [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, { kind: 'base', params: sections[1].params }],
   };
 
   try {

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { launch } = require('../lib/browser');
 const { SITE_URL, WIDTHS } = require('../config');
+const { runHeaderFooter } = require('./header-footer');
 const { hexToRgb, px, near, TIERS, SIZES, h1Size, parseButtonVars } = require('./helpers');
 
 const DARK_HEADING = hexToRgb('#0F172A');
@@ -161,6 +162,10 @@ const runTests = async ({ seeded, build, outDir, log }) => {
       await page.close();
     }
   }
+
+  const hfPage = pageOf('Header Footer');
+  if (!hfPage) add('hf', 'Header/footer variants page', 'BLOCKED', 'QA – Auto Header Footer page was not created');
+  else await runHeaderFooter({ open, hfUrl: pageUrl(hfPage), add });
 
   {
     const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
