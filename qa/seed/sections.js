@@ -5,7 +5,7 @@ const LIST_DEEP = '<ul><li>level 1<ul><li>level 2<ul><li>level 3</li></ul></li><
 const BUTTON_STYLES = ['primary', 'secondary', 'dark', 'white', 'accent', 'primary-outline', 'secondary-outline', 'white-outline', 'dark-outline', 'text-link'];
 
 const link = (href, type = 'EXTERNAL', extra = {}) => ({ url: { type, href, content_id: null }, open_in_new_tab: false, no_follow: false, ...extra });
-const allButtons = () => BUTTON_STYLES.map((style) => ({ text: style, style, link: link('https://example.com/'), aria_label: '' }));
+const allButtons = () => BUTTON_STYLES.map((style) => ({ text: style, style, link: link('https://example.com/') }));
 const color = (hex, opacity = 100) => ({ color: hex, opacity });
 const spacing = (top, right, bottom, left) => {
   const padding = {};
@@ -22,7 +22,7 @@ const section = (key, title, opts = {}) => ({
     heading: opts.heading || `<h2>${title}</h2>`,
     description: opts.description || '<p>Body text with a <a href="https://example.com/">text link</a> for colour checks.</p>',
     image: opts.image || { src: '', alt: '' },
-    buttons: opts.buttons || [{ text: 'Primary', style: 'primary', link: link('https://example.com/'), aria_label: '' }],
+    buttons: opts.buttons || [{ text: 'Primary', style: 'primary', link: link('https://example.com/') }],
     advanced: { section_id: `qa-${key}`, custom_class: '', hide_desktop: false, hide_tablet: false, hide_mobile: false, show_section: true },
     style: {
       background: { type: null, text_color: 'auto', position: 'center', gradient_direction: 'right', ...(opts.background || {}) },
@@ -65,9 +65,9 @@ const buildSections = (images) => {
     section('width-right', 'Content width 600, right', { align: { custom_width: true, width: 600, block_position: 'right' }, expect: { width: 600, position: 'right' } }),
     section('links', 'Link types', {
       buttons: [
-        { text: 'Email', style: 'primary', link: link('qa@example.com', 'EMAIL_ADDRESS'), aria_label: '' },
-        { text: 'Phone', style: 'secondary', link: link('+15550100100', 'PHONE'), aria_label: '' },
-        { text: 'External', style: 'dark', link: link('https://example.com/', 'EXTERNAL', { open_in_new_tab: true, no_follow: true }), aria_label: 'External test link' },
+        { text: 'Email', style: 'primary', link: link('qa@example.com', 'EMAIL_ADDRESS') },
+        { text: 'Phone', style: 'secondary', link: link('+15550100100', 'PHONE') },
+        { text: 'External', style: 'dark', link: link('https://example.com/', 'EXTERNAL', { open_in_new_tab: true, no_follow: true }) },
       ],
       expect: { links: true },
     }),

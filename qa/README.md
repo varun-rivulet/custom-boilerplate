@@ -44,3 +44,7 @@ Each run writes `<meta name="qa-build" content="<commit>-<time>">` into every QA
 - `seed/`: Base Module section specs with expected results (`sections.js`), layout builder, seeding and republishing.
 - `tests/`: Playwright checks, grouped by README sandbox check number.
 - `report.js`: report and README status block.
+
+## Editor-only checks
+
+Regular runs (`npm run qa`) use the API and headless Playwright only. Checks 2, 13, 17, 17b and 19 need the HubSpot editor. They were done once on 2026-11-23. The report shows `EDITOR CHECK DUE` when `theme/fields.json`, a module `fields.json`, the header/footer modules, the partials or `base.html` change. Then re-run the editor checks once (with changed, non-default header/footer content), and record it with `node run.js --mark-editor-done`. If the harness code itself changes, read the full report, not only the summary.

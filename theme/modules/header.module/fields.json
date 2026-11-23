@@ -194,7 +194,7 @@
         "default": {
           "url": {
             "type": "EXTERNAL",
-            "href": "",
+            "href": "#",
             "content_id": null
           },
           "open_in_new_tab": false,
@@ -211,60 +211,6 @@
             }
           ]
         }
-      },
-      {
-        "type": "text",
-        "name": "aria_label",
-        "label": "Accessible label (optional)",
-        "default": "",
-        "help_text": "Use when the button text alone doesn't describe the destination.",
-        "visibility_rules": "ADVANCED",
-        "advanced_visibility": {
-          "boolean_operator": "AND",
-          "criteria": [
-            {
-              "controlling_field_path": "cta.type",
-              "operator": "MATCHES_REGEX",
-              "controlling_value_regex": "^link$"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "group",
-    "name": "labels",
-    "label": "Accessibility labels",
-    "expanded": false,
-    "children": [
-      {
-        "type": "text",
-        "name": "nav_label",
-        "label": "Navigation label",
-        "default": "Main navigation",
-        "help_text": "Read by screen readers for the menu landmark."
-      },
-      {
-        "type": "text",
-        "name": "menu_button",
-        "label": "Menu button label",
-        "default": "Menu",
-        "help_text": "Screen-reader text of the mobile menu button."
-      },
-      {
-        "type": "text",
-        "name": "submenu",
-        "label": "Submenu button label",
-        "default": "submenu",
-        "help_text": "Read after the menu item name, e.g. \"About submenu\"."
-      },
-      {
-        "type": "text",
-        "name": "home",
-        "label": "Logo fallback alt text",
-        "default": "Home page",
-        "help_text": "Used when the logo image has no alt text."
       }
     ]
   },
@@ -281,6 +227,14 @@
         "label": "Bottom border",
         "display": "toggle",
         "default": true
+      },
+      {
+        "type": "boolean",
+        "name": "sticky",
+        "label": "Sticky header",
+        "display": "toggle",
+        "default": false,
+        "help_text": "Keeps the header at the top of the screen while scrolling."
       }
     ]
   }

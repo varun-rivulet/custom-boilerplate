@@ -116,7 +116,7 @@
             "default": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -130,7 +130,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -142,7 +142,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -154,7 +154,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -173,7 +173,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -185,7 +185,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -197,7 +197,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -214,7 +214,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -226,7 +226,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -238,7 +238,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -255,7 +255,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -267,7 +267,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -279,7 +279,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -520,19 +520,12 @@
             "default": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
               "no_follow": false
             }
-          },
-          {
-            "type": "text",
-            "name": "accessible_label",
-            "label": "Accessible label (optional)",
-            "default": "",
-            "help_text": "Read by screen readers instead of the platform name, for example \"Company on LinkedIn\". Recommended for Other."
           }
         ],
         "default": [
@@ -541,39 +534,36 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
               "no_follow": false
-            },
-            "accessible_label": ""
+            }
           },
           {
             "platform": "facebook",
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
               "no_follow": false
-            },
-            "accessible_label": ""
+            }
           },
           {
             "platform": "instagram",
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
               "no_follow": false
-            },
-            "accessible_label": ""
+            }
           }
         ]
       }
@@ -586,39 +576,36 @@
           "link": {
             "url": {
               "type": "EXTERNAL",
-              "href": "",
+              "href": "#",
               "content_id": null
             },
             "open_in_new_tab": false,
             "no_follow": false
-          },
-          "accessible_label": ""
+          }
         },
         {
           "platform": "facebook",
           "link": {
             "url": {
               "type": "EXTERNAL",
-              "href": "",
+              "href": "#",
               "content_id": null
             },
             "open_in_new_tab": false,
             "no_follow": false
-          },
-          "accessible_label": ""
+          }
         },
         {
           "platform": "instagram",
           "link": {
             "url": {
               "type": "EXTERNAL",
-              "href": "",
+              "href": "#",
               "content_id": null
             },
             "open_in_new_tab": false,
             "no_follow": false
-          },
-          "accessible_label": ""
+          }
         }
       ]
     }
@@ -670,7 +657,7 @@
             "default": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -684,7 +671,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -696,7 +683,7 @@
             "link": {
               "url": {
                 "type": "EXTERNAL",
-                "href": "",
+                "href": "#",
                 "content_id": null
               },
               "open_in_new_tab": false,
@@ -715,7 +702,7 @@
           "link": {
             "url": {
               "type": "EXTERNAL",
-              "href": "",
+              "href": "#",
               "content_id": null
             },
             "open_in_new_tab": false,
@@ -727,7 +714,7 @@
           "link": {
             "url": {
               "type": "EXTERNAL",
-              "href": "",
+              "href": "#",
               "content_id": null
             },
             "open_in_new_tab": false,
@@ -739,88 +726,290 @@
   },
   {
     "type": "group",
-    "name": "labels",
-    "label": "Accessibility labels",
-    "expanded": false,
-    "children": [
-      {
-        "type": "text",
-        "name": "nav_label",
-        "label": "Menu columns label",
-        "default": "Footer",
-        "help_text": "Read by screen readers for the footer menu landmark."
-      },
-      {
-        "type": "text",
-        "name": "legal_label",
-        "label": "Legal links label",
-        "default": "Legal",
-        "help_text": "Read by screen readers for the legal links landmark."
-      },
-      {
-        "type": "text",
-        "name": "logo_alt",
-        "label": "Logo fallback alt text",
-        "default": "Logo",
-        "help_text": "Used when a linked logo image has no alt text."
-      },
-      {
-        "type": "text",
-        "name": "other_social",
-        "label": "\"Other\" social link name",
-        "default": "Website",
-        "help_text": "Read by screen readers for social links set to Other without an accessible label."
-      }
-    ]
-  },
-  {
-    "type": "group",
     "name": "style",
     "label": "Style",
     "expanded": false,
     "tab": "STYLE",
     "children": [
       {
-        "type": "choice",
-        "name": "padding_top",
-        "label": "Top padding",
-        "display": "select",
-        "choices": [
-          [
-            "small",
-            "Small"
-          ],
-          [
-            "medium",
-            "Medium"
-          ],
-          [
-            "large",
-            "Large"
-          ]
-        ],
-        "default": "medium"
-      },
-      {
-        "type": "choice",
-        "name": "padding_bottom",
-        "label": "Bottom padding",
-        "display": "select",
-        "choices": [
-          [
-            "small",
-            "Small"
-          ],
-          [
-            "medium",
-            "Medium"
-          ],
-          [
-            "large",
-            "Large"
-          ]
-        ],
-        "default": "small"
+        "type": "group",
+        "name": "spacing",
+        "label": "Spacing",
+        "expanded": false,
+        "children": [
+          {
+            "type": "boolean",
+            "name": "change_spacing",
+            "label": "Change spacing",
+            "display": "toggle",
+            "default": false,
+            "help_text": "Off: the theme's default section padding (Theme settings > Spacing > Section padding, Medium). On: custom padding per breakpoint."
+          },
+          {
+            "type": "spacing",
+            "name": "desktop",
+            "label": "Desktop & ≤1366.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 100,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 100,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "laptop",
+            "label": "≤1200.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 80,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 80,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "tablet",
+            "label": "≤991.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 60,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 60,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          },
+          {
+            "type": "spacing",
+            "name": "mobile",
+            "label": "≤767.98px",
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            },
+            "limits": {
+              "padding": {
+                "top": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "right": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "bottom": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                },
+                "left": {
+                  "min": 0,
+                  "max": 400,
+                  "units": [
+                    "px"
+                  ]
+                }
+              }
+            },
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 40,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 40,
+                  "units": "px"
+                }
+              }
+            },
+            "help_text": "All four sides apply from this breakpoint down. A side left empty keeps the value from the larger breakpoint (on Desktop: no padding).",
+            "visibility_rules": "ADVANCED",
+            "advanced_visibility": {
+              "boolean_operator": "AND",
+              "criteria": [
+                {
+                  "controlling_field_path": "style.spacing.change_spacing",
+                  "operator": "EQUAL",
+                  "controlling_value_regex": "true"
+                }
+              ]
+            }
+          }
+        ]
       }
     ]
   }

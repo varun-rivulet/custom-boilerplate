@@ -322,7 +322,7 @@ const runTests = async ({ seeded, build, outDir, log }) => {
       const dd = item.locator('.site-header-dropdown');
       await item.hover(); await page.waitForTimeout(250);
       const hoverOpen = await dd.isVisible();
-      await page.mouse.move(5, 600); await page.waitForTimeout(450);
+      await page.mouse.move(5, 600); await page.waitForTimeout(800);
       const hoverClosed = !(await dd.isVisible());
       await toggle.focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(150);
       const enterOpen = (await toggle.getAttribute('aria-expanded')) === 'true' && await dd.isVisible();
@@ -344,15 +344,37 @@ const runTests = async ({ seeded, build, outDir, log }) => {
       }
       const link = page.locator('a.site-header-link').first();
       if (await link.count()) {
-        await link.hover(); await page.waitForTimeout(350);
-        const deco = await link.evaluate((el) => getComputedStyle(el).textDecorationLine);
-        add(17, 'Menu links underline on hover', deco === 'underline' ? 'PASS' : 'FAIL', deco, baseUrl);
+        const bar = () => link.evaluate((el) => { const c = getComputedStyle(el, '::after'); return { tf: c.transform, dur: c.transitionDuration, h: c.height }; });
+        await page.mouse.move(5, 600); await page.waitForTimeout(500);
+        const before = await bar();
+        await link.hover(); await page.waitForTimeout(450);
+        const after = await bar();
+        add(17, 'Menu link hover: underline bar grows from the left (.25s)', /matrix\(0, 0, 0, 1/.test(before.tf) && /matrix\(1, 0, 0, 1/.test(after.tf) && before.dur === '0.25s' && before.h === '2px' ? 'PASS' : 'FAIL', JSON.stringify({ before, after }), baseUrl);
+        await page.mouse.move(5, 600); await page.waitForTimeout(500);
+        const ddAnim = await dd.evaluate((el) => { const c = getComputedStyle(el); return { op: c.opacity, vis: c.visibility, tf: c.transform, dur: c.transitionDuration }; });
+        await item.hover(); await page.waitForTimeout(450);
+        const ddOpen = await dd.evaluate((el) => { const c = getComputedStyle(el); return { op: c.opacity, vis: c.visibility, tf: c.transform }; });
+        add(17, `Dropdown (${h.mode}) fades and slides 8px down (.25s)`, ddAnim.op === '0' && ddAnim.vis === 'hidden' && /matrix\(1, 0, 0, 1, 0, -8\)/.test(ddAnim.tf) && ddAnim.dur.startsWith('0.25s') && ddOpen.op === '1' && ddOpen.vis === 'visible' ? 'PASS' : 'FAIL', JSON.stringify({ ddAnim, ddOpen }), baseUrl);
+        if (h.mode === 'mega') {
+          const ov = await page.locator('.site-header-overlay').evaluate((el) => { const c = getComputedStyle(el); return { op: c.opacity, vis: c.visibility, bg: c.backgroundColor }; });
+          await page.mouse.click(5, 700); await page.waitForTimeout(700);
+          const ovClosed = await page.locator('.site-header-overlay').evaluate((el) => getComputedStyle(el).visibility);
+          add(17, 'Mega menu: page overlay fades in and a click on it closes the menu', ov.op === '1' && ov.vis === 'visible' && ovClosed === 'hidden' ? 'PASS' : 'FAIL', JSON.stringify({ ov, ovClosed }), baseUrl);
+        }
+        await page.emulateMedia({ reducedMotion: 'reduce' });
+        const rm = await page.evaluate(() => ({ link: getComputedStyle(document.querySelector('a.site-header-link'), '::after').transitionDuration, dd: getComputedStyle(document.querySelector('.site-header-dropdown')).transitionDuration }));
+        await page.emulateMedia({ reducedMotion: 'no-preference' });
+        add(17, 'Reduced motion: header transitions are off', rm.link === '0s' && rm.dd === '0s' ? 'PASS' : 'FAIL', JSON.stringify(rm), baseUrl);
       }
     }
     await page.setViewportSize({ width: 767, height: 900 }); await page.waitForTimeout(300);
     const navToggle = page.locator('[data-header-toggle]');
     if (await navToggle.count()) {
-      await navToggle.focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(200);
+      await page.waitForTimeout(600);
+      const panelClosed = await page.locator('#siteHeaderPanel').evaluate((el) => { const c = getComputedStyle(el); return { tf: c.transform, vis: c.visibility, dur: c.transitionDuration }; });
+      await navToggle.focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(500);
+      const panelOpen = await page.locator('#siteHeaderPanel').evaluate((el) => { const c = getComputedStyle(el); const b = el.getBoundingClientRect(); return { tf: c.transform, vis: c.visibility, left: Math.round(b.left), w: Math.round(b.width), locked: document.documentElement.classList.contains('is-scroll-locked'), closeIcon: getComputedStyle(document.querySelector('.site-header-icon-close')).opacity }; });
+      add(17, 'Mobile panel slides in from the left (.35s), page scroll locked, icon crossfade', /matrix\(1, 0, 0, 1, -/.test(panelClosed.tf) && panelClosed.vis === 'hidden' && panelClosed.dur.startsWith('0.35s') && panelOpen.vis === 'visible' && panelOpen.left === 0 && panelOpen.w >= 767 && panelOpen.locked && panelOpen.closeIcon === '1' ? 'PASS' : 'FAIL', JSON.stringify({ panelClosed, panelOpen }), baseUrl);
       const opened = (await navToggle.getAttribute('aria-expanded')) === 'true' && await page.locator('#siteHeaderPanel').isVisible();
       let accordion = 'no sub-items';
       if (h.withChildren) {

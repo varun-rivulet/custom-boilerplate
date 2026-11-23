@@ -1,6 +1,6 @@
 {
   "label": "Header – Simple",
-  "global": true,
+  "global": false,
   "host_template_types": ["PAGE"],
   "is_available_for_new_content": false,
   "smart_type": "NOT_SMART",

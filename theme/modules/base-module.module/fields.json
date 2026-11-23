@@ -112,13 +112,6 @@
           "open_in_new_tab": false,
           "no_follow": false
         }
-      },
-      {
-        "type": "text",
-        "name": "aria_label",
-        "label": "Accessible label (optional)",
-        "default": "",
-        "help_text": "Use when the button text alone doesn't describe the destination."
       }
     ],
     "occurrence": {
@@ -138,8 +131,7 @@
           },
           "open_in_new_tab": false,
           "no_follow": false
-        },
-        "aria_label": ""
+        }
       }
     ]
   },

@@ -80,29 +80,31 @@ The defaults pass WCAG AA: 4.5:1 for text and 3:1 for outline button borders. Th
 If a pair fails, change the setting that uses it (for example the button's text color) to another palette color. Don't add new hex values.
 
 ## Header
-There are two global header modules. Content lives in the global content editor, so every page using a header shares it.
+Header and Header – Simple are regular (non-global) modules inside global partials. Their `fields.json` defaults render a complete header (logo placeholder, "Get started" button) and footer (columns, contact, social and legal links with `#` links) in a fresh portal; only the Header menu has to be selected. The content is edited in one click and is still shared by every page that uses the header.
 
 - **Header** (`modules/header.module`, static `{% module "site_header" %}` tag in `templates/partials/header.html`): logo, menu and header button. Used by the page, blog and system templates.
 - **Header – Simple** (`modules/header-simple.module`, static `{% module "site_header_simple" %}` tag in `templates/partials/header-simple.html`): logo and header button only, no navigation. Used by the landing page template. It reuses the Header's classes and CSS (`.site-header`, `.site-header-inner`, `.site-header-logo`, `.site-header-cta`) and follows the same Website header theme settings and bottom border toggle.
 
-**The logo is set in both global modules (Header and Header – Simple).** When you re-skin for a client, update the logo, logo link and alt text in each.
+**The logo is set in both modules (Header and Header – Simple).** When you re-skin for a client, update the logo, logo link and alt text in each. The logo alt text is the image's alt field; when it is empty the code uses "Home".
 
 Header menu type: Simple dropdown (2 levels) or Mega menu (3 levels: top item → column heading → links). The menu tree is rendered with HubL `menu()`; there are no flyout/max-level options. Optional header button: a link button (any of the 9 theme button styles). Colors come from Theme settings → Website header (menu text, drop-down text, background and border, header background); the module itself only has the bottom border toggle. For HubSpot CTAs, see "HubSpot CTA buttons (opt-in add-on)". 
 
-**Sticky header (not built yet):** HubSpot wraps the header partial in its own `<div>`, so `position: sticky` on `.site-header` only sticks inside that wrapper and scrolls away with it. A sticky header needs a workaround, for example making HubSpot's wrapper div the sticky element, or a small script. Decide and test it in the sandbox before adding it.
+**Sticky header:** a toggle in the Style tab of Header and Header – Simple (default off). HubSpot wraps the header partial in its own `<div>`, so `position: sticky` on `.site-header` alone would only stick inside that wrapper. `layouts/base.html` therefore wraps the header block in `<div class="site-header-wrap">`; `js/main.js` adds `.is-sticky` to it (CSS: `position: sticky; top: 0; z-index: 100`) and sets `--site-header-height`, which `html` uses as `scroll-padding-top` so anchor links don't land under the header. While sticky, an open mobile menu scrolls inside the remaining screen height. The header stays in the page flow, so content never hides under it.
+
+**Header animations (the only animated part of the theme).** Menu links show a 2px bar that grows from the left on hover, focus, open parent and the active page (.25s). The Simple dropdown and the Mega panel fade in with an 8px slide down (.25s). With the Mega menu, the page behind fades to a dark overlay (a click on it closes the menu). On mobile (up to 991.98px) the menu is a full-width panel that slides in from the left (.35s) with the page scroll locked, and the menu icon crossfades to the close icon. All of it is switched off for visitors who prefer reduced motion. The CSS is in `css/main.css` (Website header section), the behaviour in `js/main.js`.
 
 ## Footer
 
-The site footer is the global **Footer** module, placed in `templates/partials/footer.html`. Edit it once and it changes on every page, in the global content editor. **Where editors find it:** open any page built on this theme in the page editor. In the left sidebar, click the **Contents** (site tree) icon, then click the module (it has the global content icon) and choose **Open in global content editor**. Make the changes, then click **Publish to [#] assets**. This needs the "Global content and theme settings" permission. Confirm these menu names in the test portal; HubSpot's UI labels change from time to time.
+The site footer is the **Footer** module, a regular (non-global) module inside the global partial `templates/partials/footer.html`. Edit it once and it changes on every page. **Where editors find it:** open any page built on this theme in the page editor and click the footer; its settings open in one step. This needs the "Global content and theme settings" permission. Confirm the exact menu names in the test portal; HubSpot's UI labels change from time to time.
 
 - **Logo:** image + optional link (usually the home page). Alt text is required when the logo is linked. The partial passes the theme's placeholder logo as the starting value; replace it for each client. Empty image = no logo.
 - **Description:** rich text under the logo.
 - **Menu columns:** up to 4 columns, each with an optional heading and up to 8 links. A column shows only when at least one link has text and a URL. The heading tag (H2 by default, or H3/H4/Paragraph) is one setting for the column, contact and social headings. These are UI headings: each sits in a `<div class="site-footer-col-title">` wrapper that sizes it at the H6 size, so the tag doesn't change their look. Content headings elsewhere use the global h1–h6 sizes.
 - **Contact:** up to 4 items (email, phone, address). Email and phone link automatically (`mailto:` / `tel:`) from the text; the optional link field overrides that or links an address to a map.
-- **Social links:** up to 8 (Facebook, Instagram, LinkedIn, X, YouTube, TikTok, Other). A link shows only when it has a URL. Screen readers hear the platform name or the optional accessible label.
+- **Social links:** up to 8 (Facebook, Instagram, LinkedIn, X, YouTube, TikTok, Other). A link shows only when it has a URL. Screen readers hear the platform name ("Website" for Other).
 - **Bottom bar:** © + current year (toggle) + copyright text, and up to 5 legal links.
-- **Accessibility labels:** screen-reader names for the menu columns landmark ("Footer"), the legal links landmark ("Legal"), the logo fallback alt text and "Other" social links. Translate them for non-English sites.
-- **Style tab:** top/bottom padding presets. Colors come from Theme settings → Website footer (text and background; default white on Dark).
+- **Accessibility labels:** there are no label fields. The code uses fixed names: "Footer" and "Legal" for the two navigation landmarks, and the logo's alt text (fallback "Home" when the logo is linked).
+- **Style tab:** "Change spacing" toggle, same as the Base Module (off = theme default section padding, Medium; on = padding per breakpoint). Colors come from Theme settings → Website footer (text and background; default white on Dark).
 - Placeholder links without a URL show only in the editor, never on the live page.
 
 ## HubSpot CTA buttons (opt-in add-on)
@@ -110,7 +112,7 @@ The site footer is the global **Footer** module, placed in `templates/partials/f
 The boilerplate has link buttons only. HubSpot's `cta` field type needs CTA access (Content Hub Professional or Enterprise). In a portal without it, the whole upload fails with "Account must be upgraded to use 'cta' field type", so the field can't be in the shared boilerplate. Add it per client, only when that portal has CTA access.
 
 **Base Module buttons**
-1. In `fields.json`, inside the `buttons` repeater, add a first field: choice `button_type` "Button type" with choices `link` "Link button" / `cta` "HubSpot CTA" (default `link`). Give `text`, `style`, `link` and `aria_label` an `advanced_visibility` rule (`buttons.button_type` matches `^link$`), and add `{"type": "cta", "name": "cta", "label": "HubSpot CTA"}` shown when `buttons.button_type` matches `^cta$`. Add `"button_type": "link"` to the repeater default.
+1. In `fields.json`, inside the `buttons` repeater, add a first field: choice `button_type` "Button type" with choices `link` "Link button" / `cta` "HubSpot CTA" (default `link`). Give `text`, `style` and `link` an `advanced_visibility` rule (`buttons.button_type` matches `^link$`), and add `{"type": "cta", "name": "cta", "label": "HubSpot CTA"}` shown when `buttons.button_type` matches `^cta$`. Add `"button_type": "link"` to the repeater default.
 2. In `module.html`, count a CTA item as valid only when one is picked: `{% if item.button_type == "cta" %}{% if item.cta %}{% do valid_buttons.append(item) %}{% endif %}{% elif item.text|trim and (item.link.url.href or is_in_editor) %}{% do valid_buttons.append(item) %}{% endif %}`.
 3. In the buttons loop, render it before the link button: `{% if item.button_type == "cta" %}<div class="section-cta">{% cta guid="{{ item.cta }}" %}</div>{% else %}` … link button … `{% endif %}`. The CTA's look and link come from HubSpot's CTA tool, not the theme button styles.
 
@@ -127,9 +129,9 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 
 1. **Copy and rename the folder.** For example, copy it to `theme/modules/cards-grid.module/`. In `meta.json`, change `label` to a neutral name (for example "Cards Grid"). Don't add a `module_id`; HubSpot creates one on upload.
 2. **Rename the main section class.** In `module.html`, change `base-module` to `cards-grid` in the `classes` list and in every selector inside `scope_css`. Change the `{# Base module #}` comment to the new module name.
-3. **Module JS (only if the module needs it).** The Base Module's `module.js` is empty, so HubSpot loads no script for it. Leave it empty when the new module has no interactive parts. Slider modules never get module JS: their init lives in `js/main.js`. When the module does need JS:
+3. **Module JS (only if the module needs it).** Every module's `module.js` stays empty, so HubSpot loads no script for it. All JS lives in `js/main.js`. Leave `main.js` alone when the new module has no interactive parts. When it does:
    - In `module.html`, add the hook attribute to the main section: `<section ... data-cards-grid>`.
-   - In `module.js`, start from this pattern (one init per instance with a data-* guard; no IIFE, no `DOMContentLoaded`, because HubSpot loads module JS in the footer):
+   - In `js/main.js`, add an init function and call it at the bottom (one init per element with a data-* guard; no IIFE, no `DOMContentLoaded`, because `main.js` is loaded in the footer):
 
      ```js
      const initCardsGrid = (root = document) => {
@@ -162,30 +164,30 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-20, branch `phase-3-base-module`, commit `d1258e7` (uncommitted theme changes) (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-23, branch `phase-3-base-module`, commit `d761aa5` (uncommitted theme changes) (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
-| 0. Old theme folder deleted | MANUAL | Design Manager folder outside the QA scope; delete by hand. |
-| 2. Font fields | PASS (auto part) | Editor part (font picker shows Adobe font) needs the editor. |
+| 0. Old theme folder deleted | PASS | Old theme folder deleted by hand (2026-11-23). |
+| 2. Font fields | PASS | Editor part verified 2026-11-23 (font picker shows the Adobe secondary font) |
 | 3. Viewport meta | PASS |  |
 | 4. Forms | PASS (auto part) | MANUAL: Form on a dark background (Waits for the Form Section module (Phase 4)) |
 | 5. Link field | PASS |  |
 | 6. scope_css per instance | PASS |  |
 | 7. Overlay color | PASS |  |
-| 8. Secondary font on all template types | PASS (auto part) | MANUAL: 404 page uses the theme 404 template and the Adobe kit (needs a Starter+ portal (plan limitation): system page templates can't be set in this portal.) |
+| 8. Secondary font on all template types | VERIFY ON FIRST CLIENT PORTAL | The 404 template needs a Starter+ portal (system page templates). Verify on the first client portal; does not block the merge. |
 | 9. Spacing field value shape | PASS |  |
 | 10. Light text on dark backgrounds | PASS |  |
 | 11. Image type with no image | PASS |  |
 | 12. H1 and image radius | PASS |  |
-| 13. Background color picker inheritance | PASS (auto part) | Editor part (picker shows Dark, follows Global colors) needs the editor. |
+| 13. Background color picker inheritance | PASS | Editor part verified 2026-11-23 (color pickers show the inherited palette color) |
 | 14. Auto text color from hex | PASS |  |
-| 15. HubSpot CTA add-on | MANUAL | Portal has no CTA access. |
+| 15. HubSpot CTA add-on | VERIFY ON FIRST CLIENT PORTAL | The HubSpot CTA add-on needs CTA access (Content Hub Pro/Enterprise). Verify on the first client portal; does not block the merge. |
 | 16. Image position | PASS |  |
-| 17. Header module | PASS (auto part) | Theme settings colour changes and Simple/Mega switching need the editor. |
-| 17b. Header – Simple | PASS |  |
+| 17. Header module | PASS | Editor part verified 2026-11-23 (Simple/Mega switching, sticky toggle) |
+| 17b. Header – Simple | PASS | Editor part verified 2026-11-23 (Header – Simple editor fields) |
 | 18. Footer module | PASS |  |
-| 19. Theme settings inheritance | PASS (auto part) | Changing Primary in Theme settings needs the editor; served values are tested. |
+| 19. Theme settings inheritance | PASS | Editor part verified 2026-11-23 (palette change reaches the served main.css) |
 | 20. Button styles | PASS |  |
 <!-- qa-status:end -->
 
@@ -210,7 +212,7 @@ Most checks run automatically: `cd qa && npm run qa` uploads the theme, seeds "Q
 14. **Auto text color from hex:** check that `convert_rgb` returns three numbers (for example `59,130,246`), and that Auto gives dark text on #3B82F6, light text on #334155 and #64748B, dark text on #F59E0B, and dark text on #0B1F3A at 10% opacity. With opacity below 100, the CSS shows `rgba(r,g,b,0.5)`.
 15. **HubSpot CTA add-on (only in a portal with CTA access):** after adding the add-on ("HubSpot CTA buttons (opt-in add-on)" above), pick a CTA in a button set to HubSpot CTA. It renders on the live page and in the editor; a button with no CTA picked renders nothing (no empty `section-cta` div). Check whether the `cta` field lists new CTAs (Marketing > CTAs) or only legacy ones; if new ones render nothing with `{% cta guid=... %}`, try `{{ cta(item.cta) }}`. The WLIQ test portal has no CTA access, so this can't be tested there.
 16. **Image position:** top, center and bottom each move the background image as expected.
-17. **Header module (global):** open Header in the global content editor.
+17. **Header module:** open Header in the page editor (one click on the header).
   - Menu: with the Menu field empty the portal's default menu shows; pick another menu and it switches. Build a test menu with 3 levels, a "no link" parent and an item set to open in a new tab.
   - Simple dropdown: hover opens; Tab to the arrow button, Enter/Space opens, Escape closes and focus returns to the arrow; clicking outside closes; the current page link has aria-current="page".
   - Mega menu: full-width panel under the header; 2nd-level items are column headings (linked when they have a URL), 3rd-level items list below; 4 and 5 columns wrap on smaller desktops.
@@ -218,7 +220,7 @@ Most checks run automatically: `cd qa && npm run qa` uploads the theme, seeds "Q
   - Logo: empty image shows the placeholder (theme/images/logo-placeholder.svg via get_asset_url) at 160×40; an uploaded logo outputs its width/height and loading="eager".
   - Header button: the link button is hidden on the live page until a link is set.
   - Website header colors: change menu text, drop-down text/background/border and header background in Theme settings; the header follows, menu links underline on hover, and focus outlines are visible. On mobile the submenus use the header colors.
-17b. **Header – Simple (on a landing page):** create a page from the Landing page template and open Header – Simple in the global content editor.
+17b. **Header – Simple (on a landing page):** create a page from the Landing page template and click Header – Simple in the page editor.
   - It shows the logo (placeholder at 160×40 when empty; an uploaded logo outputs its width/height and loading="eager") and the header button, and no menu or menu button at any width.
   - The header button is hidden on the live page until it has text and a link; all 9 styles render.
   - Website header colors and the bottom border toggle apply, same as the main Header.

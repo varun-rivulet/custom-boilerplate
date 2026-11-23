@@ -5,8 +5,8 @@
 {% set logo = module.logo %}
 {% set bottom = module.bottom %}
 {% set tag = module.heading_tag or "h2" %}
-{% set pad_class = {"small": "s", "medium": "m", "large": "l"} %}
-{% set platform_names = {"facebook": "Facebook", "instagram": "Instagram", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube", "tiktok": "TikTok", "other": (module.labels.other_social or "")|trim or "Website"} %}
+{% set sp = s.spacing %}
+{% set platform_names = {"facebook": "Facebook", "instagram": "Instagram", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube", "tiktok": "TikTok", "other": "Website"} %}
 
 {% set valid_columns = [] %}
 {% for col in module.columns %}
@@ -30,7 +30,22 @@
 {% set has_bottom = has_copyright or valid_legal %}
 
 {% if has_top or has_bottom %}
-  <footer class="site-footer section-pt-{{ pad_class[s.padding_top or 'medium'] }} section-pb-{{ pad_class[s.padding_bottom or 'small'] }}">
+  {% if sp.change_spacing %}
+    {% require_css %}
+    <style>
+    {% scope_css %}
+    {% for row in [["desktop", ""], ["laptop", "1200.98"], ["tablet", "991.98"], ["mobile", "767.98"]] %}
+      {% set decl = [] %}
+      {% set pad = sp[row[0]].padding %}
+      {% for side in ["top", "right", "bottom", "left"] %}{% if pad[side].value is number %}{% do decl.append("padding-" ~ side ~ ":" ~ pad[side].value ~ (pad[side].units or "px")) %}{% endif %}{% endfor %}
+      {% if decl %}{% if row[1] %}@media (max-width:{{ row[1] }}px){.site-footer{ {{- decl|join(";") -}} }}{% else %}.site-footer{ {{- decl|join(";") -}} }{% endif %}
+      {% endif %}
+    {% endfor %}
+    {% end_scope_css %}
+    </style>
+    {% end_require_css %}
+  {% endif %}
+  <footer class="site-footer{% if not sp.change_spacing %} section-pt-m section-pb-m{% endif %}">
     <div class="container">
       {% if has_top %}
         <div class="site-footer-top">
@@ -39,14 +54,14 @@
               {% if has_logo %}
                 {% set logo_href = logo.link.url.href %}
                 <div class="site-footer-logo">
-                  {% if logo_href %}<a{{ link_attrs(logo.link) }}>{% endif %}<img src="{{ logo.image.src }}" alt="{{ (logo.image.alt or (((module.labels.logo_alt or "")|trim or 'Logo') if logo_href else ''))|escape_attr }}"{% if logo.image.width %} width="{{ logo.image.width }}"{% endif %}{% if logo.image.height %} height="{{ logo.image.height }}"{% endif %} loading="lazy">{% if logo_href %}</a>{% endif %}
+                  {% if logo_href %}<a{{ link_attrs(logo.link) }}>{% endif %}<img src="{{ logo.image.src }}" alt="{{ (logo.image.alt or ('Home' if logo_href else ''))|escape_attr }}"{% if logo.image.width %} width="{{ logo.image.width }}"{% endif %}{% if logo.image.height %} height="{{ logo.image.height }}"{% endif %} loading="lazy">{% if logo_href %}</a>{% endif %}
                 </div>
               {% endif %}
               {% if has_description %}<div class="site-footer-description">{{ module.description }}</div>{% endif %}
             </div>
           {% endif %}
           {% if valid_columns %}
-            <nav class="site-footer-nav" aria-label="{{ (module.labels.nav_label or "")|trim|escape_attr or 'Footer' }}">
+            <nav class="site-footer-nav" aria-label="Footer">
               {% for col in valid_columns %}
                 <div class="site-footer-column">
                   {% if (col.heading or "")|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ col.heading|escape_html }}</{{ tag }}></div>{% endif %}
@@ -83,7 +98,7 @@
                   {% if (module.social.heading or "")|trim %}<div class="site-footer-col-title"><{{ tag }}>{{ module.social.heading|escape_html }}</{{ tag }}></div>{% endif %}
                   <ul class="site-footer-social">
                     {% for item in valid_social %}
-                      <li><a{{ link_attrs(item.link) }}>{{ icon(item.platform) }}<span class="visually-hidden">{{ ((item.accessible_label or "")|trim or platform_names[item.platform] or (module.labels.other_social or "")|trim or "Website")|escape_html }}</span></a></li>
+                      <li><a{{ link_attrs(item.link) }}>{{ icon(item.platform) }}<span class="visually-hidden">{{ (platform_names[item.platform] or "Website")|escape_html }}</span></a></li>
                     {% endfor %}
                   </ul>
                 </div>
@@ -96,7 +111,7 @@
         <div class="site-footer-bottom">
           {% if has_copyright %}<p class="site-footer-copyright">&copy; {% if bottom.show_year %}{{ local_dt|format_datetime("yyyy") }} {% endif %}{{ (bottom.copyright or "")|trim|escape_html }}</p>{% endif %}
           {% if valid_legal %}
-            <nav class="site-footer-legal" aria-label="{{ (module.labels.legal_label or "")|trim|escape_attr or 'Legal' }}">
+            <nav class="site-footer-legal" aria-label="Legal">
               <ul class="site-footer-legal-list">
                 {% for item in valid_legal %}<li><a{{ link_attrs(item.link) }}>{{ item.text|escape_html }}</a></li>{% endfor %}
               </ul>

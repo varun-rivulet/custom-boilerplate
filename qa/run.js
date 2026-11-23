@@ -10,6 +10,7 @@ const { runTests } = require('./tests');
 const { writeReport, updateReadme } = require('./report');
 
 const args = new Set(process.argv.slice(2));
+if (args.has('--mark-editor-done')) { require('./report').markEditorDone(); console.log('[qa] editor checks recorded for the current files'); process.exit(0); }
 const log = (msg) => console.log(`[qa] ${msg}`);
 const git = (...a) => spawnSync('git', a, { cwd: REPO_ROOT, encoding: 'utf8' }).stdout.trim();
 

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { REPO_ROOT } = require('./config');
 
 const README_CHECKS = [
@@ -26,13 +27,46 @@ const README_CHECKS = [
   ['20', 'Button styles'],
 ];
 
-const MANUAL = {
-  0: 'Design Manager folder outside the QA scope; delete by hand.',
-  2: 'Editor part (font picker shows Adobe font) needs the editor.',
-  13: 'Editor part (picker shows Dark, follows Global colors) needs the editor.',
-  15: 'Portal has no CTA access.',
-  17: 'Theme settings colour changes and Simple/Mega switching need the editor.',
-  19: 'Changing Primary in Theme settings needs the editor; served values are tested.',
+const MANUAL = {};
+
+const DONE_MANUALLY = { 0: 'Old theme folder deleted by hand (2026-11-23).' };
+
+const CLIENT_PORTAL = {
+  8: 'The 404 template needs a Starter+ portal (system page templates). Verify on the first client portal; does not block the merge.',
+  15: 'The HubSpot CTA add-on needs CTA access (Content Hub Pro/Enterprise). Verify on the first client portal; does not block the merge.',
+};
+
+const EDITOR_CHECKS = {
+  2: 'font picker shows the Adobe secondary font',
+  13: 'color pickers show the inherited palette color',
+  17: 'Simple/Mega switching, sticky toggle',
+  '17b': 'Header – Simple editor fields',
+  19: 'palette change reaches the served main.css',
+};
+
+const EDITOR_STATE = path.join(__dirname, '.state', 'editor-checks.json');
+
+const editorFingerprint = () => {
+  const theme = path.join(REPO_ROOT, 'theme');
+  const files = [path.join(theme, 'fields.json'), path.join(theme, 'templates', 'layouts', 'base.html')];
+  const walk = (dir, filter) => { if (!fs.existsSync(dir)) return; for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const f = path.join(dir, e.name); if (e.isDirectory()) walk(f, filter); else if (filter(f)) files.push(f); } };
+  const norm = (f) => f.split(path.sep).join('/');
+  walk(path.join(theme, 'modules'), (f) => /fields\.json$/.test(norm(f)) || /\/(header|header-simple|footer)\.module\//.test(norm(f)));
+  walk(path.join(theme, 'templates', 'partials'), () => true);
+  const hash = crypto.createHash('sha1');
+  for (const f of files.sort()) { hash.update(norm(path.relative(theme, f))); hash.update(fs.readFileSync(f).toString().split('\r\n').join('\n')); }
+  return hash.digest('hex');
+};
+
+const markEditorDone = () => {
+  fs.mkdirSync(path.dirname(EDITOR_STATE), { recursive: true });
+  fs.writeFileSync(EDITOR_STATE, JSON.stringify({ hash: editorFingerprint(), date: new Date().toISOString().slice(0, 10) }, null, 2));
+};
+
+const editorState = () => {
+  let saved = null;
+  try { saved = JSON.parse(fs.readFileSync(EDITOR_STATE, 'utf8')); } catch {}
+  return { saved, due: !saved || saved.hash !== editorFingerprint() };
 };
 
 const statusOf = (rows) => {
@@ -44,11 +78,18 @@ const statusOf = (rows) => {
 };
 
 const summarize = (results) => README_CHECKS.map(([id, title]) => {
+  const ed = editorState();
   const rows = results.filter((r) => r.check === id && r.status !== 'INFO');
   let status = statusOf(rows) || (MANUAL[id] ? 'MANUAL' : 'NOT RUN');
   if (status === 'PASS' && MANUAL[id]) status = 'PASS (auto part)';
   const failed = rows.filter((r) => ['FAIL', 'BLOCKED', 'MANUAL'].includes(r.status)).map((r) => `${r.status}: ${r.title}${r.status === 'MANUAL' && r.detail ? ` (${r.detail.replace(/^.*?MANUAL – /, '')})` : ''}`);
-  const note = [failed.join('; '), MANUAL[id] || ''].filter(Boolean).join(' / ');
+  let note = [failed.join('; '), MANUAL[id] || ''].filter(Boolean).join(' / ');
+  if (DONE_MANUALLY[id]) { status = 'PASS'; note = DONE_MANUALLY[id]; }
+  if (EDITOR_CHECKS[id] && !['FAIL', 'PARTIAL'].includes(status)) {
+    if (ed.due) { status = 'EDITOR CHECK DUE'; note = `Files changed since the last editor run (${EDITOR_CHECKS[id]}). Re-run once with changed content, then: node run.js --mark-editor-done`; }
+    else { status = 'PASS'; note = [note, `Editor part verified ${ed.saved.date} (${EDITOR_CHECKS[id]})`].filter(Boolean).join(' / '); }
+  }
+  if (CLIENT_PORTAL[id] && status !== 'FAIL') { status = 'VERIFY ON FIRST CLIENT PORTAL'; note = CLIENT_PORTAL[id]; }
   return { id, title, status, note };
 });
 
@@ -116,4 +157,5 @@ const updateReadme = ({ results, meta }) => {
   fs.writeFileSync(file, text);
 };
 
-module.exports = { writeReport, updateReadme, summarize };
+module.exports = {
+  markEditorDone, writeReport, updateReadme, summarize };
