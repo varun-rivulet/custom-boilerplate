@@ -5639,6 +5639,27 @@
       },
       {
         "type": "group",
+        "name": "link_hover",
+        "label": "Link hover",
+        "children": [
+          {
+            "type": "color",
+            "name": "color",
+            "label": "Color",
+            "inherited_value": {
+              "property_value_paths": {
+                "color": "theme.global_colors.accent.color"
+              }
+            },
+            "default": {
+              "opacity": 100
+            },
+            "help_text": "Hover color of footer links and the fill of the social icons. The icon switches to the footer background color on hover; keep the contrast at least 3:1."
+          }
+        ]
+      },
+      {
+        "type": "group",
         "name": "background",
         "label": "Background",
         "children": [

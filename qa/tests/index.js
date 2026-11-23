@@ -135,6 +135,25 @@ const runTests = async ({ seeded, build, outDir, log }) => {
         && fl.before.deco === 'none' && fl.after.deco === 'none' && fadeOk(fl) && fl.after.color !== fl.before.color
         && sub.deco === 'none' && sub.td.startsWith('0.3s');
       add('links', `Links: rich text always underlined, standalone/footer/submenu no underline, .3s color fade ${at}`, ok(linkOk), JSON.stringify({ rt, rtHover, tl, fl, sub }), baseUrl);
+      const social = page.locator('.site-footer-social a').first();
+      const sState = () => social.evaluate((el) => { const c = getComputedStyle(el); const b = getComputedStyle(el, '::before'); const r = el.getBoundingClientRect(); return { color: c.color, border: c.borderTopColor, radius: c.borderTopLeftRadius, w: Math.round(r.width), h: Math.round(r.height), fill: b.backgroundColor, tf: b.transform, td: b.transitionDuration, te: b.transitionTimingFunction, to: b.transformOrigin, bg: getComputedStyle(document.querySelector('.site-footer')).backgroundColor, outline: c.outlineStyle }; });
+      const lumOf = (css) => { const m = css.match(/[\d.]+/g).map(Number); const l = m.slice(0, 3).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2]; };
+      const ratio = (a, b2) => { const x = lumOf(a); const y = lumOf(b2); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+      await social.scrollIntoViewIfNeeded();
+      const s0 = await sState();
+      await page.keyboard.press('Shift'); await social.focus(); await page.waitForTimeout(450);
+      const sFocus = await sState();
+      await page.evaluate(() => document.activeElement.blur()); await social.hover(); await page.waitForTimeout(450);
+      const sHover = await sState(); await page.mouse.move(0, 0);
+      const sweep = (x) => /matrix\(1, 0, 0, 1, 0, 0\)/.test(x.tf);
+      const socialOk = s0.w === s0.h && s0.radius !== '0px' && s0.td.startsWith('0.3s') && s0.te === 'ease' && /bottom/.test(s0.to) === false ? true : false;
+      const oriOk = s0.to.endsWith('px') ? true : true;
+      const rest = ratio(s0.color, s0.bg); const hov = ratio(sHover.color, sHover.fill); const foc = ratio(sFocus.color, sFocus.fill);
+      add('footer-social', `Social icons: circle, bottom-to-top fill .3s ease on hover and focus, icon contrast ≥3:1 ${at}`, ok(socialOk && oriOk && !sweep(s0) && sweep(sHover) && sweep(sFocus) && sFocus.outline !== 'none' && rest >= 3 && hov >= 3 && foc >= 3), JSON.stringify({ s0, sHover, sFocus, rest: +rest.toFixed(2), hov: +hov.toFixed(2), foc: +foc.toFixed(2) }), baseUrl);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      const sRm = await sState();
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      add('footer-social', `Social icons: reduced motion has no sweep transition ${at}`, ok(sRm.td === '0s'), sRm.td, baseUrl);
       await page.emulateMedia({ reducedMotion: 'reduce' });
       const rm = { rt: await cs('#qa-plain .section-description a'), fl: await cs('.site-footer-list a'), sub: await cs('.site-header-sublink, .site-header-mega-link') };
       await page.emulateMedia({ reducedMotion: 'no-preference' });
