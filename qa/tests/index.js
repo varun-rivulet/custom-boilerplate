@@ -72,6 +72,53 @@ const runTests = async ({ seeded, build, outDir, log }) => {
   }
 
   {
+    const baseUrl = pageUrl(basePage);
+    const ALL_W = [1920, 1440, 1366, 1200, 991, 767, 360];
+    const tierOf = (w) => (w >= 1367 ? 0 : w >= 1201 ? 1 : w >= 992 ? 2 : w >= 768 ? 3 : 4);
+    for (const w of ALL_W) {
+      const { page } = await open(baseUrl, w);
+      const r = await page.evaluate(() => {
+        const q = (id) => document.getElementById(id);
+        const vis = (id) => { const el = q(id); return el ? getComputedStyle(el).display !== 'none' : null; };
+        const ta = (id) => (q(id) ? getComputedStyle(q(id)).textAlign : null);
+        const hs = (id, tag) => { const el = q(id) && q(id).querySelector(tag); return el ? parseFloat(getComputedStyle(el).fontSize) : null; };
+        const empty = q('qa-empty-bits');
+        const onlyBtn = q('qa-only-buttons');
+        const img = q('qa-with-image') && q('qa-with-image').querySelector('img');
+        const cont = q('qa-with-image') && q('qa-with-image').querySelector('.container');
+        return {
+          hideD: vis('qa-hide-desktop'), hideT: vis('qa-hide-tablet'), hideM: vis('qa-hide-mobile'), notShown: !!q('qa-not-shown'),
+          customClass: q('qa-custom-class') ? [...q('qa-custom-class').classList] : null,
+          alignRight: ta('qa-align-right'), alignCM: ta('qa-align-center-mobile-left'),
+          h3: hs('qa-hd-h3', 'h3'), h4: hs('qa-hd-h4', 'h4'), h5: hs('qa-hd-h5', 'h5'), h6: hs('qa-hd-h6', 'h6'), p: (() => { const el = q('qa-hd-p') && q('qa-hd-p').querySelector('.section-title p'); return el ? parseFloat(getComputedStyle(el).fontSize) : null; })(),
+          pageH1: hs('qa-page-h1', 'h1'),
+          emptyBits: empty ? { eyebrow: !!empty.querySelector('.section-eyebrow'), desc: !!empty.querySelector('.section-description'), btns: empty.querySelectorAll('.section-buttons a').length, emptyBox: [...empty.querySelectorAll('.section-content *')].filter((e) => !e.children.length && !(e.textContent || '').trim() && !['IMG', 'BR', 'SVG', 'PATH', 'USE'].includes(e.tagName.toUpperCase())).map((e) => e.className || e.tagName) } : null,
+          onlyButtons: onlyBtn ? { heads: onlyBtn.querySelectorAll('h1,h2,h3,h4,h5,h6').length, eyebrow: !!onlyBtn.querySelector('.section-eyebrow'), btns: onlyBtn.querySelectorAll('.section-buttons a').length } : null,
+          image: img ? { alt: img.getAttribute('alt'), loading: img.getAttribute('loading'), w: Math.round(img.getBoundingClientRect().width), cw: Math.round(cont.getBoundingClientRect().width), natural: img.naturalWidth } : null,
+          overflow: document.documentElement.scrollWidth - window.innerWidth,
+        };
+      });
+      const sz = (k) => SIZES[k][tierOf(w)];
+      const ok = (c) => (c ? 'PASS' : 'FAIL');
+      const at = `@${w}px`;
+      add('variants', `Hide on desktop (>991.98) ${at}`, ok(r.hideD === (w <= 991)), `visible ${r.hideD}`, baseUrl);
+      add('variants', `Hide on tablet (768–991.98) ${at}`, ok(r.hideT === !(w <= 991 && w >= 768)), `visible ${r.hideT}`, baseUrl);
+      add('variants', `Hide on mobile (≤767.98) ${at}`, ok(r.hideM === (w > 767)), `visible ${r.hideM}`, baseUrl);
+      add('variants', `Show section off: not rendered ${at}`, ok(!r.notShown), '', baseUrl);
+      add('variants', `Custom class trimmed and added ${at}`, ok(r.customClass && r.customClass.includes('qa-custom') && r.customClass.includes('one-more') && !r.customClass.includes('')), (r.customClass || []).join(' '), baseUrl);
+      add('variants', `Text align right, mobile center ${at}`, ok(r.alignRight === (w <= 767 ? 'center' : 'right')), r.alignRight, baseUrl);
+      add('variants', `Text align center, mobile left ${at}`, ok(r.alignCM === (w <= 767 ? 'left' : 'center')), r.alignCM, baseUrl);
+      add('variants', `Heading H3–H6 and paragraph sizes ${at}`, ok(r.h3 === sz('h3') && r.h4 === sz('h4') && r.h5 === sz('h5') && r.h6 === sz('h6') && r.p === sz('p')), JSON.stringify({ h3: r.h3, h4: r.h4, h5: r.h5, h6: r.h6, p: r.p }), baseUrl);
+      add('variants', `Page H1 renders ${at}`, ok(r.pageH1 && Math.abs(r.pageH1 - h1Size(w)) < 1), `${r.pageH1}px`, baseUrl);
+      add('variants', `Empty parts and invalid buttons render nothing ${at}`, ok(r.emptyBits && !r.emptyBits.eyebrow && !r.emptyBits.desc && r.emptyBits.btns === 0 && !r.emptyBits.emptyBox.length), JSON.stringify(r.emptyBits), baseUrl);
+      add('variants', `Only buttons: no heading or eyebrow ${at}`, ok(r.onlyButtons && r.onlyButtons.heads === 0 && !r.onlyButtons.eyebrow && r.onlyButtons.btns === 2), JSON.stringify(r.onlyButtons), baseUrl);
+      add('variants', `Image: alt, lazy, resized ≤2× container ${at}`, ok(r.image && r.image.alt === 'QA wide image' && r.image.loading === 'lazy' && r.image.natural <= r.image.cw * 2 + 2), JSON.stringify(r.image), baseUrl);
+      add('variants', `No horizontal scroll ${at}`, ok(r.overflow <= 0), `overflow ${r.overflow}px`, baseUrl);
+      await page.close();
+    }
+  }
+
+  {
     const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
     for (const [label, url] of [['Base Module', pageUrl(basePage)], ...targets.filter(([l]) => l !== 'Base Module')]) {
       for (const width of [1440, 360]) {
@@ -145,6 +192,7 @@ const runTests = async ({ seeded, build, outDir, log }) => {
           eyebrow: eyebrow ? getComputedStyle(eyebrow).color : null, link: a ? getComputedStyle(a).color : null,
         };
       }, sel);
+      if (!info && s.key === 'not-shown') continue;
       if (!info) { add('seed', `Section ${s.key} rendered`, 'FAIL', 'section not found on page', baseUrl); continue; }
       const e = s.expect;
       if (e.text) {

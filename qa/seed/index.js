@@ -83,13 +83,13 @@ const seed = async (hs, writer, { build, log }) => {
   result.sections = sections.map(({ key, title, expect }) => ({ key, title, expect }));
   const widgets = {
     [PAGE_DEFS[0].name]: sections.map((s) => ({ kind: 'base', params: s.params })),
-    [PAGE_DEFS[2].name]: [{ kind: 'base', params: sections[1].params }],
+    [PAGE_DEFS[2].name]: [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, { kind: 'base', params: sections[1].params }],
   };
 
   try {
     const form = await writer.upsertForm(FORM_SPEC(autoName('Form')));
     result.formId = form.id;
-    widgets[PAGE_DEFS[1].name] = [formWidget(form.id)];
+    widgets[PAGE_DEFS[1].name] = [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, formWidget(form.id)];
   } catch (err) {
     result.blocked.push({ what: 'form', reason: err.message });
   }
