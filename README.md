@@ -165,7 +165,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-23, branch `main`, commit `af06bd9` (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-23, branch `main`, commit `1153ea8` (uncommitted theme changes) (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
@@ -187,7 +187,7 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 | 16. Image position | PASS |  |
 | 17. Header module | EDITOR CHECK DUE | Files changed since the last editor run (Simple/Mega switching, sticky toggle). Re-run once with changed content, then: node run.js --mark-editor-done |
 | 17b. Header – Simple | EDITOR CHECK DUE | Files changed since the last editor run (Header – Simple editor fields). Re-run once with changed content, then: node run.js --mark-editor-done |
-| 18. Footer module | PASS |  |
+| 18. Footer module | PARTIAL | BLOCKED: Footer menu columns, social links and legal links present |
 | 19. Theme settings inheritance | EDITOR CHECK DUE | Files changed since the last editor run (palette change reaches the served main.css). Re-run once with changed content, then: node run.js --mark-editor-done |
 | 20. Button styles | PASS |  |
 <!-- qa-status:end -->

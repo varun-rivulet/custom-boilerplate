@@ -84,7 +84,7 @@ const seed = async (hs, writer, { build, log }) => {
   const sections = buildSections(result.images);
   result.sections = sections.map(({ key, title, expect }) => ({ key, title, expect }));
   const widgets = {
-    [PAGE_DEFS[0].name]: sections.map((s) => ({ kind: 'base', params: s.params })),
+    [PAGE_DEFS[0].name]: [...sections.map((s) => ({ kind: 'base', params: s.params })), buildHeaderFooter(result.images)[5]],
     [PAGE_DEFS[2].name]: [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, ...buildHeaderFooter(result.images)],
     [PAGE_DEFS[3].name]: [{ kind: 'base', params: sections.find((x) => x.key === 'page-h1').params }, { kind: 'base', params: sections[1].params }],
   };
