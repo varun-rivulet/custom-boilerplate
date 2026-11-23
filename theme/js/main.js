@@ -49,6 +49,8 @@ const initSliders = (root = document) => {
 
 initSliders();
 
+let resizeTimer = null;
+
 const initSiteHeader = (root = document) => {
   root.querySelectorAll('[data-site-header]').forEach((header) => {
     if (header.dataset.siteHeaderInit === 'true') return;
@@ -173,6 +175,9 @@ const initSiteHeader = (root = document) => {
       syncMega();
     });
     window.addEventListener('resize', () => {
+      document.documentElement.classList.add('is-resizing');
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => document.documentElement.classList.remove('is-resizing'), 150);
       if (header.classList.contains('is-nav-open')) setPanelTop();
     });
   });
