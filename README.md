@@ -165,12 +165,12 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 ## Sandbox test checklist
 
 <!-- qa-status:start -->
-**Last automated run:** 2026-11-24, branch `main`, commit `c37124c` (`npm run qa` in `qa/`).
+**Last automated run:** 2026-11-24, branch `main`, commit `41b5f7f` (`npm run qa` in `qa/`).
 
 | Check | Status | Notes |
 |---|---|---|
 | 0. Old theme folder deleted | PASS | Old theme folder deleted by hand (2026-11-23). |
-| 2. Font fields | EDITOR CHECK DUE | Files changed since the last editor run (font picker shows the Adobe secondary font). Re-run once with changed content, then: node run.js --mark-editor-done |
+| 2. Font fields | PASS | Editor part verified 2026-11-24 (font picker shows the Adobe secondary font) |
 | 3. Viewport meta | PASS |  |
 | 4. Forms | PASS (auto part) | MANUAL: Form on a dark background (Waits for the Form Section module (Phase 4)) |
 | 5. Link field | PASS |  |
@@ -181,14 +181,14 @@ Every new module starts as a copy of `theme/modules/base-module.module/`. The ex
 | 10. Light text on dark backgrounds | PASS |  |
 | 11. Image type with no image | PASS |  |
 | 12. H1 and image radius | PASS |  |
-| 13. Background color picker inheritance | EDITOR CHECK DUE | Files changed since the last editor run (color pickers show the inherited palette color). Re-run once with changed content, then: node run.js --mark-editor-done |
+| 13. Background color picker inheritance | PASS | Editor part verified 2026-11-24 (color pickers show the inherited palette color) |
 | 14. Auto text color from hex | PASS |  |
 | 15. HubSpot CTA add-on | VERIFY ON FIRST CLIENT PORTAL | The HubSpot CTA add-on needs CTA access (Content Hub Pro/Enterprise). Verify on the first client portal; does not block the merge. |
 | 16. Image position | PASS |  |
-| 17. Header module | EDITOR CHECK DUE | Files changed since the last editor run (Simple/Mega switching, sticky toggle). Re-run once with changed content, then: node run.js --mark-editor-done |
-| 17b. Header – Simple | EDITOR CHECK DUE | Files changed since the last editor run (Header – Simple editor fields). Re-run once with changed content, then: node run.js --mark-editor-done |
+| 17. Header module | PASS | Editor part verified 2026-11-24 (Simple/Mega switching, sticky toggle) |
+| 17b. Header – Simple | PASS | Editor part verified 2026-11-24 (Header – Simple editor fields) |
 | 18. Footer module | PASS |  |
-| 19. Theme settings inheritance | EDITOR CHECK DUE | Files changed since the last editor run (palette change reaches the served main.css). Re-run once with changed content, then: node run.js --mark-editor-done |
+| 19. Theme settings inheritance | PASS | Editor part verified 2026-11-24 (palette change reaches the served main.css) |
 | 20. Button styles | PASS |  |
 <!-- qa-status:end -->
 
