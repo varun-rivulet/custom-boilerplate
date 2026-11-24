@@ -40,7 +40,7 @@ const measure = () => {
   const lab = q('.hs-form label');
   const help = q('.hs-form .hs-field-desc');
   const sub = q('.hs-form input[type=submit], .hs-form .hs-button');
-  out.form = inp ? { bw: px(cs(inp, 'borderTopWidth')), bc: cs(inp, 'borderTopColor'), r: px(cs(inp, 'borderTopLeftRadius')), pt: px(cs(inp, 'paddingTop')), pl: px(cs(inp, 'paddingLeft')), bg: cs(inp, 'backgroundColor'), color: cs(inp, 'color'), label: lab ? { color: cs(lab, 'color'), weight: cs(lab, 'fontWeight') } : null, help: help ? cs(help, 'color') : null, submit: sub ? { cls: sub.className, bg: cs(sub, 'backgroundColor') } : null } : null;
+  out.form = inp ? { bw: px(cs(inp, 'borderTopWidth')), bc: cs(inp, 'borderTopColor'), r: px(cs(inp, 'borderTopLeftRadius')), pt: px(cs(inp, 'paddingTop')), pl: px(cs(inp, 'paddingLeft')), bg: cs(inp, 'backgroundColor'), color: cs(inp, 'color'), label: lab ? { color: cs(lab, 'color'), weight: cs(lab, 'fontWeight'), gap: px(cs(lab, 'marginBottom')) } : null, help: help ? cs(help, 'color') : null, submit: sub ? { cls: sub.className, bg: cs(sub, 'backgroundColor') } : null } : null;
   return out;
 };
 
@@ -98,7 +98,7 @@ const renderChecks = async ({ group, S, ctx, urls, add, WIDTHS, tierIdx, hexRgb 
       if (ir !== undefined) row('spacing.image_radius → image corner radius', near(m.imgRadius, ir), `${m.imgRadius}`);
       const eg = want('spacing.elements.eyebrow_heading');
       if (eg !== undefined) row('spacing.elements.eyebrow_heading → gap below the eyebrow', near(m.eyebrowGap, eg), `${m.eyebrowGap}`);
-      if (maxW !== undefined && w >= 1920) row('spacing.maximum_content_width → container width at 1920', near(m.container.w, Math.min(maxW, w), 1), `${m.container.w}`);
+      if (maxW !== undefined && w >= 1920) row('spacing.maximum_content_width → container width at 1920', near(m.container.w - 2 * m.container.padL, Math.min(maxW, w - 2 * m.container.padL), 1), `${m.container.w - 2 * m.container.padL}`);
     }
     if (group === 'text') {
       const tn = tierNames5[ti];
@@ -178,6 +178,7 @@ const renderChecks = async ({ group, S, ctx, urls, add, WIDTHS, tierIdx, hexRgb 
       if (f.label) {
         row('forms.labels.text.color → label colour', f.label.color === hexRgb(want('forms.labels.text.color')), f.label.color);
         row('forms.labels.weight → label weight', String(f.label.weight) === String(want('forms.labels.weight')), f.label.weight);
+        row('forms.labels.gap → label bottom margin', near(f.label.gap, want('forms.labels.gap')), `${f.label.gap}`);
       }
       if (f.help) row('forms.help_text.text.color → help text colour', f.help === hexRgb(want('forms.help_text.text.color')), f.help);
       if (f.submit) row('forms.button.style → submit button variant', f.submit.cls.includes(String(want('forms.button.style')).replace('_', '-')) || true, f.submit.cls);

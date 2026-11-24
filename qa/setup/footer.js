@@ -1,6 +1,10 @@
 const { connect, act, shot, assertPortal } = require('./ui');
 
 const part = process.argv[2] || 'columns';
+const SITE_LINKS = { about: '/about', careers: '/about', contact: '/contact', 'service one': '/services', 'service two': '/services', 'service three': '/services', blog: '/services', guides: '/services', faq: '/contact', 'privacy policy': '/privacy-policy', 'terms of use': '/terms' };
+const SOCIAL_LINKS = { linkedin: 'https://www.linkedin.com', facebook: 'https://www.facebook.com', instagram: 'https://www.instagram.com', x: 'https://x.com', youtube: 'https://www.youtube.com' };
+const CONTACT_LINKS = { email: 'mailto:hello@example.com', phone: 'tel:+15550100100' };
+const urlFor = (label, fallbackSlug) => SITE_LINKS[label.toLowerCase().trim()] || `https://example.com/${fallbackSlug}`;
 
 const run = async () => {
   const { context } = await connect();
@@ -25,17 +29,17 @@ const run = async () => {
       const apply = p.getByRole('button', { name: 'Apply changes', exact: true });
       if (await apply.count() && await apply.first().isVisible()) { await act(p, () => apply.first().click()); await wait(1500); continue; }
       const t = await sidebarText();
-      if (/Contents \| footer \| footer \| Content/.test(t)) return;
+      if (/Contents \| footer \| footer \| Content/i.test(t)) return;
       if (!/Contents/.test(t)) {
         let fr = null;
         for (const x of p.frames()) { try { if (await x.locator('.site-footer').count()) { fr = x; break; } } catch {} }
-        const b = fr && await fr.locator('.site-footer .site-footer-copyright').boundingBox();
+        const cp = fr && fr.locator('.site-footer .site-footer-copyright').last(); if (cp) { await cp.scrollIntoViewIfNeeded(); await wait(500); } const b = cp && await cp.boundingBox();
         if (!b) throw new Error('footer not found in preview');
         await act(p, () => p.mouse.click(b.x + 20, b.y + b.height / 2));
         await wait(2000);
         continue;
       }
-      if (/Page contents/.test(t) || /Contents \| footer \| footer/.test(t)) { await clickSide('footer'); continue; }
+      if (/Page contents/.test(t) || /Contents \| footer \| footer/i.test(t)) { await clickSide(/Footer/.test(t) ? 'Footer' : 'footer'); continue; }
       await clickSide('Contents');
     }
     throw new Error('could not return to the footer root panel');
@@ -69,8 +73,8 @@ const run = async () => {
       await clickSide(links[0]);
       for (let k = 0; k < links.length; k++) {
         const slug = `${col}-${links[k]}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        await fillUrl(`https://example.com/${slug}`);
-        log(`${col} / ${links[k]} -> https://example.com/${slug}`);
+        await fillUrl(urlFor(links[k], slug));
+        log(`${col} / ${links[k]} -> ${urlFor(links[k], slug)}`);
         const [cur, total] = await counter();
         if (cur < total) { await act(p, () => p.getByText('Next', { exact: true }).first().click()); await wait(); }
       }
@@ -85,7 +89,37 @@ const run = async () => {
     log(`legal: ${links.join(', ')}`);
     await clickSide(links[0]);
     for (let k = 0; k < links.length; k++) {
-      await fillUrl(`https://example.com/${links[k].toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+      await fillUrl(urlFor(links[k], links[k].toLowerCase().replace(/[^a-z0-9]+/g, '-')));
+      const [cur, total] = await counter();
+      if (cur < total) { await act(p, () => p.getByText('Next', { exact: true }).first().click()); await wait(); }
+    }
+  }
+
+  if (part === 'social') {
+    await toRoot();
+    await clickSide('Social links');
+    const t = await sidebarText();
+    const items = listAfterAdd(t, 'Social links');
+    log(`social: ${items.join(', ')}`);
+    await clickSide(items[0]);
+    for (let k = 0; k < items.length; k++) {
+      const u = SOCIAL_LINKS[items[k].toLowerCase().trim()];
+      if (u) { await fillUrl(u); log(`${items[k]} -> ${u}`); }
+      const [cur, total] = await counter();
+      if (cur < total) { await act(p, () => p.getByText('Next', { exact: true }).first().click()); await wait(); }
+    }
+  }
+
+  if (part === 'contact') {
+    await toRoot();
+    await clickSide('Contact');
+    const t = await sidebarText();
+    const items = listAfterAdd(t, 'Contact items');
+    log(`contact: ${items.join(', ')}`);
+    await clickSide(items[0]);
+    for (let k = 0; k < items.length; k++) {
+      const u = /@/.test(items[k]) ? CONTACT_LINKS.email : /^\+?[\d\s()-]+$/.test(items[k]) ? CONTACT_LINKS.phone : null;
+      if (u) { await fillUrl(u); log(`${items[k]} -> ${u}`); }
       const [cur, total] = await counter();
       if (cur < total) { await act(p, () => p.getByText('Next', { exact: true }).first().click()); await wait(); }
     }

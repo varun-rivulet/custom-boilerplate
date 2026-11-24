@@ -11,7 +11,7 @@ const { launch } = require('./lib/browser');
 const FIELDS = path.join(REPO_ROOT, 'theme', 'fields.json');
 const BACKUP = path.join(__dirname, '.state', 'fields.json.real');
 const WIDTHS = [1920, 1440, 1366, 1200, 991, 767, 360];
-const GROUPS = ['global_colors', 'spacing', 'text', 'text_on_dark', 'buttons_group', 'forms', 'header', 'footer'];
+const GROUPS = ['global_colors', 'spacing', 'text', 'text_on_dark', 'buttons_group', 'forms', 'header', 'footer', 'fonts'];
 const log = (m) => console.log(`[theme-live] ${m}`);
 const gitOut = (...a) => spawnSync('git', a, { cwd: REPO_ROOT, encoding: 'utf8' });
 
@@ -75,7 +75,33 @@ const mutate = (f, p) => {
   return null;
 };
 
+const FONT_TEST = { primary: { font: 'Lora', fallback: 'serif' }, secondary: { font: 'qa-adobe-test', fallback: 'serif' } };
+const FONT_WEIGHTS = { h1: '600', h2: '700', h3: '600', h4: '400', h5: '700', h6: '600', body_font: '300', links: '700', eyebrow: '600' };
+const buildFonts = () => {
+  const real = JSON.parse(fs.readFileSync(BACKUP, 'utf8'));
+  const changes = {};
+  const gf = real.find((x) => x.name === 'global_fonts');
+  for (const f of gf.children) {
+    const t = FONT_TEST[f.name];
+    f.default = { ...f.default, font: t.font, fallback: t.fallback };
+    changes[`global_fonts.${f.name}`] = { kind: 'font', want: { ...t, set: f.default.font_set } };
+  }
+  const tx = real.find((x) => x.name === 'text');
+  for (const g of tx.children) {
+    const f = (g.children || []).find((x) => x.type === 'font');
+    if (!f) continue;
+    const hex = sentinelHex();
+    if (f.inherited_value && f.inherited_value.property_value_paths) delete f.inherited_value.property_value_paths.color;
+    f.default = { ...f.default, variant: FONT_WEIGHTS[g.name], color: hex };
+    changes[`text.${g.name}.font.color`] = { kind: 'color', want: hex, key: g.name };
+    changes[`text.${g.name}.font.weight`] = { kind: 'weight', want: FONT_WEIGHTS[g.name], key: g.name };
+  }
+  fs.writeFileSync(FIELDS, JSON.stringify(real, null, 2).replace(/\n/g, '\r\n') + '\r\n');
+  return changes;
+};
+
 const buildTemp = (group) => {
+  if (group === 'fonts') return buildFonts();
   const real = JSON.parse(fs.readFileSync(BACKUP, 'utf8'));
   const g = real.find((x) => x.name === group);
   const changes = {};
@@ -125,11 +151,13 @@ const main = async () => {
       const url = (n) => { const p = seeded.pages.find((x) => x.name.endsWith(n)); return p && (p.url || `${SITE_URL}/${p.slug}`); };
       const baseUrl = url('Base Module');
       // wait for the regenerated stylesheet
-      const probe = Object.entries(changes).find(([, c]) => c.kind === 'color');
+      const probe = Object.entries(changes).find(([, c]) => c.kind === 'color') || Object.entries(changes).find(([, c]) => c.kind === 'number');
+      const baseCss = require('./.state/baseline-css.json');
+      const probeSeen = (cssText, htmlText) => (probe[1].kind === 'color' ? cssText.toLowerCase().includes(probe[1].want.toLowerCase()) : cssText !== baseCss.css);
       let css = ''; let html = '';
       for (let i = 0; i < 24; i++) {
         ({ css, html } = await fetchCss(baseUrl));
-        if (!probe || css.toLowerCase().includes(probe[1].want.toLowerCase())) break;
+        if (!probe || probeSeen(css, html)) break;
         await new Promise((r) => setTimeout(r, 10000));
         await republish(hs, writer, seeded, { log: () => {} });
       }
@@ -141,6 +169,8 @@ const main = async () => {
         if (c.kind === 'spacing') return ['top', 'right', 'bottom', 'left'].every((s) => cnt(css + html, c.want[s].value) >= 1);
         if (c.kind === 'choice') return css.includes(String(c.want)) || html.includes(String(c.want));
         if (c.kind === 'boolean') return css !== base.css || html !== base.html;
+        if (c.kind === 'weight') return css.includes(`--${c.key === 'body_font' ? 'body' : c.key === 'links' ? 'link' : c.key}-weight:${c.want}`);
+        if (c.kind === 'font') { const k = field.endsWith('primary') ? 'primary' : 'secondary'; return css.includes(`--font-${k}:"${c.want.font}", ${c.want.fallback}`); }
         return true;
       };
       for (const [field, c] of Object.entries(changes)) {
@@ -149,10 +179,37 @@ const main = async () => {
       }
       // rendered checks
       const ctx = await browser.newContext();
+      if (group === 'fonts') {
+        const pg = await ctx.newPage();
+        await pg.setViewportSize({ width: 1440, height: 900 });
+        await pg.goto(baseUrl, { waitUntil: 'networkidle' });
+        const sels = { h1: '#qa-h1-heading h1', h2: '#qa-h1-heading .section-description h2', h3: '#qa-h1-heading .section-description h3', h4: '#qa-h1-heading .section-description h4', h5: '#qa-h1-heading .section-description h5', h6: '#qa-h1-heading .section-description h6', body_font: '#qa-plain .section-description p', eyebrow: '#qa-plain .section-eyebrow p' };
+        const got = await pg.evaluate((ss) => Object.fromEntries(Object.entries(ss).map(([k, sel]) => { const el = document.querySelector(sel); if (!el) return [k, null]; const c = getComputedStyle(el); return [k, { fam: c.fontFamily, w: c.fontWeight, col: c.color }]; })), sels);
+        for (const [k, g] of Object.entries(got)) {
+          const style = k === 'eyebrow' || k === 'body_font' ? FONT_TEST.secondary : FONT_TEST.primary;
+          if (!g) { add(group, `text.${k} rendered`, 'FAIL', 'element not found', 1440); continue; }
+          add(group, `text.${k}.font.family → rendered family`, g.fam.includes(`"${style.font}"`) || g.fam.includes(style.font) ? 'PASS' : 'FAIL', g.fam, 1440);
+          add(group, `text.${k}.font.weight → rendered weight`, String(g.w) === FONT_WEIGHTS[k] ? 'PASS' : 'FAIL', g.w, 1440);
+          add(group, `text.${k}.font.color → rendered color`, g.col === hexRgb(changes[`text.${k}.font.color`].want) ? 'PASS' : 'FAIL', g.col, 1440);
+        }
+        const faces = [...html.matchAll(/@font-face\s*\{[^}]*\}/g)].map((m) => m[0]);
+        const lora = faces.filter((x) => /font-family:\s*"Lora"/.test(x));
+        const loraW = [...new Set(lora.map((x) => (x.match(/font-weight:\s*(\d+)/) || [])[1]))].sort();
+        const usedW = [...new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].map((k) => FONT_WEIGHTS[k]))].sort();
+        add(group, 'global_fonts.primary → Google font loaded (self-served @font-face, font-display swap)', lora.length && lora.every((x) => /font-display:\s*swap/.test(x) && /_hcms\/googlefonts\/Lora\//.test(x)) ? 'PASS' : 'FAIL', `${lora.length} faces`, 1440);
+        add(group, 'global_fonts.primary → only the used weights are loaded', loraW.length && loraW.every((w) => usedW.includes(w)) ? 'PASS' : 'FAIL', `loaded ${loraW.join(',')}; used by headings ${usedW.join(',')}`, 1440);
+        add(group, 'global_fonts.secondary → Adobe kit link kept, no @font-face for the Adobe family', html.includes('use.typekit.net/kwi4rat.css') && !faces.some((x) => /qa-adobe-test/.test(x)) ? 'PASS' : 'FAIL', '', 1440);
+        await pg.close();
+      }
       const S = {}; for (const [f, c] of Object.entries(changes)) S[f] = c;
       const { renderChecks } = require('./theme-live-checks');
       await renderChecks({ group, S, ctx, urls: { base: baseUrl, form: url('Form'), hf: url('Header Footer') }, add, WIDTHS, tierIdx, hexRgb });
       await ctx.close();
+      for (const r of rows) {
+        if (r.group !== group || r.status !== 'NOT APPLIED' || !r.detail.startsWith('number')) continue;
+        const rend = rows.filter((x) => x.group === group && x.field.startsWith(`${r.field} → `));
+        if (rend.length && rend.every((x) => x.status === 'PASS')) { r.status = 'PASS'; r.detail = 'verified by the rendered checks (the static count collides with another changed value)'; }
+      }
     }
   } catch (err) {
     failed = err;
